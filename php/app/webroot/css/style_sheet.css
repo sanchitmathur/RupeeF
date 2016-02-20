@@ -1172,3 +1172,65 @@ sup {
 .ulServices{
 	display:none;
 }
+
+/*--------------------sub_logindiv-------------------------*/
+
+	.sublogin_Div{
+		float:right;
+	}
+	.sublogin_Div li{
+		color:#fff !important;
+		text-align:right;
+		float:left;
+		font-weight:400;
+		font-size:16px;
+		padding:0 5px;
+		text-transform:uppercase;
+		position:relative;
+	}
+	.sublogin_Div li span{
+		font-size:16px;
+		font-weight:300;
+	}
+	.sublogin_Div li a{
+		color:#fff;
+		border:none !important;
+		margin:0;
+		padding:0;
+		font-size:16px;
+		font-weight:400;
+		text-transform:uppercase;
+	}
+	.sublogin_Div li a:hover{
+		color:#fdd325;
+		transition: all 0.4s ease;
+		border:none !important;
+	}
+	.cart_quentaty{
+		position: absolute;
+		top: -7px;
+		right: 0;
+		width: 20px;
+		height: 20px;
+		border-radius: 100%;
+		background: #f27c7c;
+	}
+		.cart_quentaty p{
+			font-size: 11px;
+			text-align: center;
+			color: #fff;
+			padding: 2px 0;
+		}
+		
+/*--------------------desktop_menu----------------------*/
+
+	.responcive_menu{
+		display:none;
+	}
+	
+	.desktop_menu{
+		display:block;
+	}
+	.LeftNewmenu{
+		width:140px !important;
+	}

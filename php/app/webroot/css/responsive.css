@@ -59,6 +59,12 @@
 	.header_all{
 		padding:10px 0;
 	}
+	.desktop_menu{
+		display:none;
+	}
+	.responcive_menu{
+		display:block;
+	}
 		
 /*---------------------------------footer---------------------------------*/
 	
