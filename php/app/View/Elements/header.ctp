@@ -44,10 +44,11 @@
 				<a href="javascript:void(0);">
 					<img src="<?=$config['BaseUrl']?>img/cross_icon.png" class=""/>
 				</a>
-				<a href="javascript:void(0);" class="side_login">Login</a>
+				<a href="<?=$config['BaseUrl']?>Users/logIn" class="side_login">Login</a>
 				<div class="clr"></div>
 				<center>
-					<input value="Sign up" id="btnsubmit" class="send_button" type="submit">
+					<!--<input value="Sign up" id="btnsubmit" class="send_button" type="submit">-->
+					<a href="<?=$config['BaseUrl']?>Users/signUp" class="send_button">Sign Up</a>
 				</center>
 			</div>
 			<div class="close_menu">
@@ -106,16 +107,32 @@
                     <span class="icon-bar"></span>
                 </button>
 				<div class="uperHeader">
-					<div class="col-sm-3">
+					<div class="col-sm-2 LeftNewmenu">
 						<a href="javascript:void(0)" class="navbar-brand navbrand">
 							<img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/> Menu
 						</a>
 					</div>
-					<div class="col-sm-6">
-						<div class="main_logo_div">
-							<a href="<?=$config['BaseUrl']?>" class="navbar-brand navbrand" style="padding:0;">
-								<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon"/>
-							</a>
+					<div class="col-sm-7">
+						<div class="col-sm-2">
+							<div class="main_logo_div">
+								<a href="<?=$config['BaseUrl']?>" class="navbar-brand navbrand" style="padding:0;">
+									<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon"/>
+								</a>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div class="desktop_menu">
+							<ul class="nav navbar-nav navbar-right navigation_new">
+								<li><a href="javascript:void(0)">INDIVIDUAL <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">CORPORATE <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">BANKS <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">NGO/Trust <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">GOVT <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">AssociAtes <i class="fa fa-sort-desc dropMenu"></i></a></li>
+								<li><a href="javascript:void(0)">CONTACT</a></li>
+								<div class="clr"></div>
+							</ul>
+							</div>
 						</div>
 						<!--a href="javascript:void(0)" class="navbarRes"><img src="img/menuicon.png" class="menuIcon"/> Menu</a-->
 					</div>
@@ -126,9 +143,21 @@
 						$user_name = isset($user['name'])?$user['name']:"";
 						if($user_id != 0){
 					?>
-							<ul class="login_Div">
+							<ul class="sublogin_Div">
 								<li>Welcome <span><?=ucwords($user_name)?></span></li>
-								<li><a href="javascript:void(0);">Log Out</a></li>
+								<li>|</li>
+								<li>
+									<a href="<?=$config['BaseUrl']?>Users/logout">
+										<i class="fa fa-sign-out"></i> Log Out
+									</a>
+								</li>
+								<li>|</li>
+								<li>
+									<i><img src="<?=$config['BaseUrl']?>img/cart_icon.png" class=""/></i>
+									<div class="cart_quentaty">
+										<p><?=$cartItemNo?></p>
+									</div>
+								</li>
 								<div class="clr"></div>
 							</ul>
 					<?php
@@ -147,7 +176,7 @@
 				</div>
             </div>
             <!-- Collection of nav links and other content for toggling -->
-			<div class="col-md-12">
+			<div class="responcive_menu">
 				<div id="navbarCollapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right navigation_new">
 						<li><a href="javascript:void(0)">INDIVIDUAL <i class="fa fa-sort-desc dropMenu"></i></a></li>
