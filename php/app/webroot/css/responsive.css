@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media (max-width: 320px){
+	
+	
+}
+
+@media (max-width: 360px){
+	
+	
+}
+
+@media (max-width: 480px){
+	.galleryImg{
+		height:280px;
+	}
+	.slide{
+		height:280px;
+	}
+
+}
+	
+	
+@media (max-width: 640px){
+	
+}
+
+@media (max-width: 768px){
+	
+/*---------------------------------header---------------------------------*/
+	.navbrand{
+		 display:none;
+	}	
+	.navbrand01{
+		display:block;
+	}
+	.naviyasion01{
+		display:none;
+	}
+	.naviyasion02{
+		display:block;
+	}
+	.naviyasion{
+		width:100%;
+	}
+	.naviyasion li{
+		padding: 0px 0px 8px 0px;
+	}
+	.navbar-collapse{
+		padding:0 !important;
+	}
+	.logInPanel{
+		margin:10px 0 0 0;
+	}
+		.logInPanel p{
+			margin:0;
+		}
+	.header_all{
+		padding:10px 0;
+	}
+		
+/*---------------------------------footer---------------------------------*/
+	
+	.footerText ul{
+		text-align:center !important;
+	}
+	.footerButton{
+		text-align:center !important;
+	}
+	.requestInspection{
+		float:inherit;
+	}
+	
+/*---------------------------------index-----------------------------------*/
+	
+	.header_all{
+		padding:0 15px;
+	}
+	.logopart{
+		width:100%;
+	}
+	.logoLeft {
+		margin: 0px auto;
+		float:inherit;
+		padding:10px 15px;
+		height:inherit;
+	}
+	.logoright{
+		float:inherit;
+	}
+	.logoright ul{
+		margin-bottom:0;
+	}
+	.logoright ul li{
+		padding:5px 0;
+		text-align:center;
+		font-size:13px;
+	}
+	.contact_icon2{
+		margin: 2px 5px 0px 5px;
+		width:12px;
+	}
+	.contact_icon{
+		width:12px;
+	}
+}

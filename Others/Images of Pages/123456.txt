@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" class="" href="#collapseTwo">Quality
+			<i></i>
+			</a>
+		</h4>
+	</div>
+	
+	<div id="collapseTwo" class="panel-collapse collapse">
+		<div class="panel-body">
+			<p>The cost is directly related to the quality. Highly successful apps are often of a high quality. </p>
+		</div>
+	</div>
+</div>
