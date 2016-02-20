@@ -112,17 +112,17 @@
 							<img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/> Menu
 						</a>
 					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-2">
+					<div class="col-sm-8 scrol_body">
+						<div class="col-sm-2 scrolLogo">
 							<div class="main_logo_div">
 								<a href="<?=$config['BaseUrl']?>" class="navbar-brand navbrand" style="padding:0;">
 									<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon"/>
 								</a>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-10 scroll_menu" style="padding-right:0;">
 							<div class="desktop_menu">
-							<ul class="nav navbar-nav navbar-right navigation_new">
+							<ul class="nav navbar-nav navbar-right navigation_new2">
 								<li><a href="javascript:void(0)">INDIVIDUAL <i class="fa fa-sort-desc dropMenu"></i></a></li>
 								<li><a href="javascript:void(0)">CORPORATE <i class="fa fa-sort-desc dropMenu"></i></a></li>
 								<li><a href="javascript:void(0)">BANKS <i class="fa fa-sort-desc dropMenu"></i></a></li>
@@ -136,7 +136,7 @@
 						</div>
 						<!--a href="javascript:void(0)" class="navbarRes"><img src="img/menuicon.png" class="menuIcon"/> Menu</a-->
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-3 signoutLogin">
 					<?php
 						$user = $this->Session->read('user');
 						$user_id = isset($user['user_id'])?$user['user_id']:0;
@@ -153,10 +153,12 @@
 								</li>
 								<li>|</li>
 								<li>
-									<i><img src="<?=$config['BaseUrl']?>img/cart_icon.png" class=""/></i>
-									<div class="cart_quentaty">
-										<p><?=$cartItemNo?></p>
-									</div>
+									<a href="<?=$config['BaseUrl']?>UserCarts">
+										<i><img src="<?=$config['BaseUrl']?>img/cart_icon.png" class=""/></i>
+										<div class="cart_quentaty">
+											<p><?=$cartItemNo?></p>
+										</div>
+									</a>
 								</li>
 								<div class="clr"></div>
 							</ul>

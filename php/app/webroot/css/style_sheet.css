@@ -1234,3 +1234,49 @@ sup {
 	.LeftNewmenu{
 		width:140px !important;
 	}
+		.navigation_new2{
+			padding:0;
+			width:640px !important;
+			margin:0 auto !important;
+			float:inherit !important;
+		}
+		.navigation_new2 li{
+		}
+		.navigation_new2 li a {
+			text-transform: uppercase;
+			font-size: 16px;
+			padding: 0 0 8px !important;
+			margin: 13px 0 0 15px !important;
+			display: block;
+			font-weight: 300 !important;
+			color: #fff !important;
+			transition: all 0.4s ease;
+			border-bottom: 2px solid;
+			border-bottom-color: transparent;
+		}
+		.navigation_new2 li a:hover{
+			color:#fddf76 !important;
+			border-bottom:2px solid;
+			border-bottom-color:#fddf76;
+		}
+		.navigation_new2 li a.active{
+			color:#fddf76 !important;
+			border-bottom:2px solid;
+			border-bottom-color:#fddf76;
+		}
+	.signoutLogin{
+		width:180px !important;
+		float:right !important;
+	}
+		.scrolLogo{
+			width:100% !important;
+			overflow:hidden;
+		}
+		.scrol_body{
+			width:900px !important;
+		}
+		.scroll_menu{
+			/* width:100% !important; */
+			margin-left:40px;
+			padding-left:30px !important;
+		}
