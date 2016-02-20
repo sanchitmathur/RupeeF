@@ -154,7 +154,8 @@
 								<?php
 									}else{
 								?>
-									<form method="post" action="<?=$config['BaseUrl']?>Services/addToCart">
+									<!--<form method="post" action="<?=$config['BaseUrl']?>Services/addToCart">-->
+									<form method="post" action="<?=$config['BaseUrl']?>Services/saveToCart">
 								<?php
 									}
 								?>

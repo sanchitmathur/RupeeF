@@ -84,106 +84,139 @@
 	}
 	
 </script>
-<div class="panel-body">
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<th style="width:200px;">Service Name</th>
-				<th style="width:150px;">Package Name</th>
-				<th>Package Description</th>
-				<th style="width:100px;">Amount</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-			if(isset($userCarts) && is_array($userCarts) && count($userCarts)>0){
-				foreach($userCarts as $userCart){
-					$service_id = isset($userCart['Service']['id'])?$userCart['Service']['id']:0;
-					$service_name = isset($userCart['Service']['service_name'])?$userCart['Service']['service_name']:"";
-					$packge_id = isset($userCart['ServicePackage']['id'])?$userCart['ServicePackage']['id']:"";
-					$description = isset($userCart['ServicePackage']['description'])?$userCart['ServicePackage']['description']:"";
-					$amount = isset($userCart['ServicePackage']['amount'])?$userCart['ServicePackage']['amount']:0;
-					$currency = isset($userCart['ServicePackage']['currency'])?$userCart['ServicePackage']['currency']:"";
-		?>
-				<tr class="parentTR">
-					<td>
-						<input type="hidden" class="service_id" value="<?=$service_id?>" />
-						<?=$service_name?>
-					</td>
-					<td>
-						<select class="package">
-						<?php
-							if(isset($userCart['Service']['ServicePackage']) && is_array($userCart['Service']['ServicePackage']) && count($userCart['Service']['ServicePackage'])>0 ){
-								foreach($userCart['Service']['ServicePackage'] as $servicePackage){
-									
-						?>
-							<option value="<?=$servicePackage['id']?>" <?php if($servicePackage['id'] == $packge_id)echo "selected" ?> description="<?=$servicePackage['description']?>" currency="<?=$servicePackage['currency']?>" amount="<?=$servicePackage['amount']?>"><?=$servicePackage['package_name']?></option>
-						<?php
-								}
-							}
-						?>
-						</select>
-					</td>
-					<td class="description">
-						<?=$description?>
-					</td>
-					<td style="text-align:right;">
-						<span class="currency">
-							<?=$currency?>
-						</span> 
-						<span class="amount">
-							<?=$amount?>
-						</span>
-					</td>
-					<td class="">
-						<a href="">Delete</a>
-					</td>
-				</tr>
-		<?php
-				}
-			}
-		?>
-		</tbody>
-	</table>
-</div>
-<div class="col-md-3">
-	<table>
-		<tr>
-			<td style="width:120px;">
-				Total
-			</td>
-			<td style="text-align:right;">
-				<span id="total_currency"></span> 
-				<span id="total"></span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Service TAX
-			</td>
-			<td style="text-align:right;">
-				<span id="tax_currency"></span> 
-				<span id="tax"></span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Grand Total
-			</td>
-			<td style="text-align:right;">
-				<span id="grand_total_currency"></span> 
-				<span id="grand_total"></span>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<form method="post" action="<?=$config['BaseUrl']?>Users/proceedToCheckout">
-					<input type="hidden" name="service_ids" value="" />
-					<input type="hidden" name="service_package_ids" value="" />
-					<button type="submit" id="proceed">Proceed To Checkout</button>
-				</form>
-			</td>
-		</tr>
-	</table>
-</div>
+	<div class="allcommon_body">
+		<div class="checkout">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 service_body">
+						<h1>Check out
+							<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</span>
+						</h1>
+						<div class="checkout_body">
+							<h3><a href="javascript:void(0)"><i class="fa fa-plus-circle plus"></i> Continue Shopping</a></h3>
+							<div class="col-sm-12 table-responsive checkout_table">
+								<table class="table table-striped table-responsive">
+									<thead>
+										<tr>
+											<th style="width:180px;">Service name</th>
+											<th style="width:180px;">Package name</th>
+											<th>Package Description</th>
+											<th style="width:150px;">Amount</th>
+											<th style="width:50px;"></th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php
+										if(isset($userCarts) && is_array($userCarts) && count($userCarts)>0){
+											foreach($userCarts as $userCart){
+												$service_id = isset($userCart['Service']['id'])?$userCart['Service']['id']:0;
+												$service_name = isset($userCart['Service']['service_name'])?$userCart['Service']['service_name']:"";
+												$packge_id = isset($userCart['ServicePackage']['id'])?$userCart['ServicePackage']['id']:"";
+												$description = isset($userCart['ServicePackage']['description'])?$userCart['ServicePackage']['description']:"";
+												$amount = isset($userCart['ServicePackage']['amount'])?$userCart['ServicePackage']['amount']:0;
+												$currency = isset($userCart['ServicePackage']['currency'])?$userCart['ServicePackage']['currency']:"";
+									?>
+											<tr class="parentTR">
+												<td>
+													<input type="hidden" class="service_id" value="<?=$service_id?>" />
+													<?=$service_name?>
+												</td>
+												<td>
+													<select class="package">
+													<?php
+														if(isset($userCart['Service']['ServicePackage']) && is_array($userCart['Service']['ServicePackage']) && count($userCart['Service']['ServicePackage'])>0 ){
+															foreach($userCart['Service']['ServicePackage'] as $servicePackage){
+																
+													?>
+														<option value="<?=$servicePackage['id']?>" <?php if($servicePackage['id'] == $packge_id)echo "selected" ?> description="<?=$servicePackage['description']?>" currency="<?=$servicePackage['currency']?>" amount="<?=$servicePackage['amount']?>"><?=$servicePackage['package_name']?></option>
+													<?php
+															}
+														}
+													?>
+													</select>
+												</td>
+												<td class="description">
+													<?=$description?>
+												</td>
+												<td style="text-align:right;">
+													<span class="currency">
+														<?=$currency?>
+													</span> 
+													<span class="amount">
+														<?=$amount?>
+													</span>
+												</td>
+												<td class="">
+													<a href="javascript:void(0);">
+														<i class="fa fa-trash-o delitIcon"></i>
+													</a>
+												</td>
+											</tr>
+									<?php
+											}
+										}
+									?>
+									</tbody>
+								</table>
+								
+								<div class="rightcost">
+									<div class="allcost">
+										<table>
+											<tr>
+												<td style="width:120px;">
+													<p>Total</p>
+												</td>
+												<td style="text-align:right;">
+													<h2>
+														<span id="total_currency"></span> 
+														<span id="total"></span>
+													</h2>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<p>Service TAX</p>
+												</td>
+												<td style="text-align:right;">
+													<h2>
+														<span id="tax_currency"></span> 
+														<span id="tax"></span>
+													</h2>
+												</td>
+											</tr>
+											<tr class="childcost">
+												<td>
+													<p>Grand Total</p>
+												</td>
+												<td style="text-align:right;">
+													<h2>
+														<span id="grand_total_currency"></span> 
+														<span id="grand_total"></span>
+													</h2>
+												</td>
+											</tr>
+											<!--<tr>
+												<td colspan="2">
+													<form method="post" action="<?=$config['BaseUrl']?>Users/proceedToCheckout">
+														<input type="hidden" name="service_ids" value="" />
+														<input type="hidden" name="service_package_ids" value="" />
+														<button type="submit" id="proceed">Proceed To Checkout</button>
+													</form>
+												</td>
+											</tr>-->
+										</table>
+										<form method="post" action="<?=$config['BaseUrl']?>Users/proceedToCheckout">
+											<input type="hidden" name="service_ids" value="" />
+											<input type="hidden" name="service_package_ids" value="" />
+											<button type="submit" class="checkoutButton" id="proceed">Proceed To Checkout</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="crl"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

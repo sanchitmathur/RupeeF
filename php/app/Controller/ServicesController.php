@@ -348,7 +348,8 @@ class ServicesController extends AppController {
 				$this->Session->setFlash(__('Oops !!! An error occured while adding to cart.'));
 			}
 		}
-		return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+		return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 	}
 	
 }

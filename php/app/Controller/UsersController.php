@@ -415,7 +415,8 @@ class UsersController extends AppController {
 						$this->Session->setFlash(__('Please select a package.'));
 						return $this->redirect(array('controller'=>'Services','action'=>'bussiness_service/'.$service_id));
 					}else{
-						return $this->redirect(array('controller'=>'Services','action'=>'addToCart'));
+						//return $this->redirect(array('controller'=>'Services','action'=>'addToCart'));
+						return $this->redirect(array('controller'=>'Services','action'=>'saveToCart/'.$service_id.'/'.$service_package_id));
 					}
 				}
 			}
