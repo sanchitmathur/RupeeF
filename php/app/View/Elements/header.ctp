@@ -3,6 +3,97 @@
 	//pr($config);
 	$cartItemNo = $this->Session->read('cartItemNo');
 ?>
+<script type="text/javascript">
+	var divWidth = 100;
+	var baseUrl = '<?=$config['BaseUrl']?>';
+	var animiTimer;
+	$(document).ready(function(){
+		$('.scrolLogo').attr('style','margin-left:35px;');
+	});
+	
+	$(window).scroll(function(){
+		//alert('scrolled');
+		var scrollTop = $(window).scrollTop();
+		//$('#scrollTop').html(scrollTop);
+		//console.log('scrollTop : '+scrollTop);
+		if(scrollTop < 114){
+			//$('.header_all').fadeOut(300);
+			//$('.header_all').attr('style','height:151px');
+			
+			// $('.scrolLogo').attr('style','width:100% !important');
+			// clearInterval(animiTimer);
+			// animiTimer = setInterval(headerExpandAnimation, 300);
+			
+			$('.scrolLogo').animate(
+				{marginLeft:'35px'},
+				100,
+				function(){
+					src = baseUrl+'/img/logo.png';
+					$('#logoIcon').attr('src',src);
+				}
+			);
+			$('.scroll_menu').animate(
+				{marginTop:'0px'},
+				100,
+				function(){}
+			);
+			$('.header_all').animate(
+				{height:'151px'},
+				100,
+				function(){}
+			);
+		}else{
+			//$('.scrolLogo').attr('style','width:9% !important');
+			// clearInterval(animiTimer);
+			// animiTimer = setInterval(headerCollapsAnimation, 300);
+			
+			//$('.header_all').attr('style','height:103px');
+			//$('.header_all').fadeIn(300);
+			
+			$('.scroll_menu').animate(
+				{marginTop:'-60px'},
+				100,
+				function(){}
+			);
+			$('.scrolLogo').animate(
+				{marginLeft:'-300px'},
+				100,
+				function(){
+					src = baseUrl+'/img/logo_sm.png';
+					$('#logoIcon').attr('src',src);
+				}
+			);
+			$('.header_all').animate(
+				{height:'103px'},
+				100,
+				function(){}
+			);
+		}
+	});
+	
+	function headerCollapsAnimation(){
+		console.log('divWidth : '+divWidth);
+		divWidth--;
+		if(divWidth <= 8){
+			clearInterval(animiTimer);
+		}else{
+			//$('.scrolLogo').attr('style','width:'+divWidth+'% !important');
+			$('.scrolLogo').attr('style','margin-left:-300px');
+		}
+	}
+	
+	function headerExpandAnimation(){
+		console.log('divWidth : '+divWidth);
+		divWidth++;
+		if(divWidth >= 100){
+			clearInterval(animiTimer);
+		}else{
+			//$('.scrolLogo').attr('style','width:'+divWidth+'% !important');
+			$('.scrolLogo').attr('style','margin-left:40px');
+		}
+	}
+	
+</script>
 <!--<div class="col-md-12">
 	<div class="col-md-2">
 		<p>MENU</p>
@@ -116,7 +207,7 @@
 						<div class="col-sm-2 scrolLogo">
 							<div class="main_logo_div">
 								<a href="<?=$config['BaseUrl']?>" class="navbar-brand navbrand" style="padding:0;">
-									<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon"/>
+									<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon" id="logoIcon"/>
 								</a>
 							</div>
 						</div>
@@ -129,7 +220,7 @@
 								<li><a href="javascript:void(0)">NGO/Trust <i class="fa fa-sort-desc dropMenu"></i></a></li>
 								<li><a href="javascript:void(0)">GOVT <i class="fa fa-sort-desc dropMenu"></i></a></li>
 								<li><a href="javascript:void(0)">AssociAtes <i class="fa fa-sort-desc dropMenu"></i></a></li>
-								<li><a href="javascript:void(0)">CONTACT</a></li>
+								<li><a href="javascript:void(0)" id="scrollTop">CONTACT</a></li>
 								<div class="clr"></div>
 							</ul>
 							</div>

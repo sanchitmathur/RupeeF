@@ -15,7 +15,7 @@
 	$(window).scroll(function(){
 		//alert('scrolled');
 		var scrollTop = $(window).scrollTop();
-		console.log('scrollTop : '+scrollTop);
+		//console.log('scrollTop : '+scrollTop);
 		if(scrollTop < 114){
 			$('.header_all').fadeOut(300);
 		}else{
@@ -315,7 +315,7 @@
 					<div class="features_body">
 						<div class="col-md-3">
 							<div class="icon_div">
-								<img src="img/icon1.png" class="icon1"/>
+								<img src="<?=$config['BaseUrl']?>img/icon1.png" class="icon1"/>
 							</div>
 							<h2>Separate Legal Entity</h2>
 							<p>A Proprietorship business needs no registration. Therefore, it is one of the easiest to start with no formalities. However, after starting up the Proprietorship, it is relatively harder to open a bank account or obtain a payment gateway in the name of the business - since more registrations may be required.</p>
@@ -323,7 +323,7 @@
 						
 						<div class="col-md-3">
 							<div class="icon_div">
-								<img src="img/icon2.png" class="icon1"/>
+								<img src="<?=$config['BaseUrl']?>img/icon2.png" class="icon1"/>
 							</div>
 							<h2>Uninterrupted Existance</h2>
 							<p>A company has 'perpetual succession', that is continued or uninterrupted existence until it is legally dissolved. A company, being a separate legal person, is unaffected by the death or other departure of any member but continues to be in existence irrespective of the changes in membership.</p>
@@ -331,7 +331,7 @@
 						
 						<div class="col-md-3">
 							<div class="icon_div">
-								<img src="img/icon3.png" class="icon1"/>
+								<img src="<?=$config['BaseUrl']?>img/icon3.png" class="icon1"/>
 							</div>
 							<h2>Easy Transferability</h2>
 							<p>Shares of a company limited by shares are transferable by a shareholder to any other person. Filing and signing a share transfer form and handing over the buyer of the shares along with share certificate can easily transfer shares.</p>
@@ -339,7 +339,7 @@
 						
 						<div class="col-md-3">
 							<div class="icon_div">
-								<img src="img/icon4.png" class="icon1"/>
+								<img src="<?=$config['BaseUrl']?>img/icon4.png" class="icon1"/>
 							</div>
 							<h2>Foreign Direct Investment</h2>
 							<p>100% Foreign Direct Investment (FDI) is allowed in many of the sectors through Company type business entity without any prior Government approval. FDI is not allowed in Proprietorship or Partnership, LLP requires prior Government approval.</p>
@@ -362,15 +362,17 @@
 					<div class="search_locet">
 						<input class="inputfrom" name="firstName" id="" placeholder="Find Your City" type="text">
 						<div class="searchicon">
-							<a href="javascript:void(0);"><img src="img/search_icon.png" class="search_Icon"/></a>
+							<a href="javascript:void(0);">
+								<img src="<?=$config['BaseUrl']?>img/search_icon.png" class="search_Icon"/>
+							</a>
 						</div>
 						<div class="clr"></div>
 					</div>
 				</div>
 				<div class="col-md-6 location_seclect">
-					<img src="img/map_pic.png" class=""/>
+					<img src="<?=$config['BaseUrl']?>img/map_pic.png" class=""/>
 					<div>
-						<img src="img/arrow2.png" class="sideArrow"/>
+						<img src="<?=$config['BaseUrl']?>img/arrow2.png" class="sideArrow"/>
 					</div>
 				</div>
 				<div class="clr"></div>

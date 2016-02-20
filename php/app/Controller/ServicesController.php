@@ -342,11 +342,11 @@ class ServicesController extends AppController {
 			// die();
 			$this->UserCart->create();
 			if($this->UserCart->save($saveData)){
-				$this->numberOfItemInCart();
 				$this->Session->setFlash(__('Successfully added to cart.'));
 			}else{
 				$this->Session->setFlash(__('Oops !!! An error occured while adding to cart.'));
 			}
+			$this->numberOfItemInCart();
 		}
 		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 		return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
