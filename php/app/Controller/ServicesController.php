@@ -309,13 +309,13 @@ class ServicesController extends AppController {
  *
  * @return void
  */
-	public function saveToCart(){
+	public function saveToCart($service_id=0, $service_package_id=0){
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
 			// pr($reqdata);
 			// die();
-			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
-			$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
+			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:$service_id;
+			$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:$service_package_id;
 			
 			if (!$this->Service->exists($service_id)) {
 				$this->Session->setFlash(__('The service is not available.'));
