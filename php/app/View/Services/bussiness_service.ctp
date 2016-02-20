@@ -13,6 +13,23 @@
 	
 	function questionClickHandler(e){
 		$(e.currentTarget).parents('.faq').find('.answer').slideToggle(300);
+		
+		$fa = $(e.currentTarget).find('.fa');
+		if($fa.hasClass('fa-chevron-right') && $fa.hasClass('chevron')){
+			$fa.removeClass('fa-chevron-right');
+			$fa.removeClass('chevron');
+			
+			$fa.addClass('fa-chevron-down');
+			$fa.addClass('chevron2');
+			
+		}else if($fa.hasClass('fa-chevron-down') && $fa.hasClass('chevron2')){
+			$fa.removeClass('fa-chevron-down');
+			$fa.removeClass('chevron2');
+			
+			$fa.addClass('fa-chevron-right');
+			$fa.addClass('chevron');
+			
+		}
 	}
 	
 </script>
@@ -213,7 +230,7 @@
 					</h1>
 					
 					<div class="questionDiv">
-						<div class="col-md-6">
+						<div class="panel-group panel-info" id="accordion">
 						<?php
 							$totalCount = count($service['ServiceFaq']);
 							$mid = $totalCount/2;
@@ -223,14 +240,23 @@
 								$question = isset($serviceFaq['question'])?$serviceFaq['question']:"";
 								$answer = isset($serviceFaq['answer'])?$serviceFaq['answer']:"";
 						?>
-								<div class="faq">
+								<div class="panel panel-default allQuiestion faq">
 									<div class="question">
 										<a href="javascript:void(0);">
-											<p><?=$question?></p>
+											<div class="panel-heading newpanelhead">
+												<h4>
+													<?=$question?> 
+													<i class="fa fa-chevron-right chevron"></i>
+												</h4>
+											</div>
 										</a>
 									</div>
 									<div class="answer" style="display:none;">
-										<p><?=$answer?></p>
+										<div id="collapseOne" class="panel-collapse collapse in newPanelBody">
+											<div class="panel-body">
+												<?=$answer?>
+											</div>
+										</div>
 									</div>
 								</div>
 						<?php

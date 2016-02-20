@@ -198,6 +198,7 @@ class UsersController extends AppController {
 	public function registration(){
 		$this->layout = "main";
 		
+		$service = array();
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
 			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
@@ -206,13 +207,15 @@ class UsersController extends AppController {
 				'service_id'=>$service_id,
 				'service_package_id'=>$service_package_id,
 			);
-			$this->Session->write('service',$service);
+			//$this->Session->write('service',$service);
 		}
 		$cities = $this->getCityList();
 		$this->set(compact('cities'));
 		
 		$languages = $this->getLanguageList();
 		$this->set(compact('languages'));
+		
+		$this->set('service',$service);
 	}
 	
 /**
@@ -313,9 +316,14 @@ class UsersController extends AppController {
 				$this->Session->write('user',$user);
 				
 				$this->Session->setFlash(__("Sign up successfully."));
-				$service = $this->Session->read('service');
+				
+				/* $service = $this->Session->read('service');
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
-				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0;
+				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0; */
+				
+				$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
+				$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
+				
 				if($service_id == 0){
 					$this->Session->setFlash(__('Please select a service.'));
 					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
@@ -392,9 +400,13 @@ class UsersController extends AppController {
 				);
 				$this->Session->write('user',$user);
 				
-				$service = $this->Session->read('service');
+				/* $service = $this->Session->read('service');
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
-				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0;
+				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0; */
+				
+				$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
+				$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
+				
 				if($service_id == 0){
 					$this->Session->setFlash(__('Please select a service.'));
 					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
