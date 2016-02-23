@@ -8,7 +8,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 footer_body">
-						<div class="col-md-3">
+						<div class="col-md-3 responciv_padding">
 							<h2>Services</h2>
 							<ul>
 								<li><a href="javascript:void(0);">For Indian business</a></li>
@@ -37,8 +37,8 @@
 								<li><a href="javascript:void(0);">Check your Credit worthiness</a></li>
 							</ul>
 						</div>
-						<div class="col-md-6">
-							<div class="col-sm-6">
+						<div class="col-md-6 responciv_padding">
+							<div class="col-sm-6 responciv_padding">
 								<h2>Testimonials</h2>
 								<ul>
 									<li><a href="javascript:void(0);">Customer stories</a></li>
@@ -48,7 +48,7 @@
 									<li><a href="javascript:void(0);">White Papers</a></li>
 								</ul>
 							</div>
-							<div class="col-sm-6">
+							<div class="col-sm-6 responciv_padding">
 								<h2>Company</h2>
 								<ul>
 									<li><a href="javascript:void(0);">About Rupee Foradian</a></li>
@@ -60,11 +60,11 @@
 									<li><a href="javascript:void(0);">Disclaimer</a></li>
 								</ul>
 							</div>
-							<div class="col-sm-12">
+							<div class="col-sm-12 responciv_padding">
 								<div class="video_div">
 									<img src="<?=$config['BaseUrl']?>img/video_pic.png" class="video_pic"/>
 									<div class="play_video">
-										<a href="javascript:void(0);">
+										<a href="javascript:void(0);" style="text-align:center; display: block;">
 											<img src="<?=$config['BaseUrl']?>img/play_icon.png" class="playIcon"/>
 										</a>
 									</div>
@@ -72,17 +72,17 @@
 							</div>
 						</div>
 						<div class="clr"></div>
-						<div class="col-sm-2">
+						<div class="col-sm-2 responciv_padding">
 							<h2>Inquries</h2>
-							<div class="col-sm-6 futter_subnav">
+							<div class="col-sm-6 futter_subnav responciv_padding">
 								<ul>
 									<li>Contact Press</li>
 									<li style="color:#f1cf5a;">Press</li>
 								</ul>
 							</div>
 						</div>
-						<div class="col-sm-6">
-							<div class="col-sm-6 futter_subnav">
+						<div class="col-sm-6 responciv_padding">
+							<div class="col-sm-6 futter_subnav responciv_padding">
 								<ul class="support">
 									<li>Support</li>
 									<li style="color:#f1cf5a;">Sales &nbsp; Technical &nbsp; Community &nbsp; Legal</li>

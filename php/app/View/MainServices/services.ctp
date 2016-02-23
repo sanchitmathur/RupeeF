@@ -168,19 +168,48 @@
 
 	<!------ Slider ------>
 	<div class="slider">
-		<div class="child_slider">
+		<!--div class="child_slider">
 			<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic"/>
-		</div>
-		
-		<div class="nextprv_Div">
-			<a href="javascript:void(0);">
-				<img src="<?=$config['BaseUrl']?>img/next.png" class="next"/>
-			</a>
-			<a href="javascript:void(0);">
-				<img src="<?=$config['BaseUrl']?>img/prv.png" class="prv"/>
-			</a>
-		</div>
-		
+		</div-->
+		 <div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+				<ol class="carousel-indicators" style="display:none;">
+				  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				  <li data-target="#myCarousel" data-slide-to="1"></li>
+				  <li data-target="#myCarousel" data-slide-to="2"></li>
+				  <li data-target="#myCarousel" data-slide-to="3"></li>
+				</ol>
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+				  <div class="item active">
+					<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic" width="460" height="345"/>
+				  </div>
+
+				  <div class="item">
+					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
+				  </div>
+				
+				  <!--div class="item">
+					<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic" width="460" height="345"/>
+				  </div>
+
+				  <div class="item">
+					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
+				  </div>
+				</div--
+
+				<!-- Left and right controls -->
+				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				  <span class="" aria-hidden="true"><img src="<?=$config['BaseUrl']?>img/prv.png" class="prv"/></span>
+				  <span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+				  <span class="" aria-hidden="true"><img src="<?=$config['BaseUrl']?>img/next.png" class="next"/></span>
+				  <span class="sr-only">Next</span>
+				</a>
+			  </div>
+			</div>
 		<div class="slide_text">
 			<div class="container">
 				<div class="row">
@@ -217,7 +246,7 @@
 						foreach($mainServices as $mainService){
 							$loopCount++;
 					?>
-						<div class="col-md-4">
+						<div class="col-md-4 responciv_padding">
 							<div class="child_service mainServices">
 								<img src="<?=$config['BaseUrl']?>img/servicebg_1.png" class="sliderpic"/>
 								<div class="service1 multipleService colorBG<?=$divIndex+1?>">
@@ -370,7 +399,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 location_seclect">
-					<img src="<?=$config['BaseUrl']?>img/map_pic.png" class=""/>
+					<img src="<?=$config['BaseUrl']?>img/map_pic.png" class="map_service"/>
 					<div>
 						<img src="<?=$config['BaseUrl']?>img/arrow2.png" class="sideArrow"/>
 					</div>

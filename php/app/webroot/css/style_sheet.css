@@ -267,12 +267,13 @@ sup {
 	}
 /*-----------------Slider-----------------------*/
 	.slider{
-		height: 660px;
+		height: 676px;
 		overflow:hidden;
 		position:relative;
 	}
 	.sliderpic{
 		width:100%;
+		height:100%;
 	}
 		.slide_text{
 			background-color:rgba(15, 115, 194, 0.5);
@@ -313,7 +314,28 @@ sup {
 		top:40%;
 		z-index:2;
 	}
+	 .carousel-inner > .item > img,
+	  .carousel-inner > .item > a > img {
+		  width:100%;
+		  margin: auto;
+	  }
 	
+	.carousel-control.left {
+		background-image:inherit !important;
+		background-image:inherit !important;
+		background-image:inherit !important;
+		background-image:inherit !important;
+		filter:inherit !important;
+		background-repeat:inherit !important;
+	}
+	.carousel-control.right {
+		background-image:inherit !important;
+		background-image:inherit !important;
+		background-image:inherit !important;
+		background-image:inherit !important;
+		filter:inherit !important;
+		background-repeat:inherit !important;
+	}
 /*----------------------service-----------------------*/
 	.service{
 		padding:60px 0 0 0;
@@ -552,7 +574,8 @@ sup {
 			.play_video{
 				position:absolute;
 				top: 46%;
-				left: 45%;
+				/*left: 45%;*/
+				width:100%;
 			}
 		.futter_subnav{
 			padding:0 !important;
