@@ -23,7 +23,19 @@
 	
 	
 @media (max-width: 640px){
-	
+	.rightcost{
+		width:100%;
+		margin-top:20px;
+	}
+	.leftArrow{
+		display:none;
+	}
+	.search_locet{
+		width:100%;
+	}
+	.inputfrom{
+		width:87%;
+	}
 }
 
 @media (max-width: 768px){
@@ -110,4 +122,52 @@
 	.contact_icon{
 		width:12px;
 	}
+	.allcommon_body{
+		padding:60px 0;
+	}
+	.left_login{
+		padding:0 !important;
+	}
+	.responciv_padding{
+		padding:0 !important;
+	}
+	.video_div{
+		padding:15px 0 0 0;
+	}
+	.checkout_table{
+		padding:0 !important;
+		border:inherit !important;
+	}
+	.packegeDiv{
+		width:100%;
+	}
+	.service_body2{
+		padding:40px 15px !important;
+	}
+	.service_body h1 {
+		font-size: 30px;
+	}
+	.abDiv{
+		border-right:inherit;
+		padding:0 0 20px 0 !important;
+		margin-bottom:15px;
+		height:inherit !important;
+	}
+	.sub_packege{
+		margin-bottom:15px;
+	}
+	.service1{
+		padding:15px;
+	}
+	.expandService p {
+		font-size: 16px;
+		padding: 0 0 0 14px;
+	}
+	.map_service{
+		width:100%;
+	}
+	.location_seclect{
+		height:auto;
+	}
+	
 }
