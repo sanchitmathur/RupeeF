@@ -162,6 +162,7 @@ sup {
 	}
 	.login_Div li{
 		float:left;
+		position:relative;
 	}
 		.login_Div li a{
 			text-transform: uppercase;
@@ -708,9 +709,10 @@ sup {
 				border-bottom-color:#fff;
 			}
 		.right_child{
-			padding:60px 90px !important;
+			/* padding:60px 90px !important; */
 			background:#fff url(../img/world_map.png) no-repeat 0 48px;
 			height:350px;
+			overflow:hidden;
 		}
 			.right_child h4{
 				font-size:24px;
@@ -728,6 +730,20 @@ sup {
 				text-align:left;
 				font-weight:300;
 			}
+		.right_child_heading{
+			position:absolute;
+			width:100%;
+			top:0;
+			left:0;
+			padding:60px 90px;
+		}
+		.right_child_details{
+			position:absolute;
+			width:100%;
+			top:0;
+			left:0;
+			padding:106px 90px;
+		}
 		.cancle_div2{
 			position: absolute;
 			top: 20px;
@@ -1335,7 +1351,7 @@ sup {
 	}
 	.preloader_3{
 		margin:0 auto;
-		width:241px;
-		height:115px;
+		width:60px;
+		height:60px;
 	}
 	

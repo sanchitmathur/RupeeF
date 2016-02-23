@@ -147,20 +147,10 @@
 											<span>month</span>
 										</h4>
 									</div>
-								<?php
-									if($user_id == 0){
-								?>
-									<form method="post" action="<?=$config['BaseUrl']?>Users/registration">
-								<?php
-									}else{
-								?>
-									<!--<form method="post" action="<?=$config['BaseUrl']?>Services/addToCart">-->
-									<form method="post" action="<?=$config['BaseUrl']?>Services/saveToCart">
-								<?php
-									}
-								?>
-										<input type="hidden" name="service_id" value="<?=$service_id?>" />
-										<input type="hidden" name="service_package_id" value="<?=$service_package_id?>" />
+									
+								<form method="post" action="<?=$config['BaseUrl']?>Services/saveToCart">
+									<input type="hidden" name="service_id" value="<?=$service_id?>" />
+									<input type="hidden" name="service_package_id" value="<?=$service_package_id?>" />
 								<?php
 									$option = array(
 										'label' => 'Add to Cart',

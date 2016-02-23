@@ -331,10 +331,12 @@ class ServicesController extends AppController {
 		
 		$this->loadModel('UserCart');
 		$user = $this->Session->read('user');
+		$session_id = $this->Session->read('session_id');
 		$user_id = isset($user['user_id'])?$user['user_id']:0;
 		$saveData = array(
 			'UserCart'=>array(
 				'user_id'=>$user_id,
+				'session_id'=>$session_id,
 				'service_id'=>$service_id,
 				'service_package_id'=>$service_package_id,
 			)
