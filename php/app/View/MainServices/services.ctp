@@ -190,14 +190,14 @@
 					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
 				  </div>
 				
-				  <!--div class="item">
+				  <div class="item">
 					<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic" width="460" height="345"/>
 				  </div>
 
 				  <div class="item">
 					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
 				  </div>
-				</div--
+				</div>
 
 				<!-- Left and right controls -->
 				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
