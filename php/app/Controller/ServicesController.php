@@ -314,40 +314,40 @@ class ServicesController extends AppController {
 			$reqdata = $this->request->data;
 			// pr($reqdata);
 			// die();
-			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:$service_id;
-			$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:$service_package_id;
-			
-			if (!$this->Service->exists($service_id)) {
-				$this->Session->setFlash(__('The service is not available.'));
-				return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
-			}
-			
-			$this->loadModel('ServicePackage');
-			if (!$this->ServicePackage->exists($service_package_id)) {
-				$this->Session->setFlash(__('The package is not available.'));
-				return $this->redirect(array('controller'=>'Services','action'=>'bussiness_service/'.$service_id));
-			}
-			
-			$this->loadModel('UserCart');
-			$user = $this->Session->read('user');
-			$user_id = isset($user['user_id'])?$user['user_id']:0;
-			$saveData = array(
-				'UserCart'=>array(
-					'user_id'=>$user_id,
-					'service_id'=>$service_id,
-					'service_package_id'=>$service_package_id,
-				)
-			);
-			// pr($saveData);
-			// die();
-			$this->UserCart->create();
-			if($this->UserCart->save($saveData)){
-				$this->Session->setFlash(__('Successfully added to cart.'));
-			}else{
-				$this->Session->setFlash(__('Oops !!! An error occured while adding to cart.'));
-			}
-			$this->numberOfItemInCart();
+			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
+			$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
 		}
+			
+		if (!$this->Service->exists($service_id)) {
+			$this->Session->setFlash(__('The service is not available.'));
+			return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+		}
+		
+		$this->loadModel('ServicePackage');
+		if (!$this->ServicePackage->exists($service_package_id)) {
+			$this->Session->setFlash(__('The package is not available.'));
+			return $this->redirect(array('controller'=>'Services','action'=>'bussiness_service/'.$service_id));
+		}
+		
+		$this->loadModel('UserCart');
+		$user = $this->Session->read('user');
+		$user_id = isset($user['user_id'])?$user['user_id']:0;
+		$saveData = array(
+			'UserCart'=>array(
+				'user_id'=>$user_id,
+				'service_id'=>$service_id,
+				'service_package_id'=>$service_package_id,
+			)
+		);
+		// pr($saveData);
+		// die();
+		$this->UserCart->create();
+		if($this->UserCart->save($saveData)){
+			$this->Session->setFlash(__('Successfully added to cart.'));
+		}else{
+			$this->Session->setFlash(__('Oops !!! An error occured while adding to cart.'));
+		}
+		$this->numberOfItemInCart();
 		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 		return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 	}

@@ -16,10 +16,10 @@
 		//alert('scrolled');
 		var scrollTop = $(window).scrollTop();
 		//console.log('scrollTop : '+scrollTop);
-		if(scrollTop < 114){
-			$('.header_all').fadeOut(300);
+		if(scrollTop > 10){
+			$('.header_all').fadeIn(100);
 		}else{
-			$('.header_all').fadeIn(300);
+			$('.header_all').fadeOut(100);
 		}
 	});
 	
@@ -58,20 +58,20 @@
 			marginLeft = '-'+marginLeft+'px';
 			
 		}else if(index == 3){
-			marginTop = (2 * height) - 168;
+			marginTop = (2 * height) - 169;
 			marginTop = '-'+marginTop+'px';
 			
 			marginLeft = '0px';
 			
 		}else if(index == 4){
-			marginTop = (2 * height) - 168;
+			marginTop = (2 * height) - 169;
 			marginTop = '-'+marginTop+'px';
 			
 			marginLeft = (1 * width) + 110;
 			marginLeft = '-'+marginLeft+'px';
 			
 		}else if(index == 5){
-			marginTop = (2 * height) - 168;
+			marginTop = (2 * height) - 169;
 			marginTop = '-'+marginTop+'px';
 			
 			marginLeft = (2 * width) + 220;

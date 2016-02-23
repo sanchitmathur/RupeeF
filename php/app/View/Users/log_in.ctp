@@ -10,12 +10,14 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 service_body">
-						<h1>Login<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</span></h1>
+						<h1>Log In
+							<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</span>
+						</h1>
 						<div class="login_body">
 							<div class="col-md-3">
 							</div>
 							<div class="col-md-6 left_login">
-								<h3>Already a Member? Please Log In here.</h3>
+								<h3>New member ?<span> please sign up here</span></h3>
 								<?php
 									echo $this->Form->create(array('action'=>'logIn'));
 								?>
@@ -24,7 +26,7 @@
 									<input class="fastName" type="password" name="password" value="" placeHolder="Please Enter Password" />
 								<?php
 									$option = array(
-										'label'=>'Next',
+										'label'=>'Log In',
 										'class'=>'next_button',
 									);
 									echo $this->Form->end($option);
