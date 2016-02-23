@@ -2,6 +2,10 @@
 	$config = Configure::read('RupeeForadian');
 	//pr($config);
 	$cartItemNo = $this->Session->read('cartItemNo');
+	
+	// $this->Session->start();
+	// echo $this->Session->id(session_id());
+	echo $session_id = $this->Session->read('session_id');;
 ?>
 <script type="text/javascript">
 	var divWidth = 100;
@@ -11,7 +15,8 @@
 	var leftPanelWidth = 0;
 	var headerCollapsHeight = 103;
 	var headerExpandHeight = 151;
-	var menus = {
+	var menus = [];
+	/* var menus = {
 		'0':{
 			'menu_id':1,
 			'parent_menu_id':0,
@@ -80,7 +85,7 @@
 			'parent_menu_id':1,
 			'menu_name':'Indian National',
 			'menu_description':{
-				'heading':'Are you a Indian National or Indian National?',
+				'heading':'Are you a Indian National?',
 				'description':'Integer ornare ante elit, a viverra est laoreet sit amet. Morbi euismod et dolor sit amet scelerisque. Vivamus utvulputate quam, a feugiat massa.Vivamus ut vulputate quam, a feugiat massa. Vestibulum ut ante sed nisl consectetur consectetur interdum vel nulla.'
 			}
 		},
@@ -147,7 +152,16 @@
 				'description':'Integer ornare ante elit, a viverra est laoreet sit amet. Morbi euismod et dolor sit amet scelerisque. Vivamus utvulputate quam, a feugiat massa.Vivamus ut vulputate quam, a feugiat massa. Vestibulum ut ante sed nisl consectetur consectetur interdum vel nulla.'
 			}
 		},
-	};
+		'15':{
+			'menu_id':16,
+			'parent_menu_id':8,
+			'menu_name':'Sub Indian National',
+			'menu_description':{
+				'heading':'Sub Indian National',
+				'description':'Integer ornare ante elit, a viverra est laoreet sit amet. Morbi euismod et dolor sit amet scelerisque. Vivamus utvulputate quam, a feugiat massa.Vivamus ut vulputate quam, a feugiat massa. Vestibulum ut ante sed nisl consectetur consectetur interdum vel nulla.'
+			}
+		},
+	}; */
 	$(document).ready(function(){
 		
 		renderMainMenus();
@@ -161,6 +175,7 @@
 		$('.mainMenu').bind('mouseout',mainMenuMouseoutHandler);
 		$('.subMenu').bind('mouseover',subMenuMouseoverHandler);
 		$('.subMenu').bind('mouseout',subMenuMouseoutHandler);
+		$('.subMenu').bind('click',subMenuClickHandler);
 		$('#subMenuClose').bind('click',subMenuCloseClickHandler);
 	});
 	
@@ -186,39 +201,71 @@
 	function renderMainMenus(){
 		$('#preloader').show();
 		//console.log(menus);
-		var len = Object.keys(menus).length;
-		//console.log(len);
-		var html = '';
-		for(var i=0; i<len; i++){
-			obj = menus[i];
-			//console.log(obj);
-			var childCount = countNumberOfChild(obj);
-			
-			if(obj.parent_menu_id == 0){
-				var menu_id = obj.menu_id;
-				var menu_name = obj.menu_name;
-				html += '<li>\
-							<a href="javascript:void(0)" class="mainMenu">\
-								<input type="hidden" class="childMenu" value="'+childCount+'" />\
-								<input type="hidden" class="menuID" value="'+menu_id+'" />\
-								<input type="hidden" class="menuName" value="'+menu_name+'" />\
-								'+menu_name+' ';
-						if(childCount > 0){
-							html += '<i class="fa fa-sort-desc dropMenu"></i>';						
-						}
-					html += '</a>\
-				</li>';
+		
+		//AJAX call for fetch menus
+		// var data = new FormData();
+		// data.append("report_id",report_id);
+		$.ajax({
+			url:baseUrl+'Menus/menus',
+			type:'POST',
+			dataType:'json',
+			//data:data,
+			contentType: false,
+			cache: false,
+			processData:false,
+			success:function(response){
+				//console.log(response);
+				menus = response;
+				//console.log(menus);
+				//var len = Object.keys(menus).length;
+				var len = menus.length;
+				//console.log(len);
+				var html = '';
+				for(var i=0; i<len; i++){
+					obj = menus[i];
+					//console.log(obj);
+					var childCount = countNumberOfChild(obj);
+					
+					//console.log('childCount : '+childCount);
+					
+					if(obj.parent_menu_id == 0){
+						var menu_id = obj.menu_id;
+						var menu_name = obj.menu_name;
+						html += '<li>\
+									<input type="hidden" class="childCount" value="'+childCount+'" />\
+									<input type="hidden" class="menuID" value="'+menu_id+'" />\
+									<input type="hidden" class="menuName" value="'+menu_name+'" />\
+									<a href="javascript:void(0)" class="mainMenu">\
+										'+menu_name+' ';
+									if(childCount > 0){
+										html += '<i class="fa fa-sort-desc dropMenu"></i>';						
+									}
+							html += '</a>\
+						</li>';
+					}
+				}
+				html += '<div class="clr"></div>';
+				//console.log(html);
+				$('#mainMenus').html(html);
+				
+				$('.mainMenu').unbind('mouseover',mainMenuMouseoverHandler);
+				$('.mainMenu').bind('mouseover',mainMenuMouseoverHandler);
+				
+				$('.mainMenu').unbind('mouseout',mainMenuMouseoutHandler);
+				$('.mainMenu').bind('mouseout',mainMenuMouseoutHandler);
+				
+				$('#preloader').hide();
+			},
+			error:function(response){
+				console.log(response);
 			}
-		}
-		html += '<div class="clr"></div>';
-		//console.log(html);
-		$('#mainMenus').html(html);
-		$('#preloader').hide();
+		});
 	}
 	
 	function renderSubMenus(parent_menu_id){
 		//console.log(menus);
-		var len = Object.keys(menus).length;
+		//var len = Object.keys(menus).length;
+		var len = menus.length;
 		//console.log(len);
 		var html = '';
 		for(var i=0; i<len; i++){
@@ -230,9 +277,10 @@
 				var menu_id = obj.menu_id;
 				var menu_name = obj.menu_name;
 				html += '<li>\
+							<input type="hidden" class="childCount" value="'+childCount+'" />\
+							<input type="hidden" class="menuID" value="'+menu_id+'" />\
+							<input type="hidden" class="menuName" value="'+menu_name+'" />\
 							<a href="javascript:void(0);" class="subMenu">\
-								<input type="hidden" class="childMenu" value="'+childCount+'" />\
-								<input type="hidden" class="menuID" value="'+menu_id+'" />\
 								'+menu_name+'\
 							</a>\
 						</li>';
@@ -240,20 +288,30 @@
 		}
 		//console.log(html);
 		$('#subMenuList').html(html);
+		
+		//Unbind bind sub menu functions
+		$('.subMenu').unbind('mouseover',subMenuMouseoverHandler);
+		$('.subMenu').bind('mouseover',subMenuMouseoverHandler);
+		
+		$('.subMenu').unbind('mouseout',subMenuMouseoutHandler);
+		$('.subMenu').bind('mouseout',subMenuMouseoutHandler);
+		
+		$('.subMenu').unbind('click',subMenuClickHandler);
+		$('.subMenu').bind('click',subMenuClickHandler);
 	}
 	
 	function mainMenuMouseoverHandler(e){
 		$('.mainMenu').removeClass('active');
 		$(e.currentTarget).addClass('active');
-		var menu_id = $(e.currentTarget).find('.menuID').val();
-		var menu_name = $(e.currentTarget).find('.menuName').val();
-		$('#menuName').html(menu_name);
+		var menu_id = $(e.currentTarget).parent('li').find('.menuID').val();
+		var menu_name = $(e.currentTarget).parent('li').find('.menuName').val();
+		$('#subMenuName').html(menu_name);
 		
-		var childMenu = $(e.currentTarget).find('.childMenu').val();
-		if(childMenu > 0){
+		var childCount = $(e.currentTarget).parent('li').find('.childCount').val();
+			//alert('childCount : '+childCount);
+		if(childCount > 0){
 			//Call function for render sub menus
 			renderSubMenus(menu_id);
-			
 			$('#subMenus').fadeIn(300);
 		}else{
 			$('#subMenus').fadeOut(300);
@@ -261,18 +319,69 @@
 	}
 	
 	function mainMenuMouseoutHandler(e){
-		var childMenu = $(e.currentTarget).find('.childMenu').val();
-		if(childMenu == 0){
+		var childCount = $(e.currentTarget).parent('li').find('.childCount').val();
+		if(childCount == 0){
 			$(e.currentTarget).removeClass('active');
 		}
 	}
 	
 	function subMenuMouseoverHandler(e){
+		var menu_id = $(e.currentTarget).parent('li').find('.menuID').val();
+		var menu_name = $(e.currentTarget).parent('li').find('.menuName').val();
 		
+		//var len = Object.keys(menus).length;
+		var len = menus.length;
+		//console.log(len);
+		for(var i=0; i<len; i++){
+			obj = menus[i];
+			if(obj.menu_id == menu_id){
+				subMenuHeading = obj.menu_description.heading;
+				subMenuDescription = obj.menu_description.description;
+				
+				$('.subMenuHeading').show();
+				$('.subMenuDescription').show();
+				
+				//$('.subMenuHeading').css({'margin-left':'600px'});
+				//$('.subMenuDescription').css({'margin-left':'-600px'});
+				
+				$('#subMenuHeading').html(subMenuHeading);
+				$('#subMenuDescription').html(subMenuDescription);
+				
+				/* $('.subMenuHeading').animate(
+					{marginLeft:'0px'},
+					600,
+					function(){}
+				);
+				$('.subMenuDescription').animate(
+					{marginLeft:'0px'},
+					600,
+					function(){}
+				); */
+			}
+		}
 	}
 	
 	function subMenuMouseoutHandler(e){
+		$('.subMenuHeading').hide();
+		$('.subMenuDescription').hide();
 		
+		// $('.subMenuHeading').css({'margin-left':'600px'});
+		// $('.subMenuDescription').css({'margin-left':'-600px'});
+	}
+	
+	function subMenuClickHandler(e){
+		var childCount = $(e.currentTarget).parent('li').find('.childCount').val();
+		
+		if(childCount > 0){
+			var menu_id = $(e.currentTarget).parent('li').find('.menuID').val();
+			var menu_name = $(e.currentTarget).parent('li').find('.menuName').val();
+			$('#subMenuName').html(menu_name);
+			//Call function for render sub menus
+			
+			renderSubMenus(menu_id);
+			
+			//$('#subMenus').fadeIn(300);
+		}
 	}
 	
 	function subMenuCloseClickHandler(){
@@ -284,7 +393,8 @@
 		//console.log(obj);
 		var childCount = 0;
 		var menu_id = obj.menu_id;
-		var len = Object.keys(menus).length;
+		//var len = Object.keys(menus).length;
+		var len = menus.length;
 		for(var i=0; i<len; i++){
 			var menuObj = menus[i];
 			if(menuObj.parent_menu_id == menu_id){
@@ -359,6 +469,8 @@
 	}
 	
 	function leftMenuIconClickHandler(){
+		subMenuCloseClickHandler();
+		
 		$('#leftMenuPanel').animate(
 			{marginLeft:'0px'},
 			300,
@@ -429,7 +541,7 @@
 						<img src="<?=$config['BaseUrl']?>img/cross.png" class=""/>
 					</a>
 				</div>
-				<h2 id="menuName">Individual</h2>
+				<h2 id="subMenuName"><!--Individual--></h2>
 				<ul id="subMenuList">
 					<!--<li>
 						<a href="javascript:void(0);" class="active">
@@ -449,12 +561,16 @@
 				</ul>
 			</div>
 			<div class="col-md-6 right_child">
-				<h4>
-					Are you a Foreign National or Indian National?
-				</h4>
-				<p>
-					Integer ornare ante elit, a viverra est laoreet sit amet. Morbi euismod et dolor sit amet scelerisque. Vivamus utvulputate quam, a feugiat massa.Vivamus ut vulputate quam, a feugiat massa. Vestibulum ut ante sed nisl consectetur consectetur interdum vel nulla.
-				</p>
+				<div class="right_child_heading subMenuHeading">
+					<h4 id="subMenuHeading">
+						<!--Are you a Foreign National or Indian National?-->
+					</h4>
+				</div>
+				<div class="right_child_details subMenuDescription">
+					<p id="subMenuDescription">
+						<!--Integer ornare ante elit, a viverra est laoreet sit amet. Morbi euismod et dolor sit amet scelerisque. Vivamus utvulputate quam, a feugiat massa.Vivamus ut vulputate quam, a feugiat massa. Vestibulum ut ante sed nisl consectetur consectetur interdum vel nulla.-->
+					</p>
+				</div>
 				
 				<!--<input value="View More" id="" class="view_button" type="submit">-->
 			</div>
@@ -488,7 +604,7 @@
 							<ul class="nav navbar-nav navbar-right navigation_new2" id="mainMenus">
 								<!--<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="Individual" />
 										Individual 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -496,7 +612,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="Corporate" />
 										Corporate 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -504,7 +620,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="Banks" />
 										Banks 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -512,7 +628,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="NGO/Trust" />
 										NGO/Trust 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -520,7 +636,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="Govt" />
 										Govt 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -528,7 +644,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu">
-										<input type="hidden" class="childMenu" value="1" />
+										<input type="hidden" class="childCount" value="1" />
 										<input type="hidden" class="menuName" value="Associates" />
 										Associates 
 										<i class="fa fa-sort-desc dropMenu"></i>
@@ -536,7 +652,7 @@
 								</li>
 								<li>
 									<a href="javascript:void(0)" class="mainMenu" id="scrollTop">
-										<input type="hidden" class="childMenu" value="0" />
+										<input type="hidden" class="childCount" value="0" />
 										Contact
 									</a>
 								</li>
@@ -578,6 +694,14 @@
 							<ul class="login_Div">
 								<li><a href="<?=$config['BaseUrl']?>Users/logIn">Login</a></li>
 								<li><a href="<?=$config['BaseUrl']?>Users/signUp">Sign Up</a></li>
+								<li>
+									<a href="<?=$config['BaseUrl']?>UserCarts" style="border:none; padding:12px 0;">
+										<i><img src="<?=$config['BaseUrl']?>img/cart_icon.png" class=""/></i>
+										<div class="cart_quentaty" style="top:0px; right:-6px;">
+											<p><?=$cartItemNo?></p>
+										</div>
+									</a>
+								</li>
 								<div class="clr"></div>
 							</ul>
 					<?php

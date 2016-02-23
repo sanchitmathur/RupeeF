@@ -44,10 +44,15 @@ class UserCartsController extends AppController {
 		));
 		
 		$cond = array(
-			'UserCart.user_id'=>$user_id,
+			//'UserCart.user_id'=>$user_id,
 			'UserCart.is_active'=>1,
 			'UserCart.is_deleted'=>0,
 		);
+		if($user_id != 0){
+			$cond['UserCart.user_id'] = $user_id;
+		}else{
+			$cond['UserCart.session_id'] = $session_id;
+		}
 		$option = array(
 			'conditions'=>$cond,
 			'recursive'=>2,

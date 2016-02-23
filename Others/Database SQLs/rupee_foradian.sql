@@ -384,3 +384,33 @@ ALTER TABLE `rf_user_carts`
   
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `rf_menus`
+--
+
+DROP TABLE IF EXISTS `rf_menus`;
+CREATE TABLE IF NOT EXISTS `rf_menus` (
+  `id` int(11) NOT NULL,
+  `parent_menu_id` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `heading` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `service_id` int(11) NOT NULL DEFAULT '0',
+  `is_blocked` int(11) NOT NULL DEFAULT '0' COMMENT '1=Blocked',
+  `is_deleted` int(11) NOT NULL DEFAULT '0' COMMENT '1=Deleted'
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Indexes for table `rf_menus`
+--
+ALTER TABLE `rf_menus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `rf_menus`
+--
+ALTER TABLE `rf_menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ 
+-- --------------------------------------------------------
+

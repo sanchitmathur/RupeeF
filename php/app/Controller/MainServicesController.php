@@ -16,6 +16,7 @@ class MainServicesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+	
 /**
  * index method
  *
@@ -201,6 +202,9 @@ class MainServicesController extends AppController {
 		$this->MainService->recursive = 2;
 		$this->set('mainServices', $this->Paginator->paginate());
 		$this->numberOfItemInCart();
+		$session_id = $this->Session->id();
+		//$this->set('session_id',$session_id);
+		$this->Session->write('session_id',$session_id);
 	}
  
 	
