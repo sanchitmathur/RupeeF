@@ -17,7 +17,7 @@
 							<div class="col-md-3">
 							</div>
 							<div class="col-md-6 left_login">
-								<h3>New member ?<span> please sign up here</span></h3>
+								<h3>Already a member ?<span> please log in here</span></h3>
 								<?php
 									echo $this->Form->create(array('action'=>'logIn'));
 								?>
@@ -34,10 +34,10 @@
 								<div class="joinusing">
 									<p>Or Joining using</p>
 									<center>
-										<a href="javascript:void(0);">
+										<a href="<?=$config['BaseUrl']?>Users/facebookLogIn/0">
 											<img src="<?=$config['BaseUrl']?>img/fb_icon.png" class=""/>
 										</a>
-										<a href="javascript:void(0);">
+										<a href="<?=$config['BaseUrl']?>Users/googlePlusLogIn/0">
 											<img src="<?=$config['BaseUrl']?>img/google_icon.png" class=""/>
 										</a>
 										<a href="javascript:void(0);">

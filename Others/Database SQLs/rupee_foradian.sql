@@ -194,6 +194,10 @@ CREATE TABLE IF NOT EXISTS `rf_users` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fb_id` VARCHAR( 255 ) NOT NULL,
+  `fb_image` VARCHAR(255) NOT NULL,
+  `google_id` VARCHAR(255) NOT NULL,
+  `rf_users` ADD `google_image` VARCHAR(255) NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -363,6 +367,7 @@ ALTER TABLE `rf_service_taxes`
 DROP TABLE IF EXISTS `rf_user_carts`;
 CREATE TABLE IF NOT EXISTS `rf_user_carts` (
   `id` int(11) NOT NULL,
+  `session_id` VARCHAR( 255 ) NOT NULL,
   `user_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `service_package_id` int(11) NOT NULL,

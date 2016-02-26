@@ -201,13 +201,17 @@ class UsersController extends AppController {
 		$service = array();
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
+			
+			$service_ids = isset($reqdata['service_ids'])?$reqdata['service_ids']:"";
+			$service_package_ids = isset($reqdata['service_package_ids'])?$reqdata['service_package_ids']:"";
+			
 			$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
 			$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
 			$service = array(
-				'service_id'=>$service_id,
-				'service_package_id'=>$service_package_id,
+				'service_ids'=>$service_ids,
+				'service_package_ids'=>$service_package_ids,
 			);
-			//$this->Session->write('service',$service);
+			$this->Session->write('service',$service);
 		}
 		$cities = $this->getCityList();
 		$this->set(compact('cities'));
@@ -215,7 +219,7 @@ class UsersController extends AppController {
 		$languages = $this->getLanguageList();
 		$this->set(compact('languages'));
 		
-		$this->set('service',$service);
+		//$this->set('service',$service);
 	}
 	
 /**
@@ -228,6 +232,7 @@ class UsersController extends AppController {
 			$reqdata = $this->request->data;
 			// pr($reqdata);
 			// die();
+			$registration = isset($reqdata['registration'])?$reqdata['registration']:0;
 			$name = isset($reqdata['name'])?$reqdata['name']:"";
 			$email = isset($reqdata['email'])?$reqdata['email']:"";
 			$password = isset($reqdata['password'])?$reqdata['password']:"";
@@ -239,12 +244,20 @@ class UsersController extends AppController {
 			
 			if($name == ""){
 				$this->Session->setFlash(__("Please enter name."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($email == ""){
 				$this->Session->setFlash(__("Please enter email."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			$cond = array(
@@ -256,42 +269,74 @@ class UsersController extends AppController {
 			$userDataCount = $this->User->find('count',$option);
 			if($userDataCount > 0){
 				$this->Session->setFlash(__("Email already exist."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
 				$this->Session->setFlash(__("Please enter valid email."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($password == ""){
 				$this->Session->setFlash(__("Please enter password."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($confpassword == ""){
 				$this->Session->setFlash(__("Please confirm password."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($password != $confpassword){
 				$this->Session->setFlash(__("Password and confirm password doesn't match."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($address == ""){
 				$this->Session->setFlash(__("Please enter address."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($city_id == 0){
 				$this->Session->setFlash(__("Please select city."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			if($language_id == 0){
 				$this->Session->setFlash(__("Please select language."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 			
 			$saveData = array(
@@ -321,7 +366,7 @@ class UsersController extends AppController {
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
 				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0; */
 				
-				$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
+				/* $service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
 				$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
 				
 				if($service_id == 0){
@@ -334,10 +379,19 @@ class UsersController extends AppController {
 					}else{
 						return $this->redirect(array('controller'=>'Services','action'=>'addToCart'));
 					}
+				} */
+				if($registration == 1){
+					return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+				}else{
+					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 				}
 			}else{
 				$this->Session->setFlash(__("Error occured while sign up."));
-				return $this->redirect(array('controller'=>'Users','action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'signUp'));
+				}
 			}
 		}else{
 			$this->layout = "main";
@@ -362,20 +416,33 @@ class UsersController extends AppController {
 			$reqdata = $this->request->data;
 			// pr($reqdata);
 			// die();
+			$registration = isset($reqdata['registration'])?$reqdata['registration']:0;
 			$email = isset($reqdata['email'])?$reqdata['email']:"";
 			$password = isset($reqdata['password'])?$reqdata['password']:"";
 			
 			if($email == ""){
 				$this->Session->setFlash(__("Please enter email."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'logIn'));
+				}
 			}
 			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
 				$this->Session->setFlash(__("Please enter valid email."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'logIn'));
+				}
 			}
 			if($password == ""){
 				$this->Session->setFlash(__("Please enter password."));
-				return $this->redirect(array('action'=>'registration'));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'logIn'));
+				}
 			}
 			
 			$cond = array(
@@ -404,11 +471,11 @@ class UsersController extends AppController {
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
 				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0; */
 				
-				$service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
+				/* $service_id = isset($reqdata['service_id'])?$reqdata['service_id']:0;
 				$service_package_id = isset($reqdata['service_package_id'])?$reqdata['service_package_id']:0;
 				
 				if($service_id == 0){
-					$this->Session->setFlash(__('Please select a service.'));
+					//$this->Session->setFlash(__('Please select a service.'));
 					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 				}else{
 					if($service_package_id == 0){
@@ -418,9 +485,259 @@ class UsersController extends AppController {
 						//return $this->redirect(array('controller'=>'Services','action'=>'addToCart'));
 						return $this->redirect(array('controller'=>'Services','action'=>'saveToCart/'.$service_id.'/'.$service_package_id));
 					}
+				} */
+				if($registration == 1){
+					return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+				}else{
+					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 				}
 			}
+		}
+	}
+	
+/**
+ * facebookLogIn methohd
+ *
+ * @return void
+ */
+	public function facebookLogIn($registration=0){
+		
+		$client_id = $this->APP_ID;
+		$client_secret = $this->APP_SECRET;
+		
+		$reqdata = $this->request->data;
+		$code = isset($_REQUEST["code"])?$_REQUEST["code"]:null;
+		$error_code = isset($_REQUEST["error_code"])?$_REQUEST["error_code"]:null;
+		$state = md5(uniqid(rand(), TRUE)); // CSRF protection
+		
+		if(!empty($error_code) && $error_code==200){
+			return $this->redirect(array('controller'=>'Users','action'=>'logIn'));
+		}
+		
+		$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/facebookLogIn/$registration";
+
+		if(empty($code)){
 			
+			$oauth_url = "https://www.facebook.com/dialog/oauth?client_id=$client_id&redirect_uri=".urlencode($redirect_uri)."&state=$state&scope=publish_actions";
+			//die();
+			print("<script>window.location='$oauth_url'</script>");
+			exit();
+		}else{
+			$token_url = "https://graph.facebook.com/oauth/access_token?client_id=$client_id&redirect_uri=".urlencode($redirect_uri)."&client_secret=$client_secret&code=$code";
+			
+			$response = file_get_contents($token_url);
+			$params = null;
+			parse_str($response,$params);
+			//pr($params);
+			
+			$access_token = $params['access_token'];
+			
+			if($access_token == ''){
+				$this->Session->setFlash(__("Some error occured while log in with Facebook."));
+				return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+			}
+			
+			$graph_url = "https://graph.facebook.com/me?access_token=".$access_token."&fields=first_name,last_name,name,id,email";
+			$userDetails = json_decode(file_get_contents($graph_url));
+			// pr($userDetails);
+			// die();
+			
+			$fb_id = $userDetails->id;
+			$fb_email = $userDetails->email;
+			$fb_name = $userDetails->name;
+			$fb_first_name = $userDetails->first_name;
+			$fb_last_name = $userDetails->last_name;
+			
+			$graph_url2 = "https://graph.facebook.com/".$fb_id."/picture?access_token=".$access_token."&redirect=false&type=large";
+			$userPicture = json_decode(file_get_contents($graph_url2));
+			// pr($userPicture);
+			// die();
+			$fb_image = isset($userPicture->data->url)?$userPicture->data->url:'';
+			
+			//Check user exist or not
+			$cond = array(
+				'OR'=>array(
+					'User.email'=>$fb_email,
+					'User.fb_id'=>$fb_id
+				)
+			);
+			$option = array(
+				'conditions'=>$cond
+			);
+			$userData = $this->User->find('first',$option);
+			if(isset($userData) && is_array($userData) && count($userData)>0){ //User exist
+				$user_id = $userData['User']['id'];
+				$name = $userData['User']['name'];
+				$email = $userData['User']['email'];
+				$fb_id = $userData['User']['fb_id'];
+				$image = $userData['User']['fb_image'];
+				$this->User->id = $user_id;
+				if($email == ''){
+					$this->User->saveField('email',$fb_email);
+					$email = $fb_email;
+				}
+				if($fb_id == ''){
+					$this->User->saveField('fb_id',$fb_id);
+				}
+				if($fb_image != ''){
+					$this->User->saveField('fb_image',$fb_image);
+					$image = $fb_image;
+				}
+			}else{
+				$saveData = array(
+					'User'=>array(
+						'name'=>$fb_name,
+						'email'=>$fb_email,
+						'fb_id'=>$fb_id,
+					)
+				);
+				$this->User->create();
+				$this->User->save($saveData);
+				
+				$user_id = $this->User->id;
+				$name = $fb_name;
+				$email = $fb_email;
+			}
+			
+			//Set session
+			$user = array(
+				'user_id'=>$user_id,
+				'name'=>$name,
+				'email'=>$email
+			);
+			$this->Session->write('user',$user);
+			if($registration == 1){
+				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+			}else{
+				return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+			}
+		}
+	}
+	
+/**
+ * googlePlusLogIn method
+ *
+ * @return void
+ */
+	public function googlePlusLogIn($registration=0){
+		$this->layout="main";
+		
+		$client_id = $this->CLIENT_ID;
+		$client_secret = $this->CLIENT_SECRET;
+		
+		$code = isset($_REQUEST["code"])?$_REQUEST["code"]:null;
+		$state = md5(uniqid(rand(), TRUE)); // CSRF protection
+		//$state = 'rupeeforadian'; 
+		
+		$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/googlePlusLogIn/$registration";
+		$url = 'https://accounts.google.com/o/oauth2/';
+		
+		if(empty($code)){
+			$oauth_url = $url."auth?response_type=code&client_id=".$client_id."&redirect_uri=".$redirect_uri."&scope=email%20profile&access_type=online&state=".$state;
+			print("<script>window.location='$oauth_url'</script>");
+			exit();
+		}else{
+			$token_url = $url.'token';
+			$params = array(
+			    "code" => $code,
+			    "client_id" => $client_id,
+			    "client_secret" => $client_secret,
+			    "redirect_uri" => $redirect_uri,
+			    "grant_type" => "authorization_code"
+			);
+			
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL,$token_url);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  //to suppress the curl output 
+			$result = curl_exec($ch);
+			curl_close ($ch);
+			
+			$responseObj = json_decode($result);
+			// pr($responseObj);
+			
+			$access_token = $responseObj->access_token;
+			if($access_token == ''){
+				$this->Session->setFlash(__("Some error occured while log in with Google+."));
+				return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+			}
+			
+			$graph_url = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=".$access_token;
+			$userDetails = json_decode(file_get_contents($graph_url));
+			// pr($userDetails);
+			// die();
+			
+			$google_id = $userDetails->id;
+			$google_email = $userDetails->email;
+			$google_name = $userDetails->name;
+			$google_first_name = $userDetails->given_name;
+			$google_last_name = $userDetails->family_name;
+			$google_picture = $userDetails->picture;
+			
+			//Check user exist or not
+			$cond = array(
+				'OR'=>array(
+					'User.email'=>$google_email,
+					'User.google_id'=>$google_id
+				)
+			);
+			$option = array(
+				'conditions'=>$cond
+			);
+			$userData = $this->User->find('first',$option);
+			if(isset($userData) && is_array($userData) && count($userData)>0){ //User exist
+				$user_id = $userData['User']['id'];
+				$name = $userData['User']['name'];
+				$email = $userData['User']['email'];
+				$google_id = $userData['User']['google_id'];
+				$image = $userData['User']['google_image'];
+				
+				$this->User->id = $user_id;
+				if($email == ''){
+					$this->User->saveField('email',$google_email);
+					$email = $google_email;
+				}
+				if($google_id == ''){
+					$this->User->saveField('google_id',$google_id);
+				}
+				if($google_picture != ''){
+					$this->User->saveField('google_image',$google_picture);
+					$image = $google_picture;
+				}
+			}else{
+				$saveData = array(
+					'User'=>array(
+						'name'=>$google_name,
+						'email'=>$google_email,
+						'google_id'=>$google_id,
+						'google_image'=>$google_picture,
+					)
+				);
+				$this->User->create();
+				$this->User->save($saveData);
+				
+				$user_id = $this->User->id;
+				$name = $google_name;
+				$email = $google_email;
+				$image = $google_picture;
+			}
+			
+			//Set session
+			$user = array(
+				'user_id'=>$user_id,
+				'name'=>$name,
+				'email'=>$email,
+				'image'=>$image,
+			);
+			$this->Session->write('user',$user);
+			if($registration == 1){
+				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+			}else{
+				return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+			}
 		}
 	}
 	
@@ -446,18 +763,20 @@ class UsersController extends AppController {
 			// pr($reqdata);
 			// die();
 			$service_ids = isset($reqdata['service_ids'])?$reqdata['service_ids']:"";
-			$service_ids = explode(',',$service_ids);
-			
 			$service_package_ids = isset($reqdata['service_package_ids'])?$reqdata['service_package_ids']:"";
-			$service_package_ids = explode(',',$service_package_ids);
 			
 			$user = $this->Session->read('user');
 			$user_id = isset($user['user_id'])?$user['user_id']:0;
+			$session_id = $this->Session->read('session_id');
 			
 			$this->loadModel('ServicePackage');
 			$this->loadModel('UserService');
 			$this->loadModel('UserServicePackage');
 			$this->loadModel('UserCart');
+			
+			$service_ids = explode(',',$service_ids);
+			$service_package_ids = explode(',',$service_package_ids);
+			
 			for($i=0; $i<count($service_ids); $i++){
 				$service_id = $service_ids[$i];
 				$service_package_id = $service_package_ids[$i];
@@ -505,10 +824,19 @@ class UsersController extends AppController {
 				'UserCart.is_deleted'=>'1',
 			);
 			$updateCartCond = array(
-				'UserCart.user_id'=>$user_id,
+				//'UserCart.user_id'=>$user_id,
+				'OR'=>array(
+					'UserCart.user_id'=>$user_id,
+					'UserCart.session_id'=>$session_id,
+				),
 				'UserCart.is_active'=>'1',
 				'UserCart.is_deleted'=>'0',
 			);
+			/* if($user_id != 0){
+				$updateCartCond['UserCart.user_id'] = $user_id;
+			}else{
+				$updateCartCond['UserCart.session_id'] = $session_id;
+			} */
 			$this->UserCart->updateAll($updateCartData,$updateCartCond);
 			$this->Session->setFlash(__("Services checked out successfully."));
 			

@@ -32,6 +32,13 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	
+	//Facebook App ID & App Secret
+	public $APP_ID = '831739943597878';
+	public $APP_SECRET = '74739fdb7f1869613fd0e8288a94e3b0';
+	
+	//Google Client ID & Client Secret
+	public $CLIENT_ID = '683114562708-ki5aombr7qvlq0981nssrrj90pdfegtb.apps.googleusercontent.com';
+	public $CLIENT_SECRET = 'aTfcg3C1wztVD0gFe0-to1NI';
 	
 /**
  * getCityList method
@@ -89,9 +96,14 @@ class AppController extends Controller {
 		
 		$user = $this->Session->read('user');
 		$user_id = isset($user['user_id'])?$user['user_id']:0;
+		$session_id = $this->Session->read('session_id');
 		
 		$cond = array(
-			'UserCart.user_id'=>$user_id,
+			//'UserCart.user_id'=>$user_id,
+			'OR'=>array(
+				'UserCart.user_id'=>$user_id,
+				'UserCart.session_id'=>$session_id,
+			),
 			'UserCart.is_active'=>1,
 			'UserCart.is_deleted'=>0,
 		);
@@ -101,6 +113,7 @@ class AppController extends Controller {
 		$cartItemNo = $this->UserCart->find('count',$option);
 		//$this->set('cartItemNo',$cartItemNo);
 		//return $cartItemNo;
+		$this->Session->delete('cartItemNo');
 		$this->Session->write('cartItemNo',$cartItemNo);
 	}
 	

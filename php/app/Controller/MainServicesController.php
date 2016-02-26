@@ -201,10 +201,16 @@ class MainServicesController extends AppController {
 		
 		$this->MainService->recursive = 2;
 		$this->set('mainServices', $this->Paginator->paginate());
+		
+		$session_id = $this->Session->read('session_id');
+		
+		if(empty($session_id)){
+			$session_id = $this->Session->id();
+			//$this->set('session_id',$session_id);
+			$this->Session->write('session_id',$session_id);
+		}
+		
 		$this->numberOfItemInCart();
-		$session_id = $this->Session->id();
-		//$this->set('session_id',$session_id);
-		$this->Session->write('session_id',$session_id);
 	}
  
 	

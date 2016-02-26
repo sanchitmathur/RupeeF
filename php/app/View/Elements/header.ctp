@@ -2,12 +2,12 @@
 	$config = Configure::read('RupeeForadian');
 	//pr($config);
 	$cartItemNo = $this->Session->read('cartItemNo');
+	$cartItemNo = (isset($cartItemNo) && $cartItemNo!='')?$cartItemNo:0;
 	
-	// $this->Session->start();
-	// echo $this->Session->id(session_id());
-	echo $session_id = $this->Session->read('session_id');;
+	// echo $session_id = $this->Session->read('session_id');;
 ?>
 <script type="text/javascript">
+	var page_name = '';
 	var divWidth = 100;
 	var baseUrl = '<?=$config['BaseUrl']?>';
 	var collapsFlag = true;
@@ -16,6 +16,7 @@
 	var headerCollapsHeight = 103;
 	var headerExpandHeight = 151;
 	var menus = [];
+	var scrollTop = 0;
 	/* var menus = {
 		'0':{
 			'menu_id':1,
@@ -177,10 +178,32 @@
 		$('.subMenu').bind('mouseout',subMenuMouseoutHandler);
 		$('.subMenu').bind('click',subMenuClickHandler);
 		$('#subMenuClose').bind('click',subMenuCloseClickHandler);
+		
+		hideFlashMessage();
 	});
 	
 	$(window).scroll(function(){
-		var scrollTop = $(window).scrollTop();
+		$('#header').fadeOut(300);
+		headerAnimation();
+	});
+	
+	$.fn.scrollEnd = function(callback, timeout){        
+		$(this).scroll(function(){
+			var $this = $(this);
+			if ($this.data('scrollTimeout')){
+				clearTimeout($this.data('scrollTimeout'));
+			}
+			$this.data('scrollTimeout', setTimeout(callback,timeout));
+		});
+	};
+
+	// how to call it (with a 1000ms timeout):
+	$(window).scrollEnd(function(){
+		headerAnimation2();
+	}, 1000);
+	
+	function headerAnimation(){
+		scrollTop = $(window).scrollTop();
 		//$('#scrollTop').html(scrollTop);
 		//console.log('scrollTop : '+scrollTop);
 		if(scrollTop > 10){
@@ -196,10 +219,88 @@
 			}
 			expandFlag = false;
 		}
-	});
+	}
+	
+	function headerExpandAnimation(){
+		$('.header_all').animate(
+			{height:headerExpandHeight+'px'},
+			300,
+			function(){}
+		);
+		subMenuMarginTop = headerExpandHeight-headerCollapsHeight;
+		$('#subMenus').animate(
+			{
+				marginTop:'0px'
+			},
+			300,
+			function(){}
+		);
+		$('.scrolLogo').animate(
+			{marginLeft:'35px'},
+			300,
+			function(){
+				src = baseUrl+'img/logo.png';
+				$('#logoIcon').attr('src',src);
+			}
+		);
+		$('.scroll_menu').animate(
+			{marginTop:'0px'},
+			300,
+			function(){}
+		);
+	}
+	
+	function headerCollapsAnimation(){
+		$('.header_all').animate(
+			{
+				height:headerCollapsHeight+'px'
+			},
+			300,
+			function(){}
+		);
+		subMenuMarginTop = headerExpandHeight-headerCollapsHeight;
+		$('#subMenus').animate(
+			{
+				marginTop:'-'+subMenuMarginTop+'px'
+			},
+			300,
+			function(){}
+		);
+		$('.scroll_menu').animate(
+			{
+				marginTop:'-60px'
+			},
+			300,
+			function(){}
+		);
+		$('.scrolLogo').animate(
+			{
+				marginLeft:'-300px'
+			},
+			300,
+			function(){
+				src = baseUrl+'img/logo_sm.png';
+				$('#logoIcon').attr('src',src);
+			}
+		);
+	}
+	
+	function headerAnimation2(){
+		//alert('stopped scrolling');
+		$('#header').fadeIn(300);
+	}
+	
+	function hideFlashMessage(){
+		setTimeout(
+			function(){
+				$('#flashMessage').slideUp(300);
+			},
+			5000
+		);
+	}
 	
 	function renderMainMenus(){
-		$('#preloader').show();
+		//$('#preloader').show();
 		//console.log(menus);
 		
 		//AJAX call for fetch menus
@@ -298,6 +399,9 @@
 		
 		$('.subMenu').unbind('click',subMenuClickHandler);
 		$('.subMenu').bind('click',subMenuClickHandler);
+		
+		$('#subMenuList').find('.subMenu:first').trigger('mouseover');
+		$('#subMenuList').find('.subMenu:first').addClass('active');
 	}
 	
 	function mainMenuMouseoverHandler(e){
@@ -313,8 +417,10 @@
 			//Call function for render sub menus
 			renderSubMenus(menu_id);
 			$('#subMenus').fadeIn(300);
+			$('.header_all').show();
 		}else{
 			$('#subMenus').fadeOut(300);
+			//$('.header_all').hide();
 		}
 	}
 	
@@ -326,6 +432,9 @@
 	}
 	
 	function subMenuMouseoverHandler(e){
+		$('.subMenu').removeClass('active');
+		$(e.currentTarget).addClass('active');
+		
 		var menu_id = $(e.currentTarget).parent('li').find('.menuID').val();
 		var menu_name = $(e.currentTarget).parent('li').find('.menuName').val();
 		
@@ -362,8 +471,8 @@
 	}
 	
 	function subMenuMouseoutHandler(e){
-		$('.subMenuHeading').hide();
-		$('.subMenuDescription').hide();
+		//$('.subMenuHeading').hide();
+		//$('.subMenuDescription').hide();
 		
 		// $('.subMenuHeading').css({'margin-left':'600px'});
 		// $('.subMenuDescription').css({'margin-left':'-600px'});
@@ -387,6 +496,10 @@
 	function subMenuCloseClickHandler(){
 		$('#subMenus').fadeOut(300);
 		$('.mainMenu').removeClass('active');
+		
+		if((scrollTop == 0) && page_name == 'main' ){
+			$('.header_all').hide();
+		}
 	}
 	
 	function countNumberOfChild(obj){
@@ -402,70 +515,6 @@
 			}
 		}
 		return childCount;
-	}
-	
-	function headerExpandAnimation(){
-		$('.header_all').animate(
-			{height:headerExpandHeight+'px'},
-			300,
-			function(){}
-		);
-		subMenuMarginTop = headerExpandHeight-headerCollapsHeight;
-		$('#subMenus').animate(
-			{
-				marginTop:'0px'
-			},
-			300,
-			function(){}
-		);
-		$('.scrolLogo').animate(
-			{marginLeft:'35px'},
-			300,
-			function(){
-				src = baseUrl+'img/logo.png';
-				$('#logoIcon').attr('src',src);
-			}
-		);
-		$('.scroll_menu').animate(
-			{marginTop:'0px'},
-			300,
-			function(){}
-		);
-	}
-	
-	function headerCollapsAnimation(){
-		$('.header_all').animate(
-			{
-				height:headerCollapsHeight+'px'
-			},
-			300,
-			function(){}
-		);
-		subMenuMarginTop = headerExpandHeight-headerCollapsHeight;
-		$('#subMenus').animate(
-			{
-				marginTop:'-'+subMenuMarginTop+'px'
-			},
-			300,
-			function(){}
-		);
-		$('.scroll_menu').animate(
-			{
-				marginTop:'-60px'
-			},
-			300,
-			function(){}
-		);
-		$('.scrolLogo').animate(
-			{
-				marginLeft:'-300px'
-			},
-			300,
-			function(){
-				src = baseUrl+'img/logo_sm.png';
-				$('#logoIcon').attr('src',src);
-			}
-		);
 	}
 	
 	function leftMenuIconClickHandler(){
@@ -496,7 +545,7 @@
 		</div>
 	</div>
 	
-	<div class="main_header ">
+	<div class="main_header" id="mainHeader">
 	
 		<div class="sideMenu" id="leftMenuPanel" style="display:none;">
 			<div class="close_div">
@@ -670,7 +719,17 @@
 						if($user_id != 0){
 					?>
 							<ul class="sublogin_Div">
-								<li>Welcome <span><?=ucwords($user_name)?></span></li>
+								<li>Welcome 
+									<?php
+										$len = strlen($user_name);
+										if($len > 6){
+											$name = substr($user_name,0,6).'...';
+										}else{
+											$name = $user_name;
+										}
+									?>
+									<span title="<?=ucwords($user_name)?>"><?=ucwords($name)?></span>
+								</li>
 								<li>|</li>
 								<li>
 									<a href="<?=$config['BaseUrl']?>Users/logout">

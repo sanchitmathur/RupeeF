@@ -3,7 +3,10 @@
 	//pr($config);
 ?>
 <script>
+	var initialHeight = 0;
+	var initialWidth = 0;
 	$(document).ready(function(){
+		page_name = 'main';
 		$('.header_all').hide();
 		$('.readMore').bind('click',readMoreClickhandler);
 		//$('.services').bind('click',readMoreClickhandler);
@@ -38,8 +41,13 @@
 			'z-index':'3'
 		});
 		
-		var width = $(e.currentTarget).find('.multipleService').width();
-		var height = $(e.currentTarget).find('.multipleService').height();
+		// var width = $(e.currentTarget).find('.multipleService').width();
+		// var height = $(e.currentTarget).find('.multipleService').height();
+		// console.log('height : '+height);
+		initialWidth = $(e.currentTarget).width();
+		initialHeight = $(e.currentTarget).height();
+		//console.log('initialWidth : '+initialWidth);
+		//console.log('initialHeight : '+initialHeight);
 		//var index = $(e.currentTarget).index();
 		var index = $(e.currentTarget).find('.divIndex').val();
 		var marginLeft = '0px';
@@ -50,39 +58,49 @@
 			marginLeft = '0px';
 			
 		}else if(index == 1){
-			marginLeft = (1 * width) + 110;
+			//marginLeft = (1 * width) + 110;
+			marginLeft = (1 * initialWidth) + (1 * 30);
 			marginLeft = '-'+marginLeft+'px';
 			
 		}else if(index == 2){
-			marginLeft = (2 * width) + 220;
+			//marginLeft = (2 * width) + 220;
+			marginLeft = (2 * initialWidth) + (2 * 30);
 			marginLeft = '-'+marginLeft+'px';
 			
 		}else if(index == 3){
-			marginTop = (2 * height) - 169;
+			//marginTop = (2 * height) - 169;
+			marginTop = (1 * initialHeight) + (1 * 30);
 			marginTop = '-'+marginTop+'px';
 			
 			marginLeft = '0px';
 			
 		}else if(index == 4){
-			marginTop = (2 * height) - 169;
+			//marginTop = (2 * height) - 169;
+			marginTop = (1 * initialHeight) + (1 * 30);
 			marginTop = '-'+marginTop+'px';
 			
-			marginLeft = (1 * width) + 110;
+			//marginLeft = (1 * width) + 110;
+			marginLeft = (1 * initialWidth) + (1 * 30);
 			marginLeft = '-'+marginLeft+'px';
 			
 		}else if(index == 5){
-			marginTop = (2 * height) - 169;
+			//marginTop = (2 * height) - 169;
+			marginTop = (1 * initialHeight) + (1 * 30);
 			marginTop = '-'+marginTop+'px';
 			
-			marginLeft = (2 * width) + 220;
+			//marginLeft = (2 * width) + 220;
+			marginLeft = (2 * initialWidth) + (2 * 30);
 			marginLeft = '-'+marginLeft+'px';
 			
 		}
 		
+		increasedWidth = (3 * initialWidth) + (2 * 30);
+		increasedHeight = (2 * initialHeight) + 30;
+		//console.log('increasedHeight : '+increasedHeight);
 		$(e.currentTarget).find('.multipleService').animate(
 			{
-				width:'1197px',
-				height:'748px',
+				width:increasedWidth+'px',
+				height:increasedHeight+'px',
 				marginLeft:marginLeft,
 				marginTop:marginTop
 				//zIndex:'3'
@@ -92,6 +110,10 @@
 				
 			}
 		);
+		
+		$(e.currentTarget).find('.multipleService').css({
+			"cursor":"default"
+		});
 		
 		$(e.currentTarget).find('.subService').attr('style','width:33.33%!important');
 		
@@ -117,6 +139,11 @@
 			$fa.addClass('fa-long-arrow-down');
 		}
 		
+		/* if($(e.currentTarget).find('.subService').hasClass('liSubService')){
+			$(e.currentTarget).find('.subService').addClass('liSubService2');
+			$(e.currentTarget).find('.subService').removeClass('liSubService');
+		} */
+		
 		$('.mainServices').unbind('click',mainServicesClickHandler);
 	}
 	
@@ -135,8 +162,8 @@
 		
 		$x.find('.multipleService').animate(
 			{
-				width:'379px',
-				height:'359px',
+				width:initialWidth+'px',
+				height:initialHeight+'px',
 				marginLeft:'0px',
 				marginTop:'0px',
 				zIndex:'1'
@@ -146,6 +173,10 @@
 				//console.log('called');
 			}
 		);
+		
+		$x.find('.multipleService').css({
+			"cursor":"pointer"
+		});
 		
 		$x.find('.subService').attr('style','width:100%!important');
 		
@@ -160,6 +191,12 @@
 			}
 		);
 		$x.find('.services').hide();
+		
+		/* if($x.find('.subService').hasClass('liSubService2')){
+			$x.find('.subService').addClass('liSubService');
+			$x.find('.subService').removeClass('liSubService2');
+		} */
+		
 		e.stopPropagation();
 		$('.mainServices').bind('click',mainServicesClickHandler);
 	}

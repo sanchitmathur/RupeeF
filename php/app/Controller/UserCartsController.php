@@ -31,6 +31,7 @@ class UserCartsController extends AppController {
 		
 		$user = $this->Session->read('user');
 		$user_id = isset($user['user_id'])?$user['user_id']:0;
+		$session_id = $this->Session->read('session_id');
 		
 		$this->UserCart->unbindModel(array(
 			'belongsTo'=>array('User'),
@@ -43,16 +44,30 @@ class UserCartsController extends AppController {
 			'belongsTo'=>array('Service'),
 		));
 		
+		if($user_id != 0){
+			$updateData = array(
+				'UserCart.user_id'=>"'".$user_id."'"
+			);
+			$updateCond = array(
+				'UserCart.session_id'=>$session_id
+			);
+			$this->UserCart->updateAll($updateData,$updateCond);
+		}
+		
 		$cond = array(
 			//'UserCart.user_id'=>$user_id,
+			'OR'=>array(
+				'UserCart.user_id'=>$user_id,
+				'UserCart.session_id'=>$session_id,
+			),
 			'UserCart.is_active'=>1,
 			'UserCart.is_deleted'=>0,
 		);
-		if($user_id != 0){
+		/* if($user_id != 0){
 			$cond['UserCart.user_id'] = $user_id;
 		}else{
 			$cond['UserCart.session_id'] = $session_id;
-		}
+		} */
 		$option = array(
 			'conditions'=>$cond,
 			'recursive'=>2,

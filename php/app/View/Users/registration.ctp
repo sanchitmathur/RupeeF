@@ -5,8 +5,13 @@
 	//pr($languages);
 	//pr($service);
 	
-	$service_id = isset($service['service_id'])?$service['service_id']:0;
-	$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0;
+	//$service_id = isset($service['service_id'])?$service['service_id']:0;
+	//$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0;
+	
+	$service = $this->Session->read('service');
+	
+	$service_ids = isset($service['service_ids'])?$service['service_ids']:0;
+	$service_package_ids = isset($service['service_package_ids'])?$service['service_package_ids']:0;
 	
 ?>
 	<div class="allcommon_body">
@@ -24,9 +29,11 @@
 								<?php
 									echo $this->Form->create(array('action'=>'logIn'));
 								?>
-									<input class="fastName" type="hidden" name="service_id" value="<?=$service_id?>" />
+									<input type="hidden" name="registration" value="1" />
 									
-									<input class="fastName" type="hidden" name="service_package_id" value="<?=$service_package_id?>" />
+									<input type="hidden" name="service_ids" value="<?=$service_ids?>" />
+									
+									<input type="hidden" name="service_package_ids" value="<?=$service_package_ids?>" />
 									
 									<input class="fastName" type="email" name="email" value="" placeHolder="Please Enter Email" />
 									
@@ -42,10 +49,10 @@
 								<div class="joinusing">
 									<p>Or Joining using</p>
 									<center>
-										<a href="javascript:void(0);">
+										<a href="<?=$config['BaseUrl']?>Users/facebookLogIn/1">
 											<img src="<?=$config['BaseUrl']?>img/fb_icon.png" class=""/>
 										</a>
-										<a href="javascript:void(0);">
+										<a href="<?=$config['BaseUrl']?>Users/googlePlusLogIn/1">
 											<img src="<?=$config['BaseUrl']?>img/google_icon.png" class=""/>
 										</a>
 										<a href="javascript:void(0);">
@@ -64,9 +71,11 @@
 								<?php
 									echo $this->Form->create(array('action'=>'signUp'));
 								?>
-									<input class="fastName" type="hidden" name="service_id" value="<?=$service_id?>" />
+									<input type="hidden" name="registration" value="1" />
 									
-									<input class="fastName" type="hidden" name="service_package_id" value="<?=$service_package_id?>" />
+									<input type="hidden" name="service_ids" value="<?=$service_ids?>" />
+									
+									<input type="hidden" name="service_package_ids" value="<?=$service_package_ids?>" />
 									
 									<input class="fastName" type="text" name="name" value="" placeHolder="Please Enter Name" />
 									
