@@ -220,19 +220,19 @@
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner" role="listbox">
 				  <div class="item active">
-					<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic" width="460" height="345"/>
+					<img src="<?=$config['BaseUrl']?>img/Mountains.jpg" class="sliderpic" width="460" height="345"/>
 				  </div>
 
 				  <div class="item">
-					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
+					<img src="<?=$config['BaseUrl']?>img/River Bank.jpg" class="sliderpic" width="460" height="345"/>
 				  </div>
 				
 				  <div class="item">
-					<img src="<?=$config['BaseUrl']?>img/slider1.png" class="sliderpic" width="460" height="345"/>
+					<img src="<?=$config['BaseUrl']?>img/Skyscraper.jpg" class="sliderpic" width="460" height="345"/>
 				  </div>
 
 				  <div class="item">
-					<img src="<?=$config['BaseUrl']?>img/slider2.png" class="sliderpic" width="460" height="345"/>
+					<img src="<?=$config['BaseUrl']?>img/facepalm-statue.jpg" class="sliderpic" width="460" height="345"/>
 				  </div>
 				</div>
 
