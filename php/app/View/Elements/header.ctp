@@ -587,7 +587,7 @@
 			<div class="col-md-6 left_child">
 				<div class="cancle_div2">
 					<a href="javascript:void(0);" id="subMenuClose">
-						<img src="<?=$config['BaseUrl']?>img/cross.png" class=""/>
+						<img src="<?=$config['BaseUrl']?>img/cross2.png" class=""/>
 					</a>
 				</div>
 				<h2 id="subMenuName"><!--Individual--></h2>
