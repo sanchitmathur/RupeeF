@@ -16,7 +16,7 @@
 		height:280px;
 	}
 	.slide{
-		height:280px;
+		height:240px;
 	}
 
 }
@@ -35,6 +35,12 @@
 	}
 	.inputfrom{
 		width:87%;
+	}
+	.signoutLogin{
+		top: 16px !important;
+	}
+	.login_Div li a {
+		font-size:14px;
 	}
 }
 
@@ -70,6 +76,8 @@
 		}
 	.header_all{
 		padding:10px 0;
+		height:inherit !important;
+		background-color:rgba(255, 255, 255, 0.9);
 	}
 	.desktop_menu{
 		display:none;
@@ -169,5 +177,72 @@
 	.location_seclect{
 		height:auto;
 	}
-	
+	.LeftNewmenu{
+		width:inherit !important;
+		position:relative;
+	}
+	.leftMenuIcon{
+		position: inherit !important;
+		/*top:0;
+		right:0;
+		z-index:999 !important;*/
+	}
+	.slidText{
+		padding:0 !important;
+	}
+	.slide_text{
+		padding:10px 0;
+	}
+	.slidText h2{
+		font-size:15px;
+	}
+	.slidText p {
+		font-size:15px;
+	}
+	.slider{
+		height:240px;
+		position:relative;
+	}
+	.navbarRes{
+		display:block;
+	}
+	.resDiv{
+		position: absolute !important;
+		right: 5px ;
+		top: 11px !important;
+		width: 84px !important;
+		padding: 0px;
+	}
+	.reedMore {
+		padding: inherit !important;
+		width: 100%;
+	}
+	.main_header{
+		padding:0;
+		background-color: rgba(255, 255, 255, 0.95);
+		box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+	}
+	.scrol_body{
+		display:none;
+	}
+	.allService{
+		width:100% !important;
+	}
+	.res_menuSub{
+		display:block;
+	}
+	.res_menuSub ul{
+	}
+		.res_menuSub ul li{
+			float:left;
+			padding:15px 20px;
+			border-right:1px solid #e3e3e3;
+			text-align:center;
+			border-bottom:1px solid #e3e3e3;
+		}
+		.res_menuSub ul li span{
+			font-size:14px;
+			display:block;
+			padding:8px 0 0 0;
+		}
 }

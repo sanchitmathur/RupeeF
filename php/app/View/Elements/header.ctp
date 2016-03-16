@@ -628,12 +628,19 @@
 		
 		<nav role="navigation" class="navbar navbar-default headerinn">
             <div class="navbar-header">
-                <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle" style="display:none;">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+				
+					<a href="index.php" class="navbarRes"><img src="<?=$config['BaseUrl']?>img/logo_sm_res.png" class="logimgres"></a><!--res_icon-->
+					
+						<!--a href="javascript:void(0)" class="navbar-brand navbrand leftMenuIcon" id="leftMenuIcon">
+							<img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/> Menu
+						</a><!--res_menu-->
+				
 				<div class="uperHeader">
 					<div class="col-sm-2 LeftNewmenu">
 						<a href="javascript:void(0)" class="navbar-brand navbrand leftMenuIcon" id="leftMenuIcon">
@@ -771,7 +778,7 @@
 				</div>
             </div>
             <!-- Collection of nav links and other content for toggling -->
-			<div class="responcive_menu">
+			<div class="responcive_menu" style="display:none;">
 				<div id="navbarCollapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right navigation_new">
 						<li><a href="javascript:void(0)">INDIVIDUAL <i class="fa fa-sort-desc dropMenu"></i></a></li>
