@@ -30,7 +30,7 @@
 		echo $this->Html->meta('icon');
 
 		//echo $this->Html->css('cake.generic');
-		echo $this->Html->css(array('style_sheet','responsive','font-awesome','bootstrap/bootstrap','bootstrap/bootstrap-theme.css'));
+		echo $this->Html->css(array('before_login','responsive','font-awesome','bootstrap/bootstrap','bootstrap/bootstrap-theme.css'));
 		echo $this->Html->script(array('jquery-2.2.0','bootstrap.min'));
 
 		echo $this->fetch('meta');
@@ -38,6 +38,10 @@
 		echo $this->fetch('script');
 		$config = Configure::read('RupeeForadian');
 		$userglobal_session_id = $this->Session->read('session_id');
+		$currentcontact = "";
+		$params = $this->params->params;
+		//pr($params);
+		$currentcontact = strtolower($params['controller'].$params['action']);
 	?>
 	<!-- update not login users session value -->
 	
@@ -48,6 +52,9 @@
 		var cookielifetime=365;
 		
 		$(document).ready(function(){
+			$(".before_Menunav ul .active").bind('click',noredirect);
+			$(".ask_expert .active").bind('click',noredirect);
+			
 			//get the user store session id
 			user_old_session_id = getCookie(rfchartsesid);
 			if (user_old_session_id!='' && user_old_session_id!='0') {
@@ -83,6 +90,10 @@
 			}
 		});
 		
+		function noredirect(e) {
+			e.preventDefault();
+		}
+		
 		function setCoockie(cname,cvalue,exdays){
 			var d = new Date();
 			d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -104,22 +115,27 @@
 </head>
 <body>
 	<div class="wraperr">
-		<div id="container">
-		
-			<div id="header">
-				<?php echo $this->element('header'); ?>
+		<div class="beforeLogin">
+			<div class="col-md-2">
+				<?php echo $this->element('logged_left_panel',array('currentcontact'=>$currentcontact));?>
+			</div><!--end_leftpert-->
+			<div class="col-md-10" style="padding-right:0;">
+				<div class="right_beforelogin">
+					<div class="rightHeader">
+						<?php echo $this->element('logged_header',array('currentcontact'=>$currentcontact));?>
+						<div class="clr"></div>
+					</div>
+					
+					<div class="right_beforebody">
+						
+						<?php echo $this->Session->flash(); ?>
+	
+						<?php echo $this->fetch('content'); ?>
+					</div>
+					
+				</div><!--end_rightpert-->
 			</div>
-			
-			<div id="content">
-				<?php echo $this->Session->flash(); ?>
-
-				<?php echo $this->fetch('content'); ?>
-			</div>
-			
-			<div id="footer">
-				<?php echo $this->element('footer'); ?>
-			</div>
-			
+			<div class="clr"></div>
 		</div>
 		<?php //echo $this->element('sql_dump'); ?>
 	</div>

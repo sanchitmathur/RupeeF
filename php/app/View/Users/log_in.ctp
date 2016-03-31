@@ -5,6 +5,81 @@
 	//pr($languages);
 	
 ?>
+<script type="text/javascript">
+	var redborder="border:1px solid red;";
+	var normborder = "border:1px solid #126abf;";
+	$(document).ready(function(){
+		$("#login").bind('click',loginformvalidate);
+		$(".fastName").bind('focusout',formfieldvalidate);
+	});
+	function loginformvalidate(e){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		var frmValidate=true;
+		$.each($(".fastName"),function(i,item){
+			var fldype = $(item).attr('type');
+			var fldval = $(item).val();
+			if (fldype=='email') {
+				if (!isValidEmail(fldval)) {
+					//imvalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+			else{
+				if (fldval.length==0 || fldval=='') {
+					//invalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+		});
+		
+		//form post sections
+		if (frmValidate) {
+			//post the form
+			//alert("fom validate");
+			$("#loginfrm").submit();
+		}
+	}
+	
+	function formfieldvalidate(e) {
+		var item = $(e.currentTarget);
+		
+		var fldype = $(item).attr('type');
+		var fldval = $(item).val();
+		if (fldype=='email') {
+			if (!isValidEmail(fldval)) {
+				//imvalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+		else{
+			if (fldval.length==0 || fldval=='') {
+				//invalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+	}
+	
+	function isValidEmail(email){
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		return regex.test(email);
+	}
+</script>
 	<div class="allcommon_body">
 		<div class="loginPage">
 			<div class="container">
@@ -19,7 +94,7 @@
 							<div class="col-md-6 left_login">
 								<h3>Already a member ?<span> please log in here</span></h3>
 								<?php
-									echo $this->Form->create(array('action'=>'logIn'));
+									echo $this->Form->create(array('action'=>'logIn','id'=>'loginfrm'));
 								?>
 									<input class="fastName" type="email" name="email" value="" placeHolder="Please Enter Email" />
 									
@@ -28,6 +103,7 @@
 									$option = array(
 										'label'=>'Log In',
 										'class'=>'next_button',
+										'id'=>'login'
 									);
 									echo $this->Form->end($option);
 								?>

@@ -339,6 +339,7 @@ class ServicesController extends AppController {
 				'session_id'=>$session_id,
 				'service_id'=>$service_id,
 				'service_package_id'=>$service_package_id,
+				'createtime'=>time()
 			)
 		);
 		// pr($saveData);

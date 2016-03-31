@@ -212,6 +212,5 @@ class MainServicesController extends AppController {
 		
 		$this->numberOfItemInCart();
 	}
- 
 	
 }

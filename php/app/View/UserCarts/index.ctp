@@ -24,6 +24,7 @@
 		setValues();
 		$('.package').bind('change',packageChangeHandler);
 		$('#proceed').bind('click',proceedClickHandler);
+		//$(".deletecart").bind('click',deleteTheCartItem);
 	});
 	
 	function packageChangeHandler(e){
@@ -33,6 +34,11 @@
 		$(e.currentTarget).parents('.parentTR').find(".description").html(description);
 		$(e.currentTarget).parents('.parentTR').find(".currency").html(currency);
 		$(e.currentTarget).parents('.parentTR').find(".amount").html(amount);
+		
+		//reset all price section
+		currency = "";
+		total = 0;
+		grand_total = 0;
 		
 		calculateTotal();
 		setValues();
@@ -85,6 +91,16 @@
 			window.location = baseUrl;
 			return false;
 		}
+		else{
+			return true;
+		}
+	}
+	
+	function deleteTheCartItem(e){
+		if(confirm("Are you sure to delete the cart item?")){
+			console.log("ok");
+			var delurl=baseUrl+"UserCart/delete";
+		}
 	}
 	
 </script>
@@ -119,6 +135,8 @@
 										<?php
 											if(isset($userCarts) && is_array($userCarts) && count($userCarts)>0){
 												foreach($userCarts as $userCart){
+													$cart_id = isset($userCart['UserCart']['id'])?$userCart['UserCart']['id']:0;
+													
 													$service_id = isset($userCart['Service']['id'])?$userCart['Service']['id']:0;
 													$service_name = isset($userCart['Service']['service_name'])?$userCart['Service']['service_name']:"";
 													$packge_id = isset($userCart['ServicePackage']['id'])?$userCart['ServicePackage']['id']:"";
@@ -157,9 +175,10 @@
 														</span>
 													</td>
 													<td class="">
-														<a href="javascript:void(0);">
+														<!--<a href="javascript:void(0);" class="deletecart" value="<?=$cart_id?>">
 															<i class="fa fa-trash-o delitIcon"></i>
-														</a>
+														</a>-->
+														<?php echo $this->Form->postLink(__('<i class="fa fa-trash-o delitIcon"></i>'), array('action' => 'delete', $cart_id), array('escape'=>false), __('Are you sure you want to delete this cart item ?')); ?>
 													</td>
 												</tr>
 										<?php

@@ -539,6 +539,7 @@
 	
 </script>
 	
+	
 	<div class="preloader" id="preloader">
 		<div class="preloader_3">
 			<img src="<?=$config['BaseUrl']?>img/preloader.gif" width="60"> 
@@ -552,12 +553,19 @@
 				<a href="javascript:void(0);">
 					<img src="<?=$config['BaseUrl']?>img/cross_icon.png" class="" id="leftMenuClose"/>
 				</a>
+				<?php
+					if(!$this->Session->check('user')){
+					?>
 				<a href="<?=$config['BaseUrl']?>Users/logIn" class="side_login">Login</a>
 				<div class="clr"></div>
 				<center>
 					<!--<input value="Sign up" id="btnsubmit" class="send_button" type="submit">-->
 					<a href="<?=$config['BaseUrl']?>Users/signUp" class="send_button">Sign Up</a>
-				</center>
+				</center>	
+					<?php	
+					}
+				?>
+				
 			</div>
 			<div class="close_menu">
 				<ul>
@@ -651,7 +659,8 @@
 						<div class="col-sm-2 scrolLogo">
 							<div class="main_logo_div">
 								<a href="<?=$config['BaseUrl']?>" class="navbar-brand navbrand" style="padding:0;">
-									<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon" id="logoIcon"/>
+									<!--<img src="<?=$config['BaseUrl']?>img/logo.png" class="logoicon" id="logoIcon"/>-->
+									<?php echo $this->Html->image('logo.png',array('class'=>'logoicon','id'=>'logoIcon'));?>
 								</a>
 							</div>
 						</div>
@@ -725,7 +734,7 @@
 						$user_name = isset($user['name'])?$user['name']:"";
 						if($user_id != 0){
 					?>
-							<ul class="sublogin_Div">
+							<ul class="sublogin_Div" style="background-color:black !important;">
 								<li>Welcome 
 									<?php
 										$len = strlen($user_name);
@@ -735,7 +744,9 @@
 											$name = $user_name;
 										}
 									?>
-									<span title="<?=ucwords($user_name)?>"><?=ucwords($name)?></span>
+									<span title="<?=ucwords($user_name)?>"><?=ucwords($name)?></br>
+										<?php echo $this->Html->link('My Account',array('controller'=>'Users','action'=>'index'));?>
+									</span>
 								</li>
 								<li>|</li>
 								<li>

@@ -22,8 +22,52 @@ class UsersController extends AppController {
  * @return void
  */
 	public function index() {
+		$this->layout="user_inner_main";
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
+	}
+/**
+ * documents method
+ * @return void
+ */
+	public function documents(){
+		$this->layout="user_inner_main";
+	}
+	
+/**
+ * notificaions method
+ *
+ * @return void
+ */
+	public function notifications(){
+		$this->layout="user_inner_main";
+	}
+	
+/**
+ * orderhistory method
+ *
+ * @return void
+ */
+	public function orderhistory(){
+		$this->layout="user_inner_main";
+	}
+	
+/**
+ * askexpert method
+ *
+ * @return void
+ */
+	public function askexpert(){
+		$this->layout="user_inner_main";
+	}
+	
+/**
+ * communication method
+ *
+ * @return void
+ */
+	public function communication(){
+		$this->layout="user_inner_main";
 	}
 
 /**
@@ -197,6 +241,7 @@ class UsersController extends AppController {
  */
 	public function registration(){
 		$this->layout = "main";
+		$this->loggeduserredirect();
 		
 		$service = array();
 		if($this->request->is('post','put')){
@@ -228,6 +273,9 @@ class UsersController extends AppController {
  * @return void
  */
 	public function signUp(){
+		
+		$this->loggeduserredirect();
+		
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
 			// pr($reqdata);
@@ -356,11 +404,15 @@ class UsersController extends AppController {
 				$user = array(
 					'user_id'=>$user_id,
 					'name'=>$name,
-					'email'=>$email
+					'email'=>$email,
+					'phone_no'=>$phone_no
 				);
 				$this->Session->write('user',$user);
 				
 				$this->Session->setFlash(__("Sign up successfully."));
+				
+				//update the cart item user data
+				$isupdate = $this->updatecartitemwithuser();
 				
 				/* $service = $this->Session->read('service');
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
@@ -411,11 +463,12 @@ class UsersController extends AppController {
  */
 	public function logIn(){
 		$this->layout = "main";
+		$this->loggeduserredirect();
 		
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
-			// pr($reqdata);
-			// die();
+			//pr($reqdata);
+			//die();
 			$registration = isset($reqdata['registration'])?$reqdata['registration']:0;
 			$email = isset($reqdata['email'])?$reqdata['email']:"";
 			$password = isset($reqdata['password'])?$reqdata['password']:"";
@@ -428,14 +481,17 @@ class UsersController extends AppController {
 					return $this->redirect(array('action'=>'logIn'));
 				}
 			}
-			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
-				$this->Session->setFlash(__("Please enter valid email."));
-				if($registration == 1){
-					return $this->redirect(array('action'=>'registration'));
-				}else{
-					return $this->redirect(array('action'=>'logIn'));
+			else{
+				if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+					$this->Session->setFlash(__("Please enter valid email."));
+					if($registration == 1){
+						return $this->redirect(array('action'=>'registration'));
+					}else{
+						return $this->redirect(array('action'=>'logIn'));
+					}
 				}
 			}
+			
 			if($password == ""){
 				$this->Session->setFlash(__("Please enter password."));
 				if($registration == 1){
@@ -460,12 +516,17 @@ class UsersController extends AppController {
 				$user_id = isset($userData['User']['id'])?$userData['User']['id']:0;
 				$name = isset($userData['User']['name'])?$userData['User']['name']:"";
 				$email = isset($userData['User']['email'])?$userData['User']['email']:"";
+				$phone_no = isset($userData['User']['phone_no'])?$userData['User']['phone_no']:"";
 				$user = array(
 					'user_id'=>$user_id,
 					'name'=>$name,
-					'email'=>$email
+					'email'=>$email,
+					'phone_no'=>$phone_no
 				);
 				$this->Session->write('user',$user);
+				
+				//update the cart item user data
+				$isupdate = $this->updatecartitemwithuser();
 				
 				/* $service = $this->Session->read('service');
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
@@ -490,6 +551,14 @@ class UsersController extends AppController {
 					return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 				}else{
 					return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+				}
+			}
+			else{
+				$this->Session->setFlash(__("Invalid Email Or Password."));
+				if($registration == 1){
+					return $this->redirect(array('action'=>'registration'));
+				}else{
+					return $this->redirect(array('action'=>'logIn'));
 				}
 			}
 		}
@@ -571,6 +640,8 @@ class UsersController extends AppController {
 				$email = $userData['User']['email'];
 				$fb_id = $userData['User']['fb_id'];
 				$image = $userData['User']['fb_image'];
+				$phone_no = $userData['User']['phone_no'];
+				
 				$this->User->id = $user_id;
 				if($email == ''){
 					$this->User->saveField('email',$fb_email);
@@ -597,15 +668,21 @@ class UsersController extends AppController {
 				$user_id = $this->User->id;
 				$name = $fb_name;
 				$email = $fb_email;
+				$phone_no='';
 			}
 			
 			//Set session
 			$user = array(
 				'user_id'=>$user_id,
 				'name'=>$name,
-				'email'=>$email
+				'email'=>$email,
+				'phone_no'=>$phone_no
 			);
 			$this->Session->write('user',$user);
+			
+			//update the cart item user data
+			$isupdate = $this->updatecartitemwithuser();
+			
 			if($registration == 1){
 				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 			}else{
@@ -694,7 +771,7 @@ class UsersController extends AppController {
 				$email = $userData['User']['email'];
 				$google_id = $userData['User']['google_id'];
 				$image = $userData['User']['google_image'];
-				
+				$phone_no = $userData['User']['phone_no'];
 				$this->User->id = $user_id;
 				if($email == ''){
 					$this->User->saveField('email',$google_email);
@@ -723,6 +800,7 @@ class UsersController extends AppController {
 				$name = $google_name;
 				$email = $google_email;
 				$image = $google_picture;
+				$phone_no='';
 			}
 			
 			//Set session
@@ -731,8 +809,13 @@ class UsersController extends AppController {
 				'name'=>$name,
 				'email'=>$email,
 				'image'=>$image,
+				'phone_no'=>$phone_no
 			);
 			$this->Session->write('user',$user);
+			
+			//update the cart item user data
+			$isupdate = $this->updatecartitemwithuser();
+				
 			if($registration == 1){
 				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 			}else{
@@ -758,6 +841,7 @@ class UsersController extends AppController {
  * @return void
  */
 	public function proceedToCheckout(){
+		
 		if($this->request->is('post','put')){
 			$reqdata = $this->request->data;
 			// pr($reqdata);
@@ -766,31 +850,118 @@ class UsersController extends AppController {
 			$service_package_ids = isset($reqdata['service_package_ids'])?$reqdata['service_package_ids']:"";
 			
 			$user = $this->Session->read('user');
+			
 			$user_id = isset($user['user_id'])?$user['user_id']:0;
+			$user_name=isset($user['name'])?$user['name']:'';
+			$user_email=isset($user['email'])?$user['email']:'';
+			$user_phone = isset($user['phone_no'])?$user['phone_no']:'';
+			
 			$session_id = $this->Session->read('session_id');
 			
 			$this->loadModel('ServicePackage');
 			$this->loadModel('UserService');
 			$this->loadModel('UserServicePackage');
 			$this->loadModel('UserCart');
+			$this->loadModel('Transaction');
 			
 			$service_ids = explode(',',$service_ids);
 			$service_package_ids = explode(',',$service_package_ids);
+			$purchase_datetime = date('Y-m-d H:i:s');
+			$purchasehaxcode = $this->generatepurchasehax($user_id);
+			//create t transaction recored
+			$total_service = count($service_ids);
+			if($total_service>0){
+				$transdata = array(
+					'Transaction'=>array(
+						'user_id'=>$user_id,
+						'is_completed'=>'0',
+						'total_service'=>$total_service
+					)
+				);
+				$this->Transaction->create();
+				if($this->Transaction->save($transdata)){
+					$transaction_id = $this->Transaction->id;
+					$totalpayingcost=0;
+					for($i=0; $i<$total_service; $i++){
+						$service_id = $service_ids[$i];
+						$service_package_id = $service_package_ids[$i];
+						
+						$this->ServicePackage->unbindModel(array(
+							'belongsTo'=>array('Service'),
+						));
+						$servicePackageData = $this->ServicePackage->findById($service_package_id);
+						
+						$package_name = isset($servicePackageData['ServicePackage']['package_name'])?$servicePackageData['ServicePackage']['package_name']:"";
+						$description = isset($servicePackageData['ServicePackage']['description'])?$servicePackageData['ServicePackage']['description']:"";
+						$amount = isset($servicePackageData['ServicePackage']['amount'])?$servicePackageData['ServicePackage']['amount']:0;
+						$currency = isset($servicePackageData['ServicePackage']['currency'])?$servicePackageData['ServicePackage']['currency']:"";
+						
+						$totalpayingcost+=$amount;
+						
+						$saveServicePackage = array(
+							'UserServicePackage'=>array(
+								'user_id'=>$user_id,
+								'service_id'=>$service_id,
+								'service_package_id'=>$service_package_id,
+								'transaction_id'=>$transaction_id,
+								'package_name'=>$package_name,
+								'description'=>$description,
+								'amount'=>$amount,
+								'currency'=>$currency,
+								'purchase_datetime'=>$purchase_datetime,
+							)
+						);
+						$this->UserServicePackage->create();
+						$this->UserServicePackage->save($saveServicePackage);
+					}
+					//now update the transaction with the total paying cost amount
+					$upcond= array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'0');
+					$updata = array('Transaction.total_service_cost'=>$totalpayingcost);
+					$this->Transaction->updateAll($updata,$upcond);
+					
+					$postdata = array(
+						'amount'=>$totalpayingcost,
+						'trnsid'=>$transaction_id,
+						'productinfo'=>'Service Enable payment',
+						'firstname'=>$user_name,
+						'email'=>$user_email,
+						'phone'=>$user_phone
+					);
+					
+					$this->Session->write('postdata',$postdata);
+					
+					return $this->redirect(array('action'=>'payupaymentsecondstep'));
+					//$this->set('posted',$postdata);
+				}
+				else{
+					$this->Session->setFlash(__("Please try again"));
+					return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+				}
+			}
+			else{
+				//
+				$this->Session->setFlash(__("No item in the cart"));
+				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+			}
 			
-			for($i=0; $i<count($service_ids); $i++){
+			/*for($i=0; $i<count($service_ids); $i++){
 				$service_id = $service_ids[$i];
 				$service_package_id = $service_package_ids[$i];
-				$purchase_datetime = date('Y-m-d H:i:s');
+				
 				$saveService = array(
 					'UserService'=>array(
 						'user_id'=>$user_id,
 						'service_id'=>$service_id,
 						'purchase_datetime'=>$purchase_datetime,
+						'purchase_hax'=>$purchasehaxcode,
+						'transactionid'=>'0'
 					)
 				);
 				// pr($saveService);
 				$this->UserService->create();
 				$this->UserService->save($saveService);
+				
+				//move this portion after make payment
 				
 				$this->ServicePackage->unbindModel(array(
 					'belongsTo'=>array('Service'),
@@ -817,9 +988,9 @@ class UsersController extends AppController {
 				// die();
 				$this->UserServicePackage->create();
 				$this->UserServicePackage->save($saveServicePackage);
-			}
+			}  */
 			
-			$updateCartData = array(
+			/*$updateCartData = array(
 				'UserCart.is_active'=>'0',
 				'UserCart.is_deleted'=>'1',
 			);
@@ -832,18 +1003,233 @@ class UsersController extends AppController {
 				'UserCart.is_active'=>'1',
 				'UserCart.is_deleted'=>'0',
 			);
-			/* if($user_id != 0){
-				$updateCartCond['UserCart.user_id'] = $user_id;
-			}else{
-				$updateCartCond['UserCart.session_id'] = $session_id;
-			} */
+			
 			$this->UserCart->updateAll($updateCartData,$updateCartCond);
+			
 			$this->Session->setFlash(__("Services checked out successfully."));
 			
-			$this->numberOfItemInCart();
+			$this->numberOfItemInCart();*/
+			
+			
 		}
-		return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+		else{
+			return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+		}
+		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 	}
 	
+	public function payupaymentsecondstep(){
+		//$this->layout="main";
+		
+		$formError=0;
+		$islive=false;
+		if($islive){
+			//foodlure data
+			$MERCHANT_KEY = "KIOSZEP5";
+			$SALT = "b0RWEpJPos";
+			$PAYU_BASE_URL = "https://secure.payu.in";
+		}
+		else{
+			$MERCHANT_KEY = "Vw997n";
+			$SALT = "4womTBoq";
+			$PAYU_BASE_URL = "https://test.payu.in";
+		}
+		
+		$surl=FULL_BASE_URL.$this->base."/Users/paymentsuccess";
+		$furl=FULL_BASE_URL.$this->base."/Users/paymenterror";
+		$action='';
+		
+		if($this->request->is('post')){
+			$posteddata = $this->request->data;
+			$transaction_id = isset($posteddata['udf1'])?$posteddata['udf1']:'';
+			$amount = isset($posteddata['amount'])?$posteddata['amount']:'0';
+			$email = isset($posteddata['email'])?$posteddata['email']:'';
+			$phone = isset($posteddata['phone'])?$posteddata['phone']:'';
+			$firstname = isset($posteddata['firstname'])?$posteddata['firstname']:'';
+			$productinfo='Service Enable payment';
+			$txnid = isset($posteddata['txnid'])?$posteddata['txnid']:'';
+			$hash = isset($posteddata['hash'])?$posteddata['hash']:'';
+			$hash='';
+			//validate all mendatory fields
+			/*if($firstname==''){
+				
+			}*/
+			
+			
+			
+			//now go to payu payment section
+			$posted = array(
+				'surl'=>$surl,
+				'furl'=>$furl,
+				'amount'=>$amount,
+				'productinfo'=>$productinfo,
+				'txnid'=>$txnid,
+				'hash'=>$hash,
+				'marchant_key'=>$MERCHANT_KEY,
+				'salt'=>$SALT,
+				'payu_base_url'=>$PAYU_BASE_URL,
+				'service_provider'=>'payu_paisa',
+				'phone'=>$phone,
+				'email'=>$email,
+				'firstname'=>$firstname,
+				'key'=>$MERCHANT_KEY,
+				'udf1'=>$transaction_id,
+				'trnsid'=>$transaction_id
+			);
+			//pr($posted);
+			
+			$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+			if(empty($posted['hash']) && sizeof($posted) > 0) {
+				if(
+				  empty($posted['key'])
+				  || empty($posted['txnid'])
+				  || empty($posted['amount'])
+				  || empty($posted['firstname'])
+				  || empty($posted['email'])
+				  || empty($posted['phone'])
+				  || empty($posted['productinfo'])
+				  || empty($posted['surl'])
+				  || empty($posted['furl'])
+				  || empty($posted['service_provider'])
+				) {
+					$formError = 1;
+				}
+				else{
+					$hashVarsSeq = explode('|', $hashSequence);
+					$hash_string = '';	
+					foreach($hashVarsSeq as $hash_var) {
+						$hash_string .= isset($posted[$hash_var]) ? $posted[$hash_var] : '';
+						$hash_string .= '|';
+					}
+				    
+					$hash_string .= $SALT;
+					$hash = strtolower(hash('sha512', $hash_string));
+					$action = $PAYU_BASE_URL . '/_payment';
+					$posted['hash']=$hash;
+				}
+			}
+			elseif(!empty($posted['hash'])) {
+			  $hash = $posted['hash'];
+			  $action = $PAYU_BASE_URL . '/_payment';
+			  $posted['hash']=$hash;
+			}
+			else{
+				//error
+				$formError=2;
+			}
+			//echo $action;
+			//echo $formError;
+			//die();
+			$this->set('action',$action);
+			$this->set('posted',$posted);
+			$this->set('formError',$formError);
+			$this->set('hash',$hash);
+		}
+		else{
+			$postdata = $this->Session->read('postdata');
+			
+			/*$islive=false;
+			if($islive){
+				//foodlure data
+				$MERCHANT_KEY = "KIOSZEP5";
+				$SALT = "b0RWEpJPos";
+				$PAYU_BASE_URL = "https://secure.payu.in";
+			}
+			else{
+				$MERCHANT_KEY = "Vw997n";
+				$SALT = "4womTBoq";
+				$PAYU_BASE_URL = "https://test.payu.in";
+			}
+			//varialr build
+			
+			$hash="";
+			$surl=FULL_BASE_URL.$this->base."Users/success";
+			$furl=FULL_BASE_URL.$this->base."Users/error";
+			$action='';*/
+			
+			$hash='';
+			$txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+			//now go to payu payment section
+			$posted = array(
+				'surl'=>$surl,
+				'furl'=>$furl,
+				'txnid'=>$txnid,
+				'hash'=>$hash,
+				'marchant_key'=>$MERCHANT_KEY,
+				'salt'=>$SALT,
+				'payu_base_url'=>$PAYU_BASE_URL,
+				'service_provider'=>'payu_paisa',
+				'key'=>$MERCHANT_KEY,
+			);
+			if(is_array($postdata) && count($postdata)>0){
+				$postdata = array_merge($postdata,$posted);
+			}
+			else{
+				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+			}
+			//pr($postdata);
+			$this->set('action','');
+			$this->set('posted',$postdata);
+			$this->set('formError',$formError);
+			$this->set('hash','');
+		}
+	}
 	
+	public function paymentsuccess(){
+		if($this->request->is('post')){
+			$payureturnsdata = $this->request->data;
+		}
+		else{
+			$payureturnsdata=isset($_POST)?$_POST:array();
+		}
+		//main sections
+		$succees=false;
+		$transid='';
+		if(is_array($payureturnsdata) && count($payureturnsdata)>0){
+			$status = isset($payureturnsdata['status'])?$payureturnsdata['status']:'';
+			if($status=="success"){
+				$transaction_id = isset($payureturnsdata['udf1'])?$payureturnsdata['udf1']:'0';
+				$paying_amount = isset($payureturnsdata['amount'])?$payureturnsdata['amount']:'0';
+				$transid = $payureturnsdata['mihpayid'];
+				if($transaction_id>0){
+					$this->loadModel('Transaction');
+					$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'0');
+					$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
+					if(is_array($transaction) && count($transaction)>0){
+						$amount = $transaction['Transaction']['total_service_cost'];
+						if($amount==$paying_amount){
+							//now update the table
+							$updata = array('Transaction.is_completed'=>'1');
+							$this->Transaction->updateAll($updata,$finscond);
+							$succees=true;
+						}
+					}
+					else{
+						//recored not found
+					}
+				}
+			}
+			else{
+					
+			}
+			
+		}
+		$this->set('transid',$transid);
+		$this->set('success',$succees);
+		//pr($payureturnsdata);
+		//die();
+	}
+	
+	public function paymenterror(){
+		
+		if($this->request->is('post')){
+			$payureturnsdata = $this->request->data;
+		}
+		else{
+			echo "norm post";
+			$payureturnsdata=isset($_POST)?$_POST:array();
+		}
+		//pr($payureturnsdata);
+		//die();
+	}
 }

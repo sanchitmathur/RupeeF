@@ -14,6 +14,183 @@
 	$service_package_ids = isset($service['service_package_ids'])?$service['service_package_ids']:0;
 	
 ?>
+<script type="text/javascript">
+	var redborder="border:1px solid red;";
+	var normborder = "border:1px solid #126abf;";
+	$(document).ready(function(){
+		$("#login").bind('click',loginformvalidate);
+		$(".fastName").bind('focusout',formfieldvalidate);
+		
+		$("#signup").bind('click',signupformvalidate);
+		//$("#signupfrm .fastName").bind('focusout',formfieldvalidate);
+	});
+	
+	function loginformvalidate(e){
+		e.preventDefault();
+		e.stopPropagation();
+		var frmValidate=true;
+		$.each($("#loginfrm .fastName"),function(i,item){
+			var fldype = $(item).attr('type');
+			var fldval = $(item).val();
+			if (fldype=='email') {
+				if (!isValidEmail(fldval)) {
+					//imvalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+			else{
+				if (fldval.length==0 || fldval=='') {
+					//invalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+		});
+		
+		//form post sections
+		if (frmValidate) {
+			//post the form
+			//alert("login form validate");
+			$("#loginfrm").submit();
+		}
+		else{
+			//alert("login form validate fail");
+		}
+	}
+	
+	function signupformvalidate(e){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		var frmValidate=true;
+		$.each($("#signupfrm .fastName"),function(i,item){
+			var fldype = $(item).attr('type');
+			var fldval = $(item).val();
+			if (fldype=='email') {
+				if (!isValidEmail(fldval)) {
+					//imvalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+			else if (fldype=='number') {
+				if (!$.isNumeric(fldval) || fldval<=-1 ) {
+					//invalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+			else{
+				if (fldval.length==0 || fldval=='' || fldval=='0') {
+					//invalid
+					frmValidate=false;
+					$(item).attr('style',redborder);
+				}
+				else{
+					$(item).attr('style',normborder);
+				}
+			}
+		});
+		
+		//form post sections
+		if (frmValidate) {
+			//post the form
+			//alert("form validate signup");
+			$("#signupfrm").submit();
+		}
+		else{
+			//alert("form validate signup faild");
+		}
+	}
+	
+	function formfieldvalidate(e) {
+		var item = $(e.currentTarget);
+		
+		var fldype = $(item).attr('type');
+		var fldval = $(item).val();
+		if (fldype=='email') {
+			if (!isValidEmail(fldval)) {
+				//imvalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+		else if (fldype=='number') {
+			if (!$.isNumeric(fldval) || fldval<=-1 ) {
+				//invalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+		else{
+			if (fldval.length==0 || fldval=='') {
+				//invalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+	}
+	
+	
+	
+	/*function formfieldvalidate(e) {
+		var item = $(e.currentTarget);
+		
+		var fldype = $(item).attr('type');
+		var fldval = $(item).val();
+		if (fldype=='email') {
+			if (!isValidEmail(fldval)) {
+				//imvalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+		else if (fldype=='number') {
+			if (!$.isNumeric(fldval) || fldval<=-1 ) {
+				//invalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+		else{
+			if (fldval.length==0 || fldval=='' || fldval=='0') {
+				//invalid
+				$(item).attr('style',redborder);
+			}
+			else{
+				$(item).attr('style',normborder);
+			}
+		}
+	}*/
+	
+	function isValidEmail(email){
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		return regex.test(email);
+	}
+</script>
 	<div class="allcommon_body">
 		<div class="loginPage">
 			<div class="container">
@@ -27,7 +204,7 @@
 								<h3>Already a member ?<span> please log in here</span></h3>
 								
 								<?php
-									echo $this->Form->create(array('action'=>'logIn'));
+									echo $this->Form->create(array('action'=>'logIn','id'=>'loginfrm'));
 								?>
 									<input type="hidden" name="registration" value="1" />
 									
@@ -42,6 +219,7 @@
 									$option = array(
 										'label'=>'Next',
 										'class'=>'next_button',
+										'id'=>'login'
 									);
 									echo $this->Form->end($option);
 								?>
@@ -69,7 +247,7 @@
 								<h3>New member ?<span> please sign up here</span></h3>
 								
 								<?php
-									echo $this->Form->create(array('action'=>'signUp'));
+									echo $this->Form->create(array('action'=>'signUp','id'=>'signupfrm'));
 								?>
 									<input type="hidden" name="registration" value="1" />
 									
@@ -85,7 +263,7 @@
 									
 									<input class="fastName" type="password" name="confpassword" value="" placeHolder="Please Confirm Password" />
 									
-									<input class="fastName" type="text" name="phone_no" value="" placeHolder="Please Enter Phone No." />
+									<input class="fastName" type="number" name="phone_no" value="" placeHolder="Please Enter Phone No." />
 									
 									<!--<input class="fastName" type="text" name="address" value="" placeHolder="Please Enter Address" />-->
 									<textarea class="fastName" name="address" rows="2" placeholder="Please Enter Address" ></textarea>
@@ -116,6 +294,7 @@
 									$option = array(
 										'label'=>'Next',
 										'class'=>'next_button',
+										'id'=>'signup'
 									);
 									echo $this->Form->end($option);
 								?>

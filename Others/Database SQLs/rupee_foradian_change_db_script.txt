@@ -1,0 +1,60 @@
+Today(26-03-16):
+———————————————
+
+DROP TABLE IF EXISTS `rf_document_types`;
+CREATE TABLE IF NOT EXISTS `rf_document_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  `is_blocked` int(1) NOT NULL,
+  `is_deleted` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `rf_service_documents`;
+CREATE TABLE IF NOT EXISTS `rf_service_documents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `service_id` int(11) NOT NULL,
+  `document_type_id` int(11) NOT NULL,
+  `is_blocked` int(1) NOT NULL,
+  `is_deleted` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `rf_user_documents`;
+CREATE TABLE IF NOT EXISTS `rf_user_documents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `document_type_id` int(11) NOT NULL,
+  `doc_name` varchar(254) NOT NULL,
+  `doc_status` int(1) NOT NULL,
+  `is_deleted` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `rf_user_carts` ADD `createtime` INT(11) NOT NULL AFTER `service_package_id`;
+
+ALTER TABLE `rf_user_services` ADD `purchase_hax` VARCHAR(254) NOT NULL AFTER `purchase_datetime`, ADD `transactionid` VARCHAR(254) NOT NULL AFTER `purchase_hax`, ADD `transactiondetail` TEXT NOT NULL AFTER `transactionid`;
+
+ALTER TABLE `rf_user_services` ADD `transaction_done` INT(1) NOT NULL AFTER `transactiondetail`;
+
+Today(28-03-16):
+———————————————-
+ALTER TABLE `rf_user_service_packages` ADD `service_id` INT(11) NOT NULL AFTER `user_id`;
+
+ALTER TABLE `rf_user_service_packages` ADD `transection_id` INT(11) NOT NULL AFTER `purchase_datetime`;
+
+
+DROP TABLE IF EXISTS `rf_transactions`;
+CREATE TABLE IF NOT EXISTS `rf_transactions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `trans_detail` text NOT NULL,
+  `is_completed` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `rf_transactions` ADD `total_service` INT(3) NOT NULL AFTER `user_id`, ADD `total_service_cost` DOUBLE NOT NULL AFTER `total_service`;
+
+ALTER TABLE `rf_user_service_packages` CHANGE `transection_id` `transaction_id` INT(11) NOT NULL;

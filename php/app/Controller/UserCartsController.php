@@ -33,6 +33,32 @@ class UserCartsController extends AppController {
 		$user_id = isset($user['user_id'])?$user['user_id']:0;
 		$session_id = $this->Session->read('session_id');
 		
+		if($user_id > 0){
+			$updateData = array(
+				'UserCart.user_id'=>"'".$user_id."'"
+			);
+			$updateCond = array(
+				'UserCart.session_id'=>$session_id
+			);
+			$this->UserCart->updateAll($updateData,$updateCond);
+		}
+		
+		/*$cond = array(
+			//'UserCart.user_id'=>$user_id,
+			'OR'=>array(
+				'UserCart.user_id'=>$user_id,
+				'UserCart.session_id'=>$session_id,
+			),
+			'UserCart.is_active'=>1,
+			'UserCart.is_deleted'=>0,
+		);*/
+		
+		/* if($user_id != 0){
+			$cond['UserCart.user_id'] = $user_id;
+		}else{
+			$cond['UserCart.session_id'] = $session_id;
+		} */
+		
 		$this->UserCart->unbindModel(array(
 			'belongsTo'=>array('User'),
 		));
@@ -44,30 +70,17 @@ class UserCartsController extends AppController {
 			'belongsTo'=>array('Service'),
 		));
 		
-		if($user_id != 0){
-			$updateData = array(
-				'UserCart.user_id'=>"'".$user_id."'"
-			);
-			$updateCond = array(
-				'UserCart.session_id'=>$session_id
-			);
-			$this->UserCart->updateAll($updateData,$updateCond);
-		}
-		
 		$cond = array(
-			//'UserCart.user_id'=>$user_id,
-			'OR'=>array(
-				'UserCart.user_id'=>$user_id,
-				'UserCart.session_id'=>$session_id,
-			),
 			'UserCart.is_active'=>1,
 			'UserCart.is_deleted'=>0,
 		);
-		/* if($user_id != 0){
-			$cond['UserCart.user_id'] = $user_id;
-		}else{
-			$cond['UserCart.session_id'] = $session_id;
-		} */
+		if($user_id > 0){
+			$cond['UserCart.user_id']=$user_id;
+		}
+		else{
+			$cond['UserCart.session_id']=$session_id;
+		}
+		
 		$option = array(
 			'conditions'=>$cond,
 			'recursive'=>2,
@@ -156,11 +169,15 @@ class UserCartsController extends AppController {
 			throw new NotFoundException(__('Invalid user cart'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->UserCart->delete()) {
+		//need to update the flad as delete
+		$this->UserCart->saveField('is_deleted','1');
+		$this->Session->setFlash(__('The user cart has been deleted.'));
+		/*if ($this->UserCart->delete()) {
 			$this->Session->setFlash(__('The user cart has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The user cart could not be deleted. Please, try again.'));
-		}
+		}*/
+		
 		return $this->redirect(array('action' => 'index'));
 	}
 
@@ -257,6 +274,25 @@ class UserCartsController extends AppController {
 			$this->Session->setFlash(__('The user cart could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+	
+/**
+ * usersessionvalueupdate method
+ */
+	public function usersessionvalueupdate(){
+		$status='0';
+		if($this->request->is('post')){
+			$postdata = $this->request->data;
+			$old_session_value = (isset($postdata['old_session_id']))?$postdata['old_session_id']:'';
+			$new_session_value = (isset($postdata['new_session_value']))?$postdata['new_session_value']:'';
+			if($old_session_value!='' && $new_session_value!=''){
+				$status='1';
+				$updatecond = array('UserCart.session_id'=>$old_session_value,'UserCart.user_id'=>'0','UserCart.is_deleted'=>'0','UserCart.is_active'=>'1');
+				$updatedata = array('UserCart.session_id'=>$new_session_value);
+				$this->UserCart->updateAll($updatedata,$updatecond);
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>'Session value update')));
 	}
 	
 }
