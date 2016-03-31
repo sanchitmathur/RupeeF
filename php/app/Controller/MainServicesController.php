@@ -110,6 +110,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
 		$this->MainService->recursive = 0;
 		$this->set('mainServices', $this->Paginator->paginate());
 	}
@@ -122,6 +123,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
 		if (!$this->MainService->exists($id)) {
 			throw new NotFoundException(__('Invalid main service'));
 		}
@@ -135,6 +137,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->layout="admindefault";
 		if ($this->request->is('post')) {
 			$this->MainService->create();
 			if ($this->MainService->save($this->request->data)) {
@@ -154,6 +157,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
 		if (!$this->MainService->exists($id)) {
 			throw new NotFoundException(__('Invalid main service'));
 		}
@@ -178,6 +182,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
 		$this->MainService->id = $id;
 		if (!$this->MainService->exists()) {
 			throw new NotFoundException(__('Invalid main service'));
