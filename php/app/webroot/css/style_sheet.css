@@ -1236,7 +1236,7 @@ sup {
 		float:right;
 	}
 	.sublogin_Div li{
-		color:#fff !important;
+		color:#000 !important;
 		text-align:right;
 		float:left;
 		font-weight:400;
@@ -1249,8 +1249,21 @@ sup {
 		font-size:16px;
 		font-weight:300;
 	}
+	.myacc{
+		text-align:left !important;
+		padding-top:5px !important;
+	}
+	.myacc a{
+		font-size:14px !important;
+		font-weight:300 !important;
+		display:block !important;
+	}
+	.myacc a:hover{
+		text-decoration:underline !important;
+	}
+	
 	.sublogin_Div li a{
-		color:#fff;
+		color:#000;
 		border:none !important;
 		margin:0;
 		padding:0;

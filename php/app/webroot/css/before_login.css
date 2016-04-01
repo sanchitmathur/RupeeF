@@ -618,3 +618,28 @@ sup {
         font-size: 1.5em;
         top: -13px;
     }
+	.docADD h3{
+		text-align:right;
+		margin:0;
+		padding:0;
+	}
+	.docADD h3 a{
+		color: #000;
+		padding: 0 15px 15px 0;
+		font-size: 16px;
+		font-weight:300;
+		display: block;
+		transition: all 0.4s ease;
+	}
+	.docADD h3 a:hover{
+		color:#0c94d0;
+	}
+	.suced{
+		width:40px !important;
+		height:40px !important;
+		padding:0 !important;
+	}
+	.ricon2{
+		width:100%;
+		padding:6px 0;
+	}

@@ -734,19 +734,23 @@
 						$user_name = isset($user['name'])?$user['name']:"";
 						if($user_id != 0){
 					?>
-							<ul class="sublogin_Div" style="background-color:black !important;">
-								<li>Welcome 
-									<?php
-										$len = strlen($user_name);
-										if($len > 6){
-											$name = substr($user_name,0,6).'...';
-										}else{
-											$name = $user_name;
-										}
-									?>
-									<span title="<?=ucwords($user_name)?>"><?=ucwords($name)?></br>
+							<ul class="sublogin_Div">
+								<li>
+									<div style="width:100%;">
+										Welcome 
+										<?php
+											$len = strlen($user_name);
+											if($len > 6){
+												$name = substr($user_name,0,6).'...';
+											}else{
+												$name = $user_name;
+											}
+										?>
+										<span title="<?=ucwords($user_name)?>"><?=ucwords($name)?></span>
+									</div>
+									<div class="myacc">
 										<?php echo $this->Html->link('My Account',array('controller'=>'Users','action'=>'index'));?>
-									</span>
+									</div>
 								</li>
 								<li>|</li>
 								<li>

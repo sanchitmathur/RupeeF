@@ -1,6 +1,14 @@
 <?php
 
 ?>
+<div class="docADD">
+		<h3>
+			<a href="javascript:void(0)">
+				<i class="fa fa-plus-circle plus"></i> 
+				Add Document
+			</a>
+		</h3>
+</div>
 <div class="table-responsive documentTable">
 	<table class="table table-striped">
 	  <thead>
