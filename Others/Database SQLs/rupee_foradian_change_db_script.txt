@@ -58,3 +58,43 @@ CREATE TABLE IF NOT EXISTS `rf_transactions` (
 ALTER TABLE `rf_transactions` ADD `total_service` INT(3) NOT NULL AFTER `user_id`, ADD `total_service_cost` DOUBLE NOT NULL AFTER `total_service`;
 
 ALTER TABLE `rf_user_service_packages` CHANGE `transection_id` `transaction_id` INT(11) NOT NULL;
+
+Today(01-04-16):
+================
+ALTER TABLE `rf_user_documents` CHANGE `doc_status` `doc_status` INT(1) NOT NULL COMMENT '0=uploaded,1=aproved,2=cancelled';
+
+
+DROP TABLE IF EXISTS `rf_notifications`;
+CREATE TABLE IF NOT EXISTS `rf_notifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `notify_txt` text NOT NULL,
+  `notify_date` datetime NOT NULL,
+  `is_user_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+Today(04-04-16):
+================
+ALTER TABLE `rf_document_types` ADD `is_user_provide` INT(1) NOT NULL DEFAULT '1' AFTER `name`;
+
+
+DROP TABLE IF EXISTS `rf_communications`;
+CREATE TABLE IF NOT EXISTS `rf_communications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `admin_user_id` int(11) NOT NULL,
+  `reciever_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `is_user_post` int(1) NOT NULL DEFAULT '0',
+  `create_date` datetime NOT NULL,
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+ALTER TABLE `rf_user_service_packages` ADD `is_completed` INT(1) NOT NULL DEFAULT '0' AFTER `transaction_id`;
+
+===uploaded on the server on 04-04-16 ======
+

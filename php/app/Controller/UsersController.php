@@ -14,7 +14,8 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator', 'Session');
+	public $components = array('Paginator', 'Session', 'Thumb');
+	public $user_page_limit=30;
 
 /**
  * index method
@@ -23,8 +24,53 @@ class UsersController extends AppController {
  */
 	public function index() {
 		$this->layout="user_inner_main";
-		$this->User->recursive = 0;
-		$this->set('users', $this->Paginator->paginate());
+		//validation
+		$this->usersessionchecked();
+		$user_id = $this->Session->read('user.user_id');
+		//get all byed service data og the user
+		$this->loadModel('UserServicePackage');
+		$findcond = array(
+			'UserServicePackage.user_id'=>$user_id,
+			'UserServicePackage.transaction_id >'=>'0',
+			'UserServicePackage.is_blocked'=>'0',
+			'UserServicePackage.is_deleted'=>'0',
+			'Transaction.id >'=>'0',
+			'Transaction.is_completed'=>'1',
+			'UserServicePackage.is_completed'=>'0'
+		);
+		//unbind models
+		$this->UserServicePackage->unbindModel(array(
+			'belongsTo'=>array('User','ServicePackage')
+		));
+		$this->UserServicePackage->ServicePackage->unbindModel(array(
+			'belongsTo'=>array('Service')
+		));
+		$this->UserServicePackage->Service->unbindModel(array(
+			'hasMany'=>array('ServiceAdvantage','ServiceFaq','ServicePackage')
+		));
+		$this->UserServicePackage->Service->SubService->unbindModel(array(
+			'belongsTo'=>array('MainService'),
+			'hasMany'=>array('Service')
+		));
+		$this->UserServicePackage->Transaction->unbindModel(array(
+			'hasMany'=>array('UserServicePackage')
+		));
+		//
+		//now bind the service doct
+		
+		$userservicepackages = $this->UserServicePackage->find('all',array('recursive'=>'3','conditions'=>$findcond));
+		//all uploaded doc of the user
+		$uploaddocfindcond = array('UserDocument.user_id'=>$user_id,'UserDocument.doc_status'=>array('0','1'),'UserDocument.is_deleted'=>'0');
+		$this->User->UserDocument->displayField="document_type_id";
+		$userdocuments = $this->User->UserDocument->find('list',array('conditions'=>$uploaddocfindcond));
+		if(is_array($userdocuments) && count($userdocuments)>0){
+			$userdocuments = array_keys($userdocuments);
+		}
+		else{
+			$userdocuments=array();
+		}
+		$this->set('userdocuments',$userdocuments);
+		$this->set('userservicepackages',$userservicepackages);
 	}
 /**
  * documents method
@@ -32,6 +78,192 @@ class UsersController extends AppController {
  */
 	public function documents(){
 		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		//get all the documents and
+		$user_id = $this->Session->read('user.user_id');
+		$findcod=array('UserDocument.user_id'=>$user_id,'UserDocument.is_deleted'=>'0');
+		$userdocumens = $this->User->UserDocument->find('all',array('recursive'=>'1','conditions'=>$findcod,'limit'=>$this->user_page_limit));
+		
+		$this->set('userdocumens',$userdocumens);
+	}
+	
+/**
+ * documentupload method
+ * @param string $id
+ * @return void
+ */
+	public function documentupload($id=null){
+		$this->layout="user_inner_main";
+		//load model
+		$this->loadModel('DocumentType');
+		//validation
+		$this->usersessionchecked();
+		$user=$this->Session->read('user');
+		$user_id=$user['user_id'];
+		
+		if($this->request->is(array('post','put'))){
+			$posteddata = $this->request->data;
+			$doctypeid = isset($posteddata['UserDocument']['document_type_id'])?$posteddata['UserDocument']['document_type_id']:0;
+			$doctfile = isset($posteddata['UserDocument']['doc_name'])?$posteddata['UserDocument']['doc_name']:array();
+			$olddoctfile = isset($posteddata['UserDocument']['old_doc_name'])?$posteddata['UserDocument']['old_doc_name']:'';
+			$doc_id = isset($posteddata['UserDocument']['id'])?$posteddata['UserDocument']['id']:'0';
+			//pr($posteddata);
+			//die();
+			
+			//validation
+			$message="";
+			if($doctypeid<1){
+				$message.="Please choose one document type";
+			}
+			else{
+				//file validation
+				if(isset($doctfile['size']) && $doctfile['size']>0){
+					$filename = time()."_".$this->replacespecialcharacter($doctfile['name']);
+					$alltypefilepaths = $this->alltypefilepaths();
+					$basepath = $alltypefilepaths['dic']['userdocument'];
+					$isImage=true;
+					if(!in_array(strtolower($doctfile['type']),$this->allowedimageType)){
+						$isImage=false;
+					}
+					
+					if(move_uploaded_file($doctfile['tmp_name'],$basepath.$filename)){
+						//after upload create thum nail
+						if($isImage){
+							$soucepath=$basepath.$filename;
+							$destination = $alltypefilepaths['dic']['userdocument_thumb'].$filename;
+							$this->Thumb->createthumb( $soucepath, $destination, $this->thu , $height = 0 ) ;
+						}
+						
+						//old doct file should remove from the
+						if($olddoctfile!=''){
+							$bgfls=$basepath.$olddoctfile;
+							$thmbfls=$alltypefilepaths['dic']['userdocument_thumb'].$olddoctfile;
+							if(file_exists($bgfls)){
+								unlink($bgfls);
+							}
+							if(file_exists($thmbfls)){
+								unlink($thmbfls);
+							}
+						}
+						//now save the data into db
+						$posteddata['UserDocument']['doc_name']=$filename;
+						$posteddata['UserDocument']['user_id']=$user_id;
+						$posteddata['UserDocument']['doc_status']='0';
+						
+						if($this->User->UserDocument->save($posteddata)){
+							//saved the doc
+							
+						}
+					}
+					else{
+						$filename="";
+						if($message!=''){
+							$message.="</br>";
+						}
+						$message.="Please upload a file";
+					}
+				}
+				else{
+					if($doc_id==0){
+						if($message!=''){
+							$message.="</br>";
+						}
+						$message.="Please upload a file";
+					}
+					else{
+						$posteddata['UserDocument']['doc_name']=$olddoctfile;
+					}
+				}
+				
+			}
+			
+			//redirect
+			if($message!=''){
+				
+				$this->Session->setFlash(__($message),'default',array('class'=>'error'));
+			}
+			else{
+				$this->Session->setFlash(__('The user document has been saved.'));
+			}
+			if($id>0){
+				return $this->redirect(array('action'=>'documents'));
+			}
+			else{
+				return $this->redirect(array('action'=>'documentupload'));
+			}
+			
+		}
+		else{
+			if($id>0){
+				$doccond=array('UserDocument.id'=>$id,'UserDocument.user_id'=>$user_id,'UserDocument.is_deleted'=>'0');
+				$userDocument = $this->User->UserDocument->find('first',array('recursive'=>'0','conditions'=>$doccond));
+				if(isset($userDocument['UserDocument'])){
+					$userDocument['UserDocument']['old_doc_name']=$userDocument['UserDocument']['doc_name'];
+				}
+				$this->request->data=$userDocument;
+			}
+		}
+		//get all type of document
+		//doct type
+		$doctcon = array('DocumentType.is_blocked'=>'0','DocumentType.is_deleted'=>'0','DocumentType.is_user_provide'=>'1');
+		$documentTypes = $this->DocumentType->find('list',array('conditions'=>$doctcon));
+		$documentTypes['0']="Select Document Type";
+		ksort($documentTypes);
+		$this->set(compact(array('documentTypes')));
+	}
+
+/**
+ * downloaddoc method
+ * @param string $filename
+ * 
+ */
+	public function downloaddoc($filename=''){
+		$this->usersessionchecked();
+		$alltypefilepaths = $this->alltypefilepaths();
+		$basepath = $alltypefilepaths['dic']['userdocument'];
+		$file=$basepath.$filename;
+		if (file_exists($file)) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="'.basename($file).'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($file));
+			readfile($file);
+			exit;
+		}
+		else{
+			//$this->Session->setFlash(__('Invalid re'),'default',array('class'=>'error'));
+			return $this->redirect(array('action'=>'documents'));
+		}
+	}
+	
+/**
+ * deletedoc method
+ * @param string $id
+ */
+	public function deletedoc($id=null){
+		$this->usersessionchecked();
+		if($id>0){
+			$user_id=$this->Session->read('user.user_id');
+			$findcond = array('UserDocument.id'=>$id,'UserDocument.is_deleted'=>'0','UserDocument.user_id'=>$user_id);
+			$doccount= $this->User->UserDocument->find('count',array('conditions'=>$findcond));
+			if($doccount==1){
+				//update the the soc as deleted
+				$upcond = array('UserDocument.is_deleted'=>'1');
+				$this->User->UserDocument->updateAll($upcond,$findcond);
+				$this->Session->setFlash(__('Document delete successfully'));
+			}
+			else{
+				$this->Session->setFlash(__('Request not found'),'default',array('class'=>'error'));
+			}
+		}
+		else{
+			$this->Session->setFlash(__('Request not found'),'default',array('class'=>'error'));
+		}
+		return $this->redirect(array('action'=>'documents'));
 	}
 	
 /**
@@ -41,8 +273,45 @@ class UsersController extends AppController {
  */
 	public function notifications(){
 		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		$user=$this->Session->read('user');
+		$user_id=$user['user_id'];
+		
+		$findcond = array('Notification.is_user_deleted'=>'0','Notification.user_id'=>$user_id);
+		$notifications = $this->User->Notification->find('all',array('recursive'=>'0','conditions'=>$findcond,'limit'=>$this->user_page_limit));
+		$this->set('notifications',$notifications);
+	}
+/**
+ * notificationdelete method
+ * @param string $notification_id
+ */
+	public function notificationdelete($notification_id=null){
+		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		if($notification_id>0){
+			$user=$this->Session->read('user');
+			$user_id = isset($user['user_id'])?$user['user_id']:'0';
+			$findcond = array('Notification.id'=>$notification_id,'Notification.user_id'=>$user_id);
+			$notification = $this->User->Notification->find('count',array('conditions'=>$findcond));
+			if($notification>0){
+				$updata = array('Notification.is_user_deleted'=>'1');
+				$this->User->Notification->updateAll($updata,$findcond);
+				$this->Session->setFlash(__('Notification removed successfully'));
+			}
+			else{
+				$this->Session->setFlash(__('Invalid Notification selection'),'default',array('class'=>'error'));
+			}
+			
+		}
+		else{
+			$this->Session->setFlash(__('Invalid notification'),'default',array('class'=>'error'));
+		}
+		return $this->redirect(array('action'=>'notifications'));
 	}
 	
+
 /**
  * orderhistory method
  *
@@ -50,6 +319,9 @@ class UsersController extends AppController {
  */
 	public function orderhistory(){
 		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		
 	}
 	
 /**
@@ -59,6 +331,8 @@ class UsersController extends AppController {
  */
 	public function askexpert(){
 		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
 	}
 	
 /**
@@ -68,8 +342,94 @@ class UsersController extends AppController {
  */
 	public function communication(){
 		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		//load the communication desing
+		$this->loadModel('Communication');
+		$user_id = $this->Session->read('user.user_id');
+		
+		$findcond = array('Communication.reciever_id'=>$user_id,'Communication.is_deleted'=>'0');
+		//load last paginate data
+		$total_rec = $this->Communication->find('count',array('conditions'=>$findcond,'limit'=>$this->user_page_limit));
+		$offset=0;
+		if($total_rec>$this->user_page_limit){
+			$offset=$total_rec-$this->user_page_limit;
+		}
+		$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit));
+		
+		$this->set('communications',$communications);
 	}
-
+	
+/**
+ * postmessage method
+ * 
+ */
+	public function postmessage(){
+		$this->usersessionchecked();
+		$message_id=0;
+		$status="0";
+		$message="";
+		if($this->request->is('post')){
+			$user_id=$this->Session->read('user.user_id');
+			$posteddata=$this->request->data;
+			$messagetext=(isset($posteddata['messagetext']) && $posteddata['messagetext']!='')?$posteddata['messagetext']:'';
+			$is_ajax_post=(isset($posteddata['is_ajax_post']))?'1':'0';
+			if($user_id>0 && $messagetext!=''){
+				//now post section
+				$this->loadModel('Communication');
+				
+				$postdata = array(
+					'Communication'=>array(
+						'user_id'=>$user_id,
+						'admin_user_id'=>'0',
+						'reciever_id'=>$user_id,
+						'message'=>"'".$messagetext."'",
+						'create_date'=>date("Y-m-d G:i:s"),
+						'is_user_post'=>'1',
+					)
+				);
+				if($this->Communication->save($postdata)){
+					$message_id=$this->Communication->id;
+					$status='1';
+				}
+			}
+		}
+		if($is_ajax_post==1){
+			die(json_encode(array('status'=>$status,'message'=>$message,'communication_id'=>$message_id)));
+		}
+		else{
+			return $this->redirect(array('action'=>'communication'));
+		}
+	}
+	
+/**
+ * getoldmessages method
+ */
+	public function getoldmessages(){
+		$this->usersessionchecked();
+		$communications=array();
+		$status="0";
+		$message="";
+		if($this->request->is('post')){
+			$user_id=$this->Session->read('user.user_id');
+			$posteddata=$this->request->data;
+			$communication_id=(isset($posteddata['communication_id']) )?$posteddata['communication_id']:'0';
+			if($user_id>0 && $communication_id >0){
+				$this->loadModel('Communication');
+				$findcond = array('Communication.reciever_id'=>$user_id,'Communication.is_deleted'=>'0','Communication.id <'=>$communication_id);
+				//load last paginate data
+				$total_rec = $this->Communication->find('count',array('conditions'=>$findcond,'limit'=>$this->user_page_limit));
+				$offset=0;
+				if($total_rec>$this->user_page_limit){
+					$offset=$total_rec-$this->user_page_limit;
+				}
+				$status='1';
+				$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit));
+			}
+		}
+		die(json_encode(array('status'=>$status,'message'=>$message,'communications'=>$communications)));
+	}
+	
 /**
  * view method
  *
@@ -1019,14 +1379,14 @@ class UsersController extends AppController {
 	}
 	
 	public function payupaymentsecondstep(){
-		//$this->layout="main";
+		$this->layout="blank";
 		
 		$formError=0;
 		$islive=false;
 		if($islive){
 			//foodlure data
-			$MERCHANT_KEY = "KIOSZEP5";
-			$SALT = "b0RWEpJPos";
+			$MERCHANT_KEY = "hP998IyL";
+			$SALT = "yyiuhOJdWv";
 			$PAYU_BASE_URL = "https://secure.payu.in";
 		}
 		else{
@@ -1127,26 +1487,6 @@ class UsersController extends AppController {
 		}
 		else{
 			$postdata = $this->Session->read('postdata');
-			
-			/*$islive=false;
-			if($islive){
-				//foodlure data
-				$MERCHANT_KEY = "KIOSZEP5";
-				$SALT = "b0RWEpJPos";
-				$PAYU_BASE_URL = "https://secure.payu.in";
-			}
-			else{
-				$MERCHANT_KEY = "Vw997n";
-				$SALT = "4womTBoq";
-				$PAYU_BASE_URL = "https://test.payu.in";
-			}
-			//varialr build
-			
-			$hash="";
-			$surl=FULL_BASE_URL.$this->base."Users/success";
-			$furl=FULL_BASE_URL.$this->base."Users/error";
-			$action='';*/
-			
 			$hash='';
 			$txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 			//now go to payu payment section
@@ -1167,11 +1507,86 @@ class UsersController extends AppController {
 			else{
 				return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 			}
+			
+			
+			$posteddata = $postdata;
+			$transaction_id = isset($posteddata['trnsid'])?$posteddata['trnsid']:'';
+			$amount = isset($posteddata['amount'])?$posteddata['amount']:'0';
+			$email = isset($posteddata['email'])?$posteddata['email']:'';
+			$phone = isset($posteddata['phone'])?$posteddata['phone']:'';
+			$firstname = isset($posteddata['firstname'])?$posteddata['firstname']:'';
+			$productinfo='Service Enable payment';
+			$txnid = isset($posteddata['txnid'])?$posteddata['txnid']:'';
+			$hash = isset($posteddata['hash'])?$posteddata['hash']:'';
+			$hash='';
+			//validate all mendatory fields
+			
+			//now go to payu payment section
+			$posted = array(
+				'surl'=>$surl,
+				'furl'=>$furl,
+				'amount'=>$amount,
+				'productinfo'=>$productinfo,
+				'txnid'=>$txnid,
+				'hash'=>$hash,
+				'marchant_key'=>$MERCHANT_KEY,
+				'salt'=>$SALT,
+				'payu_base_url'=>$PAYU_BASE_URL,
+				'service_provider'=>'payu_paisa',
+				'phone'=>$phone,
+				'email'=>$email,
+				'firstname'=>$firstname,
+				'key'=>$MERCHANT_KEY,
+				'udf1'=>$transaction_id,
+				'trnsid'=>$transaction_id
+			);
+			//pr($posted);
+			
+			$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+			if(empty($posted['hash']) && sizeof($posted) > 0) {
+				if(
+				  empty($posted['key'])
+				  || empty($posted['txnid'])
+				  || empty($posted['amount'])
+				  || empty($posted['firstname'])
+				  || empty($posted['email'])
+				  || empty($posted['phone'])
+				  || empty($posted['productinfo'])
+				  || empty($posted['surl'])
+				  || empty($posted['furl'])
+				  || empty($posted['service_provider'])
+				) {
+					$formError = 1;
+				}
+				else{
+					$hashVarsSeq = explode('|', $hashSequence);
+					$hash_string = '';	
+					foreach($hashVarsSeq as $hash_var) {
+						$hash_string .= isset($posted[$hash_var]) ? $posted[$hash_var] : '';
+						$hash_string .= '|';
+					}
+				    
+					$hash_string .= $SALT;
+					$hash = strtolower(hash('sha512', $hash_string));
+					$action = $PAYU_BASE_URL . '/_payment';
+					$posted['hash']=$hash;
+				}
+			}
+			elseif(!empty($posted['hash'])) {
+			  $hash = $posted['hash'];
+			  $action = $PAYU_BASE_URL . '/_payment';
+			  $posted['hash']=$hash;
+			}
+			else{
+				//error
+				$formError=2;
+			}
+			
 			//pr($postdata);
-			$this->set('action','');
-			$this->set('posted',$postdata);
+			$this->set('action',$action);
+			$this->set('posted',$posted);
 			$this->set('formError',$formError);
-			$this->set('hash','');
+			$this->set('hash',$hash);
 		}
 	}
 	
@@ -1202,6 +1617,7 @@ class UsersController extends AppController {
 							$updata = array('Transaction.is_completed'=>'1');
 							$this->Transaction->updateAll($updata,$finscond);
 							$succees=true;
+							$this->Session->write('cartItemNo','0');
 						}
 					}
 					else{
@@ -1214,10 +1630,11 @@ class UsersController extends AppController {
 			}
 			
 		}
-		$this->set('transid',$transid);
-		$this->set('success',$succees);
-		//pr($payureturnsdata);
-		//die();
+		/*$this->set('transid',$transid);
+		$this->set('success',$succees);*/
+		
+		return $this->redirect(array('controller'=>'users','action'=>'index'));
+		
 	}
 	
 	public function paymenterror(){

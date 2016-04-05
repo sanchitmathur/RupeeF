@@ -41,6 +41,11 @@ class AppController extends Controller {
 	public $CLIENT_SECRET = 'aTfcg3C1wztVD0gFe0-to1NI';
 	public $COOKIE_LIFE_TIME = 365;
 	
+	public $thumbImageHeight=400;
+	public $thumbImageWidth=400;
+	
+	public $allowedimageType=array('image/png','image/jpg','image/jpeg');
+	
 /**
  * getCityList method
  *
@@ -198,4 +203,63 @@ class AppController extends Controller {
 			return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
 		}
 	}
+
+/**
+ * usersessionchecked method
+ */
+	public function usersessionchecked(){
+		if(!$this->Session->check('user')){
+			return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
+		}
+	}
+	
+/**
+ * replacespecialcharacter method
+ *
+ * @return string
+ */
+    public function replacespecialcharacter($string=''){
+        $replacecharacter = array('^',' ','*','<','>','$','#','@','!','%');
+        if($string!=''){
+            $string = str_replace($replacecharacter,'_',$string);
+        }
+        return $string;
+    }
+    
+/**
+ * alltypefilepaths method
+ *
+ * @return array
+ */
+    public function alltypefilepaths(){
+        $sitebasepath = $this->sitebasepath();
+        
+        $alltypefilepath = array(
+            'url'=>array(
+                'userdocument'=>$sitebasepath.'userdocuments/',
+                'userdocument_thumb'=>$sitebasepath.'userdocuments/thumb_',
+            ),
+            'dic'=>array(
+                'userdocument'=>WWW_ROOT.'userdocuments/',
+                'userdocument_thumb'=>WWW_ROOT.'userdocuments/thumb_',
+            )
+        );
+        return $alltypefilepath;
+    }
+
+/**
+ * sitebasepath method
+ *
+ * @return string
+ */
+    public function sitebasepath(){
+        $sitebasepath = Router::fullbaseUrl().$this->base;
+        $lstchar = substr($sitebasepath,-1);
+        if($lstchar!="/"){
+            $sitebasepath.="/";
+        }
+        
+        return $sitebasepath;
+    }
+	
 }

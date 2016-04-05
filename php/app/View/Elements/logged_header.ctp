@@ -5,6 +5,11 @@
     $notlink="javascript:void(0)";
     $cartlink="javascript:void(0)";
     
+    $cartItemNo = $this->Session->read('cartItemNo');
+    $cartcount = (isset($cartItemNo) && $cartItemNo!='')?$cartItemNo:0;
+    if($cartcount>0){
+        $cartlink=FULL_BASE_URL.$this->base."/userCarts";
+    }
     switch($currentcontact){
         case "usersindex":
             $pagetitle="Dashboard";
@@ -18,8 +23,14 @@
         case "usersorderhistory":
             $pagetitle="Order History";
             break;
-        case "usercommunication":
+        case "userscommunication":
             $pagetitle="Comminication";
+            break;
+        case "usersdocumentupload":
+            $pagetitle="Document Upload";
+            break;
+        case "usersaskexpert":
+            $pagetitle="Ask an Expert";
             break;
         default:
             break;

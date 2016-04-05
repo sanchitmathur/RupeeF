@@ -15,6 +15,7 @@
                 <li><?php echo $this->Html->link(__('List Document Type'), array('controller' => 'DocumentTypes', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('Service Document'), array('controller' => 'ServiceDocuments', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('User Documents'), array('controller' => 'UserDocuments', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Send Notification'), array('controller' => 'Notifications', 'action' => 'add')); ?> </li>
                 
             </ul>
         </div>

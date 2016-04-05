@@ -24,6 +24,9 @@
         case "userscommunication":
             $commucls="active";
             break;
+        case "usersdocumentupload":
+            //$doccls="active";
+            break;
         default:
             break;
     }
@@ -32,15 +35,11 @@
 
 <div class="left_beforelogin">
     <div class="before_logo">
-            <!--<a href="javascript:void(0);"><img src="img/beforelogo.png" class="beforelogo"></a>-->
-            <?php echo $this->Html->link($this->Html->image('beforelogo.png',array('class'=>'beforelogo')),array('controller'=>'users','action'=>'index'),array('escape'=>false));?>
+            
+            <?php echo $this->Html->link($this->Html->image('beforelogo.png',array('class'=>'beforelogo')),array('controller'=>'MainServices','action'=>'services'),array('escape'=>false));?>
     </div>
     <div class="before_Menunav">
             <ul>
-                    <!--<li><a href="javascript:void(0);" class="active">Dashboard</a></li>
-                    <li><a href="javascript:void(0);">Document</a></li>
-                    <li><a href="javascript:void(0);">Notification</a></li>
-                    <li><a href="javascript:void(0);">Order History</a></li>-->
                     
                     <li><?php echo $this->Html->link('Dashboard',array('controller'=>'users','action'=>'index'),array('class'=>$dashcls));?></li>
                     <li><?php echo $this->Html->link('Documents',array('controller'=>'users','action'=>'documents'),array('class'=>$doccls));?></li>
@@ -50,7 +49,7 @@
             </ul>
     </div>
     <div class="ask_expert">
-            <!--<a href="javascript:void(0);"><img src="img/ask.png" class="expert"></a>-->
+            
             <?php echo $this->Html->link($this->Html->image('ask.png',array('class'=>'expert')),array('controller'=>'users','action'=>'askexpert'),array('class'=>$askcls,'escape'=>false));?>
     </div>
 </div>

@@ -42,6 +42,11 @@
 		$params = $this->params->params;
 		//pr($params);
 		$currentcontact = strtolower($params['controller'].$params['action']);
+		
+		$rightheaderpadding="";
+		if($currentcontact=="userscommunication"){
+			$rightheaderpadding = "padding:0 0 10px 50px;";
+		}
 	?>
 	<!-- update not login users session value -->
 	
@@ -54,7 +59,7 @@
 		$(document).ready(function(){
 			$(".before_Menunav ul .active").bind('click',noredirect);
 			$(".ask_expert .active").bind('click',noredirect);
-			
+			hideFlashMessage();
 			//get the user store session id
 			user_old_session_id = getCookie(rfchartsesid);
 			if (user_old_session_id!='' && user_old_session_id!='0') {
@@ -111,7 +116,39 @@
 			}
 			return "";
 		}
+		function hideFlashMessage(){
+			setTimeout(
+				function(){
+					$('#flashMessage').slideUp(300);
+				},
+				5000
+			);
+		}
 	</script>
+	<style>
+		.message {
+			z-index: 100;
+			/*position: absolute;*/
+			width: 100%;
+			padding: 10px;
+			text-align: center;
+			background-color: rgba(253, 203, 24, 0.85);
+			color: rgb(255, 255, 255);
+			font-weight: 300;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		.error{
+			z-index: 100;
+			/*position: absolute;*/
+			width: 100%;
+			padding: 10px;
+			text-align: center;
+			background-color: red;
+			color: rgb(255, 255, 255);
+			font-weight: 300;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+		}
+	</style>
 </head>
 <body>
 	<div class="wraperr">
@@ -126,7 +163,7 @@
 						<div class="clr"></div>
 					</div>
 					
-					<div class="right_beforebody">
+					<div class="right_beforebody" style="<?=$rightheaderpadding?>">
 						
 						<?php echo $this->Session->flash(); ?>
 	

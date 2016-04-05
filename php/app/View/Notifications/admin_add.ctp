@@ -1,11 +1,10 @@
-
 <div class="cities form">
-<?php echo $this->Form->create('ServiceDocument'); ?>
+<?php echo $this->Form->create('Notification'); ?>
 	<fieldset>
-		<legend><?php echo __('Admin Add Document Type'); ?></legend>
+		<legend><?php echo __('Admin Add Notification'); ?></legend>
 	<?php
-		echo $this->Form->input('service_id');
-		echo $this->Form->input('document_type_id');
+		echo $this->Form->input('user_id');
+		echo $this->Form->input('notify_txt',array('type'=>'textarea'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

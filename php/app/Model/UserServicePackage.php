@@ -37,6 +37,20 @@ class UserServicePackage extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		),
+                'Service' => array(
+			'className' => 'Service',
+			'foreignKey' => 'service_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+                'Transaction' => array(
+			'className' => 'Transaction',
+			'foreignKey' => 'transaction_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 }

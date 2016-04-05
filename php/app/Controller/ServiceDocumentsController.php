@@ -47,19 +47,82 @@ class ServiceDocumentsController extends AppController {
 /**
  * admin_add method
  *
+ * @param string $service_id
  * @return void
  */
-	public function admin_add() {
+	public function admin_add($service_id=null) {
 		$this->layout="admindefault";
+		//load models
+		$this->loadModel('Service');
+		$this->loadModel('DocumentType');
+		
 		if ($this->request->is('post')) {
-			$this->ServiceDocument->create();
-			if ($this->ServiceDocument->save($this->request->data)) {
-				$this->Session->setFlash(__('The Service Document has been saved.'),'default',array('class'=>'success'));
-				return $this->redirect(array('action' => 'add'));
-			} else {
-				$this->Session->setFlash(__('The Service Document could not be saved. Please, try again.'));
+			//pr($this->request->data);
+			//validation section
+			$posteddata = $this->request->data;
+			$pserviceid=isset($posteddata['ServiceDocument']['service_id'])?$posteddata['ServiceDocument']['service_id']:0;
+			$pdocttypeid=isset($posteddata['ServiceDocument']['document_type_id'])?$posteddata['ServiceDocument']['document_type_id']:0;
+			//die();
+			$message="";
+			if($pserviceid<1){
+				$message.="Please choose one service";	
 			}
+			if($pdocttypeid<1){
+				if($message!=''){
+					$message.=" </br>";
+				}
+				$message.="Please choose document type";
+			}
+			if($message==''){
+				//go ahead
+				/*if(is_array($pdocttypeid) && count($pdocttypeid)>0){
+					foreach($pdocttypeid as $key=>$val){
+						if($key==0 && count($pdocttypeid)==1){
+							
+						}
+					}
+				}*/
+				//validaye is allready added or not
+				$findcond = array('ServiceDocument.service_id'=>$pserviceid,
+						  'ServiceDocument.document_type_id'=>$pdocttypeid,
+						  'ServiceDocument.is_blocked'=>'0',
+						  'ServiceDocument.is_deleted'=>'0'
+						  );
+				$iscount = $this->ServiceDocument->find('count',array('constions'=>$findcond));
+				if($iscount>0){
+					$this->Session->setFlash(__('The Service Document has been saved.'),'default',array('class'=>'success'));
+				}
+				else{
+					$this->ServiceDocument->create();
+					if ($this->ServiceDocument->save($this->request->data)) {
+						$this->Session->setFlash(__('The Service Document has been saved.'),'default',array('class'=>'success'));
+						return $this->redirect(array('action' => 'add'));
+					} else {
+						$this->Session->setFlash(__('The Service Document could not be saved. Please, try again.'));
+					}
+				}
+			}
+			else{
+				$this->Session->setFlash(__($message));
+			}
+			
 		}
+		//set all service type and the doct type
+		$sercond = array('Service.is_blocked'=>'0','Service.is_deleted'=>'0');
+		if($service_id>0){
+			$sercond['Service.service_id']=$service_id;
+		}
+		
+		$services=$this->Service->find('list',array('conditions'=>$sercond));
+		$services['0']="Select Service";
+		ksort($services);
+		//doct type
+		$doctcon = array('DocumentType.is_blocked'=>'0','DocumentType.is_deleted'=>'0');
+		$documentTypes = $this->DocumentType->find('list',array('conditions'=>$doctcon));
+		$documentTypes['0']="Select Document Type";
+		ksort($documentTypes);
+		$this->set(compact(array('services','documentTypes')));
+		
 	}
 
 /**

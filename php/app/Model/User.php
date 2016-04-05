@@ -5,6 +5,8 @@ App::uses('AppModel', 'Model');
  *
  * @property UserServicePackage $UserServicePackage
  * @property UserService $UserService
+ * @property UserDocument $UserDocument
+ * @property Notification $Notification
  */
 class User extends AppModel {
 
@@ -61,6 +63,32 @@ class User extends AppModel {
 		),
 		'UserService' => array(
 			'className' => 'UserService',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+                'UserDocument' => array(
+			'className' => 'UserDocument',
+			'foreignKey' => 'user_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+                'Notification' => array(
+			'className' => 'Notification',
 			'foreignKey' => 'user_id',
 			'dependent' => false,
 			'conditions' => '',

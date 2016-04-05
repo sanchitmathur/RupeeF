@@ -43,14 +43,14 @@
       <input type="hidden" name="productinfo" value="<?php echo (empty($posted['productinfo'])) ? '' : $posted['productinfo'] ?>"/>
       <input type="hidden" name="service_provider" value="payu_paisa"/>
       
-  <table>
+  <table style="display:none;">
 	<tr>
 	  <td style="width:180px;">Amount: </td>
 	  <td><input name="amounts" value="<?php echo (empty($posted['amount'])) ? '' : $posted['amount'] ?>" disabled="disabled" class="inputfrom" /></td>
 	  
 	</tr>
 	<tr>
-		<td>Name: </td>
+	    <td>Name: </td>
 	  <td><input name="firstname" id="firstname" value="<?php echo (empty($posted['firstname'])) ? '' : $posted['firstname'] ?>" class="inputfrom" /></td>
 	</tr>
 	<tr>
