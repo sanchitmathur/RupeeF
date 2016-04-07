@@ -30,49 +30,49 @@
                                                     <div class="team_member">
                                                             <div class="col-md-3">
                                                                     <div class="member">
-                                                                            <img src="img/noimg.png" style="width:100%;"/>
+                                                                            <img src="<?=$config['BaseUrl']?>img/noimg.png" style="width:100%;"/>
                                                                             <h3>John Doe<span>Creative Director</span></h3>
                                                                             <div style="padding:0 0 20px 0; text-align:center;">
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/f_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/t_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/g_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/p_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/f_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/t_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/g_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/p_icon.png"/></a>
                                                                             </div>
                                                                     </div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                     <div class="member">
-                                                                            <img src="img/noimg.png" style="width:100%;"/>
+                                                                            <img src="<?=$config['BaseUrl']?>img/noimg.png" style="width:100%;"/>
                                                                             <h3>John Doe<span>Creative Director</span></h3>
                                                                             <div style="padding:0 0 20px 0; text-align:center;">
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/f_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/t_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/g_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/p_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/f_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/t_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/g_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/p_icon.png"/></a>
                                                                             </div>
                                                                     </div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                     <div class="member">
-                                                                            <img src="img/noimg.png" style="width:100%;"/>
+                                                                            <img src="<?=$config['BaseUrl']?>img/noimg.png" style="width:100%;"/>
                                                                             <h3>John Doe<span>Creative Director</span></h3>
                                                                             <div style="padding:0 0 20px 0; text-align:center;">
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/f_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/t_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/g_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/p_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/f_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/t_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/g_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/p_icon.png"/></a>
                                                                             </div>
                                                                     </div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                     <div class="member">
-                                                                            <img src="img/noimg.png" style="width:100%;"/>
+                                                                            <img src="<?=$config['BaseUrl']?>img/noimg.png" style="width:100%;"/>
                                                                             <h3>John Doe<span>Creative Director</span></h3>
                                                                             <div style="padding:0 0 20px 0; text-align:center;">
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/f_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/t_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/g_icon.png"/></a>
-                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="img/p_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/f_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/t_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/g_icon.png"/></a>
+                                                                                    <a href="javascript:void(0);" class="pingIcon"><img src="<?=$config['BaseUrl']?>img/p_icon.png"/></a>
                                                                             </div>
                                                                     </div>
                                                             </div>

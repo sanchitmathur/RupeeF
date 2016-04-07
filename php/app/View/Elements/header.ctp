@@ -17,6 +17,7 @@
 	var headerExpandHeight = 151;
 	var menus = [];
 	var scrollTop = 0;
+	var manuIsHide="1";
 	/* var menus = {
 		'0':{
 			'menu_id':1,
@@ -185,7 +186,9 @@
 	$(window).scroll(function(){
 		$('#header').fadeOut(300);
 		headerAnimation();
-		leftMenuCloseClickHandler();
+		if (manuIsHide=='0') {
+			leftMenuCloseClickHandler();
+		}
 	});
 	
 	$.fn.scrollEnd = function(callback, timeout){        
@@ -659,7 +662,7 @@
                     <span class="icon-bar"></span>
                 </button>
 				
-					<a href="index.php" class="navbarRes"><img src="<?=$config['BaseUrl']?>img/logo_sm_res.png" class="logimgres"></a><!--res_icon-->
+					<a href="<?=$config['BaseUrl']?>" class="navbarRes"><img src="<?=$config['BaseUrl']?>img/logo_sm_res.png" class="logimgres"></a><!--res_icon-->
 					
 						<!--a href="javascript:void(0)" class="navbar-brand navbrand leftMenuIcon" id="leftMenuIcon">
 							<img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/> Menu

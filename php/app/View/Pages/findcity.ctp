@@ -1,6 +1,27 @@
 <?php
     $config = Configure::read('RupeeForadian');
 ?>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script type="text/javascript">
+            var autocomplete='';
+            function initialize() {
+                var input = document.getElementById('firstName');;
+                var options = {componentRestrictions: {country: 'in'}};
+                             
+                autocomplete = new google.maps.places.Autocomplete(input, options);
+                autocomplete.addListener('place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    console.log(place);
+                    if (!place.geometry) {
+                            console.log(place.geometry.access_points[0].location.lat);
+                            console.log(place.geometry.access_points[0].location.lat);
+                    }
+                    
+                    });
+            }
+                         
+            google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 <div class="allcommon_body findBODY">
     <div class="checkout">
             <div class="findcity">
@@ -10,7 +31,7 @@
                     <div class="searchDiv">
                             <div class="search_locet sub_Search">
                                     <div class="col-sm-10 col-xs-10">
-                                            <input class="inputfrom" name="firstName" id="" placeholder="Find Your City" type="text" style="width:100%; height:60px; font-size:24px;">
+                                            <input class="inputfrom" name="firstName" id="firstName" placeholder="Find Your City" type="text" style="width:100%; height:60px; font-size:24px;">
                                     </div>
                                     <div class="col-sm-2 col-xs-2 searchicon" style="text-align:center; border-left:1px solid #e4e4e4; padding:9px;">
                                             <a href="javascript:void(0);"><img src="<?=$config['BaseUrl']?>img/ser_icon.png" class=""/></a>
