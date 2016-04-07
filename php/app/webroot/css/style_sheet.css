@@ -1304,6 +1304,9 @@ sup {
 	.LeftNewmenu{
 		width:140px !important;
 	}
+	.leftMenuIcon p span{
+		font-size:16px !important;
+	}
 	.leftMenuIcon{
 		position: absolute !important;
 		z-index: 11 !important;

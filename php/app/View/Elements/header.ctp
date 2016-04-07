@@ -547,7 +547,6 @@
 	</div>
 	
 	<div class="main_header" id="mainHeader">
-	
 		<div class="sideMenu" id="leftMenuPanel" style="display:none;">
 			<div class="close_div">
 				<a href="javascript:void(0);">
@@ -651,8 +650,8 @@
 				
 				<div class="uperHeader">
 					<div class="col-sm-2 LeftNewmenu">
-						<a href="javascript:void(0)" class="navbar-brand navbrand leftMenuIcon" id="leftMenuIcon">
-							<img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/> Menu
+						<a href="javascript:void(0)" class="navbar-brand navbrand leftMenuIcon resLEFTmenu" id="leftMenuIcon">
+							<p><img src="<?=$config['BaseUrl']?>img/menuicon.png" class="menuIcon"/><span>Menu</span></p>
 						</a>
 					</div>
 					<div class="col-sm-8 scrol_body">
