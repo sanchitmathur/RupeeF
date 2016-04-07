@@ -78,4 +78,19 @@ class PagesController extends AppController {
 	public function contactus(){
 		$this->layout="main";
 	}
+	public function aboutus(){
+		$this->layout="main";
+	}
+	public function career(){
+		$this->layout="main";
+	}
+	public function newsroom(){
+		$this->layout="main";
+	}
+	public function legaltermscondition(){
+		$this->layout="main";
+	}
+	public function findcity(){
+		$this->layout="main";
+	}
 }

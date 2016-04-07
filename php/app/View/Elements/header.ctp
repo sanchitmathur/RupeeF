@@ -327,7 +327,7 @@
 				var contactus=""
 				for(var i=0; i<len; i++){
 					obj = menus[i];
-					console.log(obj);
+					//console.log(obj);
 					var childCount = countNumberOfChild(obj);
 					
 					//console.log('childCount : '+childCount);
@@ -581,15 +581,20 @@
 					<ul>
 						<li><a href="<?=$config['BaseUrl']?>">Home</a></li>
 						<li><a href="javascript:void(0);">our services</a></li>
-						<li><a href="javascript:void(0);">our cities</a></li>
+						<!--<li><a href="javascript:void(0);">our cities</a></li>-->
+						<li><?php echo $this->Html->link(__('Our cities'),array('controller'=>'Pages','action'=>'findcity'));?></li>
 						<li><a href="javascript:void(0);">be a business partner</a></li>
 						<li><a href="javascript:void(0);">mobile app features</a></li>
 						<li><a href="javascript:void(0);">safety / confidentiality</a></li>
 						<li><a href="javascript:void(0);">cfo</a></li>
-						<li><a href="javascript:void(0);">about us</a></li>
-						<li><a href="javascript:void(0);">Careers</a></li>
-						<li><a href="javascript:void(0);">legal terms & conditions</a></li>
-						<li><a href="javascript:void(0);">News room</a></li>
+						<!--<li><a href="javascript:void(0);">about us</a></li>-->
+						<li><?php echo $this->Html->link(__('About us'),array('controller'=>'Pages','action'=>'aboutus'));?></li>
+						<!--<li><a href="javascript:void(0);">Careers</a></li>-->
+						<li><?php echo $this->Html->link(__('Careers'),array('controller'=>'Pages','action'=>'career'));?></li>
+						<!--<li><a href="javascript:void(0);">legal terms & conditions</a></li>-->
+						<li><?php echo $this->Html->link(__('Legal terms & conditions'),array('controller'=>'Pages','action'=>'legaltermscondition'));?></li>
+						<!--<li><a href="javascript:void(0);">News room</a></li>-->
+						<li><?php echo $this->Html->link(__('News room'),array('controller'=>'Pages','action'=>'newsroom'));?></li>
 					</ul>
 				</div>
 			</div>

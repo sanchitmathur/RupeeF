@@ -468,9 +468,26 @@
 	<!--- End Features -->
 	
 	<!--- Location --->
-	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 	<script type="text/javascript">
-		
+		var autocomplete='';
+		function initialize() {
+		    var input = document.getElementById('firstName');;
+		    var options = {componentRestrictions: {country: 'in'}};
+				 
+		    autocomplete = new google.maps.places.Autocomplete(input, options);
+		    autocomplete.addListener('place_changed', function() {
+			var place = autocomplete.getPlace();
+			console.log(place);
+			if (!place.geometry) {
+				console.log(place.geometry.access_points[0].location.lat);
+				console.log(place.geometry.access_points[0].location.lat);
+			}
+			
+			});
+		}
+			     
+		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 	<div class="location">
 		<div class="service_body">
@@ -479,7 +496,7 @@
 				<div class="col-md-6 location_search">
 					<h3>All around the India<span>Available locally, expanding globally</span></h3>
 					<div class="search_locet">
-						<input class="inputfrom" name="firstName" id="" placeholder="Find Your City" type="text">
+						<input class="inputfrom" name="firstName" id="firstName" placeholder="Find Your City" type="text">
 						<div class="searchicon">
 							<a href="javascript:void(0);">
 								<img src="<?=$config['BaseUrl']?>img/search_icon.png" class="search_Icon"/>
