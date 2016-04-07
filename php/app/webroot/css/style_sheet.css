@@ -1397,3 +1397,339 @@ sup {
 	.res_menuSub{
 		display:none;
 	}
+	
+/*--------------------News_room------------------------*/
+
+	.newsRoom_body{
+		padding:40px 0 0 0;
+	}
+	.blog_div{
+		background:#f6f6f6;
+		margin-bottom:15px;
+	}
+	.blog_div h2{
+		font-size:20px;
+		font-weight:400;
+		color:#000;
+		margin:0;
+		padding:15px;
+		text-align:left;
+		background: url(../img/divaider.png) no-repeat 17px 51px;
+	}
+	.blog_div p{
+		font-size:16px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:15px;
+		text-align:justify;
+	}
+		.blog_div p span{
+			color:#acacac;
+			padding-top:15px;
+			display:block;
+		}
+	.picBlog{
+		width:100%;
+	}
+	.reedMORE{
+		border: 1px solid #747980;
+		padding: 6px 30px;
+		text-align: center;
+		margin:15px 0 15px 15px;
+		font-size: 16px;
+		font-weight: 300;
+		color: #000;
+		background-color: transparent;
+		transition: all 0.4s ease;
+	}
+	.reedMORE:hover{
+		border: 1px solid #126abf;
+		color: #fff;
+		background-color:#126abf;
+	}
+	.right_blog{
+		padding:0 15px 0 30px !important;
+	}
+		.right_blog h2{
+			font-size:20px;
+			font-weight:400;
+			color:#000;
+			margin:0;
+			padding:15px 0;
+			text-align:left;
+		}
+	.categories_nav li a{
+		display:block;
+		padding:3px 0;
+		font-size:16px;
+		font-weight:300;
+		color:#666666;
+		margin-bottom:5px;
+		transition: all 0.4s ease;
+	}
+		.categories_nav li a:hover{
+			color:#126abf;
+			text-decoration:none;
+		}
+		.categories_nav li a.active{
+			color:#126abf;
+			text-decoration:none;
+		}
+		.recentPost{
+			padding:20px 0;
+		}
+		.recentPost p{
+			font-size:16px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:15px 0;
+			text-align:justify;
+		}
+		.recentPost p span{
+			color:#acacac;
+			padding-top:10px;
+			display:block;
+		}
+		.form-control {
+			border-radius: 20px 0 0 20px !important;
+			border:1px solid #dddddd !important;
+			box-shadow: none !important;
+		}
+		.newinput{
+			height: 36px !important;
+			font-weight:300 !important;
+		}
+		.btn-default {
+			background: #747980 !important;
+			color: #fff !important;
+			border-radius:0 20px 20px 0 !important;
+			border:inherit !important;
+			padding:8px 18px !important;
+			font-weight:300 !important;
+		}
+		
+/*------------------------trems_condisation-------------------------*/
+
+	.trems_condisation{
+		padding:40px 15px 0 15px;
+	}
+		.trems_condisation h3{
+			font-size:20px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:10px 15px;
+			text-align:left;
+			background: -webkit-linear-gradient(left,rgba(231,231,231,1),rgba(255,255,255,0.8));
+			background: -o-linear-gradient(right,rgba(231,231,231,1),rgba(255,255,255,0.8));
+			background: -moz-linear-gradient(right,rgba(231,231,231,1),rgba(255,255,255,0.8));
+			background: linear-gradient(to right, rgba(231,231,231,1),rgba(255,255,255,0.8));
+		}
+		.trems_condisation p{
+			font-size:16px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:20px 15px;
+			text-align:justify;
+		}
+		.tremsText{
+			margin-bottom:20px;
+		}
+		.trems_condisation h4{
+			font-size:16px;
+			font-weight:400;
+			color:#000;
+			margin:0;
+			padding:20px 15px 15px 15px;
+			text-align:left;
+		}
+		.trems_nav li{
+			font-size:14px;
+			padding:5px 38px;
+			display:block;
+			font-weight:300;
+			color:#000;
+			background:url(../img/rg_arrow.png)no-repeat 15px 10px;
+		}
+		
+/*--------------------find----------------------------*/
+	
+	.findBODY{
+		padding: 150px 0 80px 0;
+	}
+		.findcity{
+			position:relative;
+		}
+		.mapDiv{
+			filter: grayscale(100%);
+			-webkit-filter: grayscale(100%);
+			-o-filter: grayscale(100%);
+			-moz-filter: grayscale(100%);
+			height:286px;
+		}
+		.searchDiv{
+			position:absolute;
+			width:100%;
+			height:100%;
+			top: 0;
+			left: 0;
+			padding: 112px 0;
+			background: rgba(231, 231, 231, 0.4);
+		}
+		.sub_Search{
+			width:420px;
+			height:60px;
+			margin:0 auto;
+			border:1px solid #e4e4e4;
+			background:rgba(255, 255, 255, 0.95);
+			box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+		}
+			.iconsearch'{
+				border-left:1px solid #c4c4c4 !important;
+				text-align:center !important;
+			}
+	.find{
+		padding:40px 0 0 0;
+	}
+	.find h2{
+		font-size:24px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:50px 15px;
+		text-align:left;
+		text-transform:uppercase;
+	}
+		.cityname li{
+			padding:0px 0 10px 0;
+		}
+		.cityname li a{
+			font-size:16px;
+			font-weight:300;
+			color:#000;
+			transition: all 0.4s ease;
+		}
+		
+/*----------------------career-----------------*/
+
+	.career_Bg{
+		width:100%;
+		margin-bottom:40px;
+	}
+		.cr_bg{
+			width:100%;
+		}
+	.creerText{
+		width:950px;
+		margin:0 auto;
+		padding:40px 0;
+	}
+		.creerText table{
+			border: 1px solid #ddd;
+		}
+		.creerText table tr{
+		}
+		.creerText table tr td{
+			font-size:18px;
+			font-weight:300;
+			color:#000;
+			padding:12px !important;
+		}
+		.creerText table tr th{
+			font-size:24px;
+			font-weight:300;
+			color:#000;
+			padding:12px !important;
+			text-transform:uppercase;
+			border-bottom:none !important;
+			background:#fcfcfc;
+		}
+		.viewapply{
+			border:1px solid #126abf;
+			padding: 5px 15px;
+			text-align: center;
+			margin:0 5px 0 0;
+			font-size: 14px;
+			font-weight:300;
+			color: #fff;
+			background-color:#126abf;
+			transition: all 0.4s ease;
+		}
+		.viewapply:hover{
+			background-color:transparent;
+			color:#000;
+			border:1px solid #126abf;
+		}
+		
+/*------------------aboutDiv--------------------*/
+
+	.aboutDiv{
+		padding:40px 15px 0 15px;
+	}
+		.imgAbout{
+			margin-bottom:10px;
+		}
+	.imgAbout h2{
+		font-size:24px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:15px 0;
+		text-align:left;
+		text-transform: capitalize;
+	}
+	.imgAbout p{
+		font-size:14px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:6px 0;
+		text-align:justify;
+		text-transform: capitalize;
+	}
+		.our_team {
+			padding:40px 0 0 0;
+		}
+		.our_team h1{
+			font-size:24px;
+			font-weight:400;
+			color:#000;
+			margin:0;
+			padding:0;
+			text-align:center;
+			text-transform: capitalize;
+		}
+			.our_team h1 span{
+				display:block;
+				font-weight:300;
+				font-size:16px;
+				padding-top:10px;
+			}
+		.team_member{
+			padding:40px 0 0 0;
+		}
+			.member{
+				background:#f6f6f6;
+			}
+				.member h3{
+					font-size:18px;
+					font-weight:400;
+					color:#000;
+					margin:0;
+					padding:20px 0;
+					text-align:center;
+					text-transform: capitalize;
+				}
+				.member h3 span{
+					font-size:14px;
+					font-weight:300;
+					display:block;
+					padding-top:8px;
+				}
+			.pingIcon{
+				margin:0 5px 0 0;
+				padding:5px;
+			}
