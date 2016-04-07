@@ -5,6 +5,7 @@
 <script>
 	var initialHeight = 0;
 	var initialWidth = 0;
+	var winWidth=0;
 	$(document).ready(function(){
 		page_name = 'main';
 		$('.header_all').hide();
@@ -12,7 +13,13 @@
 		//$('.services').bind('click',readMoreClickhandler);
 		$('.mainServices').bind('click',mainServicesClickHandler);
 		$('.closeServices').bind('click',closeServicesClickHandler);
-		
+		winWidth=$(window).innerWidth();
+		if (winWidth<769) {
+			$(".allService .services").show();
+			$(".allService .child_service").css({
+				'height':'100%'
+			});
+		}
 	});
 	
 	$(window).scroll(function(){
@@ -38,7 +45,8 @@
 	
 	function mainServicesClickHandler(e){
 		$(e.currentTarget).find('.multipleService').css({
-			'z-index':'3'
+			'z-index':'3',
+			'height':'100%'
 		});
 		
 		// var width = $(e.currentTarget).find('.multipleService').width();
@@ -93,35 +101,53 @@
 			marginLeft = '-'+marginLeft+'px';
 			
 		}
+		//for responsive support
+		if (winWidth<769) {
+			$(e.currentTarget).find('.multipleService').animate(
+				{
+					width:'100%',
+					height:'auto!important'
+					//marginLeft:marginLeft,
+					//marginTop:marginTop
+				},
+				100,
+				function(){
+					
+				}
+			);
+			//$(e.currentTarget).attr('style','height:100%!important');
+		}
+		else{
+			increasedWidth = (3 * initialWidth) + (2 * 30);
+			increasedHeight = (2 * initialHeight) + 30;
+			//console.log('increasedHeight : '+increasedHeight);
+			$(e.currentTarget).find('.multipleService').animate(
+				{
+					width:increasedWidth+'px',
+					height:increasedHeight+'px',
+					marginLeft:marginLeft,
+					marginTop:marginTop
+					//zIndex:'3'
+				},
+				100,
+				function(){
+					
+				}
+			);
+			$(e.currentTarget).find('.subService').attr('style','width:33.33%!important');
+			$(e.currentTarget).find('.closeServices').show();
+		}
 		
-		increasedWidth = (3 * initialWidth) + (2 * 30);
-		increasedHeight = (2 * initialHeight) + 30;
-		//console.log('increasedHeight : '+increasedHeight);
-		$(e.currentTarget).find('.multipleService').animate(
-			{
-				width:increasedWidth+'px',
-				height:increasedHeight+'px',
-				marginLeft:marginLeft,
-				marginTop:marginTop
-				//zIndex:'3'
-			},
-			100,
-			function(){
-				
-			}
-		);
 		
 		$(e.currentTarget).find('.multipleService').css({
 			"cursor":"default"
 		});
 		
-		$(e.currentTarget).find('.subService').attr('style','width:33.33%!important');
-		
 		$(e.currentTarget).find('.subServiceName').css({
 			"font-weight":"400"
 		});
 		
-		$(e.currentTarget).find('.closeServices').show();
+		
 		$(e.currentTarget).find('.services').attr('style','opacity:0;').show();
 		$(e.currentTarget).find('.services').animate(
 			{
@@ -309,7 +335,7 @@
 					?>
 						<div class="col-md-4 responciv_padding">
 							<div class="child_service mainServices">
-								<img src="<?=$config['BaseUrl']?>img/servicebg_1.png" class="sliderpic"/>
+								<!--<img src="<?=$config['BaseUrl']?>img/servicebg_1.png" class="sliderpic"/>-->
 								<div class="service1 multipleService colorBG<?=$divIndex+1?>">
 									<input type="hidden" class="divIndex" value="<?=$divIndex?>" />
 									<div class="cancle_div closeServices" style="display:none;">
