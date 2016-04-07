@@ -259,11 +259,12 @@ class MenusController extends AppController {
 			$menu_name = isset($menu['Menu']['name'])?$menu['Menu']['name']:'';
 			$heading = isset($menu['Menu']['heading'])?$menu['Menu']['heading']:'';
 			$description = isset($menu['Menu']['description'])?$menu['Menu']['description']:'';
-			
+			$menu_link = isset($menu['Menu']['menu_link'])?$menu['Menu']['menu_link']:'';
 			$data = array(
 				'menu_id'=>$menu_id,
 				'parent_menu_id'=>$parent_menu_id,
 				'menu_name'=>$menu_name,
+				'menu_link'=>$menu_link,
 				'menu_description'=>array(
 					'heading'=>$heading,
 					'description'=>$description,

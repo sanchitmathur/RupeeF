@@ -468,6 +468,10 @@
 	<!--- End Features -->
 	
 	<!--- Location --->
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<script type="text/javascript">
+		
+	</script>
 	<div class="location">
 		<div class="service_body">
 			<h1>Location<span>We are available with our offices in various cities but we are serving pan india</span></h1>

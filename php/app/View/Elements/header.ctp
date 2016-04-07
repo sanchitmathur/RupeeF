@@ -185,6 +185,7 @@
 	$(window).scroll(function(){
 		$('#header').fadeOut(300);
 		headerAnimation();
+		leftMenuCloseClickHandler();
 	});
 	
 	$.fn.scrollEnd = function(callback, timeout){        
@@ -286,6 +287,7 @@
 	}
 	
 	function headerAnimation2(){
+		subMenuCloseClickHandler();
 		//alert('stopped scrolling');
 		$('#header').fadeIn(300);
 	}
@@ -322,9 +324,10 @@
 				var len = menus.length;
 				//console.log(len);
 				var html = '';
+				var contactus=""
 				for(var i=0; i<len; i++){
 					obj = menus[i];
-					//console.log(obj);
+					console.log(obj);
 					var childCount = countNumberOfChild(obj);
 					
 					//console.log('childCount : '+childCount);
@@ -332,11 +335,18 @@
 					if(obj.parent_menu_id == 0){
 						var menu_id = obj.menu_id;
 						var menu_name = obj.menu_name;
+						var menu_link = obj.menu_link;
+						if (menu_link=='') {
+							menu_link="javascript:void(0)";
+						}
+						else{
+							menu_link=baseUrl+menu_link;
+						}
 						html += '<li>\
 									<input type="hidden" class="childCount" value="'+childCount+'" />\
 									<input type="hidden" class="menuID" value="'+menu_id+'" />\
 									<input type="hidden" class="menuName" value="'+menu_name+'" />\
-									<a href="javascript:void(0)" class="mainMenu">\
+									<a href="'+menu_link+'" class="mainMenu">\
 										'+menu_name+' ';
 									if(childCount > 0){
 										html += '<i class="fa fa-sort-desc dropMenu"></i>';						
@@ -803,7 +813,8 @@
 						<li><a href="javascript:void(0)">NGO/Trust <i class="fa fa-sort-desc dropMenu"></i></a></li>
 						<li><a href="javascript:void(0)">GOVT <i class="fa fa-sort-desc dropMenu"></i></a></li>
 						<li><a href="javascript:void(0)">AssociAtes <i class="fa fa-sort-desc dropMenu"></i></a></li>
-						<li><a href="javascript:void(0)">CONTACT</a></li>
+						<!--<li><a href="javascript:void(0)">CONTACT</a></li>-->
+						<li><?php echo $this->Html->link(__('CONTACT'),array('controller'=>'Pages','action'=>'contactus'));?></li>
 						<div class="clr"></div>
 					</ul>
 				</div>

@@ -74,4 +74,8 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+	
+	public function contactus(){
+		$this->layout="main";
+	}
 }
