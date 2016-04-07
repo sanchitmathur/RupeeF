@@ -1,5 +1,8 @@
 <div class="subServices index">
 	<h2><?php echo __('Sub Services'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px;min-width:20%;">
+		<?php echo $this->Html->link(__('Add New Sub Service'), array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
@@ -44,6 +47,7 @@
 	?>
 	</div>
 </div>
+<!--
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
@@ -54,3 +58,4 @@
 		<li><?php echo $this->Html->link(__('New Service'), array('controller' => 'services', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+-->

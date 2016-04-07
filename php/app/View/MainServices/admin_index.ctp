@@ -1,5 +1,8 @@
 <div class="mainServices index">
 	<h2><?php echo __('Main Services'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px;min-width:20%;">
+		<?php echo $this->Html->link(__('Add New Main Service'), array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>

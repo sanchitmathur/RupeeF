@@ -113,6 +113,7 @@ class SubServicesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
 		$this->SubService->recursive = 0;
 		$this->set('subServices', $this->Paginator->paginate());
 	}
@@ -125,6 +126,7 @@ class SubServicesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
 		if (!$this->SubService->exists($id)) {
 			throw new NotFoundException(__('Invalid sub service'));
 		}
@@ -138,6 +140,7 @@ class SubServicesController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->layout="admindefault";
 		if ($this->request->is('post')) {
 			$this->SubService->create();
 			if ($this->SubService->save($this->request->data)) {
@@ -159,6 +162,7 @@ class SubServicesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
 		if (!$this->SubService->exists($id)) {
 			throw new NotFoundException(__('Invalid sub service'));
 		}
@@ -185,6 +189,7 @@ class SubServicesController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
 		$this->SubService->id = $id;
 		if (!$this->SubService->exists()) {
 			throw new NotFoundException(__('Invalid sub service'));

@@ -97,4 +97,14 @@ CREATE TABLE IF NOT EXISTS `rf_communications` (
 ALTER TABLE `rf_user_service_packages` ADD `is_completed` INT(1) NOT NULL DEFAULT '0' AFTER `transaction_id`;
 
 ===uploaded on the server on 04-04-16 ======
+Today(06-04-16):
+================
+
+DROP TABLE IF EXISTS `rf_related_services`;
+CREATE TABLE IF NOT EXISTS `rf_related_services` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `service_id` int(11) NOT NULL,
+  `related_service_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

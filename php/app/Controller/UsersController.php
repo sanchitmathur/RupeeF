@@ -943,11 +943,13 @@ class UsersController extends AppController {
 			return $this->redirect(array('controller'=>'Users','action'=>'logIn'));
 		}
 		
-		$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/facebookLogIn/$registration";
+		//$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/facebookLogIn/$registration";
+		
+		$redirect_uri = FULL_BASE_URL.$this->base."/Users/facebookLogIn/".$registration;
 
 		if(empty($code)){
 			
-			$oauth_url = "https://www.facebook.com/dialog/oauth?client_id=$client_id&redirect_uri=".urlencode($redirect_uri)."&state=$state&scope=publish_actions";
+			$oauth_url = "https://www.facebook.com/dialog/oauth?client_id=$client_id&redirect_uri=".urlencode($redirect_uri)."&state=$state&scope=publish_actions,public_profile,email";
 			//die();
 			print("<script>window.location='$oauth_url'</script>");
 			exit();
@@ -968,7 +970,7 @@ class UsersController extends AppController {
 			
 			$graph_url = "https://graph.facebook.com/me?access_token=".$access_token."&fields=first_name,last_name,name,id,email";
 			$userDetails = json_decode(file_get_contents($graph_url));
-			// pr($userDetails);
+			//pr($userDetails);
 			// die();
 			
 			$fb_id = $userDetails->id;
@@ -1038,6 +1040,7 @@ class UsersController extends AppController {
 				'email'=>$email,
 				'phone_no'=>$phone_no
 			);
+			
 			$this->Session->write('user',$user);
 			
 			//update the cart item user data
@@ -1066,7 +1069,9 @@ class UsersController extends AppController {
 		$state = md5(uniqid(rand(), TRUE)); // CSRF protection
 		//$state = 'rupeeforadian'; 
 		
-		$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/googlePlusLogIn/$registration";
+		//$redirect_uri = "http://mindscale.co.in/demo/RupeeForadian/Users/googlePlusLogIn/$registration";
+		
+		$redirect_uri = FULL_BASE_URL.$this->base."/Users/googlePlusLogIn/".$registration;
 		$url = 'https://accounts.google.com/o/oauth2/';
 		
 		if(empty($code)){

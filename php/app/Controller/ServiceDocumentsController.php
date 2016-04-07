@@ -20,12 +20,27 @@ class ServiceDocumentsController extends AppController {
 /**
  * admin_index method
  *
+ * @param string $service_id
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($service_id=null) {
 		$this->layout="admindefault";
 		$this->ServiceDocument->recursive = 0;
-		$this->set('serviceDocuments', $this->Paginator->paginate());
+		if($this->request->is('post')){
+			$service_id = $this->request->data['ServiceDocument']['service_id'];
+		}
+		$cond1=array('ServiceDocument.is_deleted'=>'0');
+		if($service_id>0){
+			$cond1['ServiceDocument.service_id']=$service_id;
+		}
+		$this->set('serviceDocuments', $this->Paginator->paginate($cond1));
+		
+		$sercond = array('Service.is_blocked'=>'0','Service.is_deleted'=>'0');
+		$services = $this->ServiceDocument->Service->find('list',array('conditions'=>$sercond));
+		$services['0']='Select Service';
+		ksort($services);
+		$this->set(compact('services'));
+		$this->set('serviceId',$service_id);
 	}
 
 /**
@@ -64,7 +79,7 @@ class ServiceDocumentsController extends AppController {
 			$pdocttypeid=isset($posteddata['ServiceDocument']['document_type_id'])?$posteddata['ServiceDocument']['document_type_id']:0;
 			//die();
 			$message="";
-			if($pserviceid<1){
+			if($pserviceid<0){
 				$message.="Please choose one service";	
 			}
 			if($pdocttypeid<1){
@@ -83,20 +98,31 @@ class ServiceDocumentsController extends AppController {
 					}
 				}*/
 				//validaye is allready added or not
-				$findcond = array('ServiceDocument.service_id'=>$pserviceid,
-						  'ServiceDocument.document_type_id'=>$pdocttypeid,
-						  'ServiceDocument.is_blocked'=>'0',
-						  'ServiceDocument.is_deleted'=>'0'
-						  );
-				$iscount = $this->ServiceDocument->find('count',array('constions'=>$findcond));
+				$findcond = array(
+					'ServiceDocument.service_id'=>$pserviceid,
+					'ServiceDocument.document_type_id'=>$pdocttypeid,
+					'ServiceDocument.is_blocked'=>'0',
+					'ServiceDocument.is_deleted'=>'0'
+				);
+				
+				$iscount = $this->ServiceDocument->find('count',array('conditions'=>$findcond));
 				if($iscount>0){
-					$this->Session->setFlash(__('The Service Document has been saved.'),'default',array('class'=>'success'));
+					$this->Session->setFlash(__('The Service Document already saved.'),'default',array('class'=>'success'));
+					if($service_id>0){
+						return $this->redirect(array('action' => 'add',$service_id));
+					}
 				}
 				else{
 					$this->ServiceDocument->create();
 					if ($this->ServiceDocument->save($this->request->data)) {
 						$this->Session->setFlash(__('The Service Document has been saved.'),'default',array('class'=>'success'));
-						return $this->redirect(array('action' => 'add'));
+						if($service_id>0){
+							return $this->redirect(array('action' => 'add',$service_id));
+						}
+						else{
+							return $this->redirect(array('action' => 'add'));
+						}
+						
 					} else {
 						$this->Session->setFlash(__('The Service Document could not be saved. Please, try again.'));
 					}
@@ -110,9 +136,11 @@ class ServiceDocumentsController extends AppController {
 		//set all service type and the doct type
 		$sercond = array('Service.is_blocked'=>'0','Service.is_deleted'=>'0');
 		if($service_id>0){
-			$sercond['Service.service_id']=$service_id;
+			$sercond['Service.id']=$service_id;
 		}
-		
+		else{
+			$service_id=0;
+		}
 		$services=$this->Service->find('list',array('conditions'=>$sercond));
 		$services['0']="Select Service";
 		ksort($services);
@@ -122,6 +150,7 @@ class ServiceDocumentsController extends AppController {
 		$documentTypes['0']="Select Document Type";
 		ksort($documentTypes);
 		$this->set(compact(array('services','documentTypes')));
+		$this->set('serviceId',$service_id);
 		
 	}
 

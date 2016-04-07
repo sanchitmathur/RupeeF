@@ -1,5 +1,21 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#parentmenuid").bind('change',filtermenu);
+	});
+	function filtermenu(e) {
+		$("#parentmenufrm").submit();
+	}
+</script>
 <div class="menus index">
 	<h2><?php echo __('Menus'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px;">
+		<?php
+			echo $this->Form->create('Menu',array('id'=>'parentmenufrm'));
+			echo $this->Form->input('parent_menu_id',array('id'=>'parentmenuid','value'=>$parentMenuId));
+			echo "</form>";
+		?>
+		<?php echo $this->Html->link(__('Add New Menu'), array('action' => 'add',$parentMenuId)); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
@@ -46,6 +62,7 @@
 	?>
 	</div>
 </div>
+<!--
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
@@ -54,3 +71,4 @@
 		<li><?php echo $this->Html->link(__('New Service'), array('controller' => 'services', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+-->
