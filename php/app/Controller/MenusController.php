@@ -110,11 +110,37 @@ class MenusController extends AppController {
 /**
  * admin_index method
  *
+ * @param string $id
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($id=0) {
+		$this->layout="admindefault";
+		
 		$this->Menu->recursive = 0;
-		$this->set('menus', $this->Paginator->paginate());
+		$conditions = array('Menu.is_blocked'=>'0','Menu.is_deleted'=>'0');
+		$conditions1=$conditions;
+		if($this->request->is('post')){
+			$id=$this->request->data['Menu']['parent_menu_id'];
+		}
+		if($id>0){
+			$conditions['OR']['Menu.parent_menu_id']=$id;
+			$conditions['OR']['Menu.id']=$id;
+			
+			$conditions1['Menu.parent_menu_id']=$id;
+		}
+		else{
+			$conditions['Menu.parent_menu_id']='0';
+			$conditions1['Menu.parent_menu_id']='0';
+		}
+		
+		$this->set('menus', $this->Paginator->paginate($conditions1));
+		
+		
+		$parentMenus = $this->Menu->find('list',array('conditions'=>$conditions));
+		$parentMenus['0']='Select menu';
+		ksort($parentMenus);
+		$this->set(compact('parentMenus'));
+		$this->set('parentMenuId',$id);
 	}
 
 /**
@@ -135,20 +161,26 @@ class MenusController extends AppController {
 /**
  * admin_add method
  *
+ * @param string $parent_menu_id
  * @return void
  */
-	public function admin_add() {
+	public function admin_add($parent_menu_id=0) {
+		$this->layout="admindefault";
 		if ($this->request->is('post')) {
 			$this->Menu->create();
 			if ($this->Menu->save($this->request->data)) {
-				$this->Session->setFlash(__('The menu has been saved.'));
+				$this->Session->setFlash(__('The menu has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The menu could not be saved. Please, try again.'));
 			}
 		}
 		$services = $this->Menu->Service->find('list');
-		$this->set(compact('services'));
+		$services['0']="Select Service";
+		ksort($services);
+		$parentMenus = $this->Menu->find('list',array('conditions'=>array('Menu.is_blocked'=>'0','Menu.is_deleted'=>'0')));
+		$this->set(compact(array('services','parentMenus')));
+		$this->set('parent_menu_id',$parent_menu_id);
 	}
 
 /**
@@ -159,12 +191,13 @@ class MenusController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
 		if (!$this->Menu->exists($id)) {
 			throw new NotFoundException(__('Invalid menu'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Menu->save($this->request->data)) {
-				$this->Session->setFlash(__('The menu has been saved.'));
+				$this->Session->setFlash(__('The menu has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The menu could not be saved. Please, try again.'));
@@ -174,7 +207,12 @@ class MenusController extends AppController {
 			$this->request->data = $this->Menu->find('first', $options);
 		}
 		$services = $this->Menu->Service->find('list');
-		$this->set(compact('services'));
+		//$this->set(compact('services'));*/
+		
+		$services['0']="Select Service";
+		ksort($services);
+		$parentMenus = $this->Menu->find('list',array('conditions'=>array('Menu.is_blocked'=>'0','Menu.is_deleted'=>'0')));
+		$this->set(compact(array('services','parentMenus')));
 	}
 
 /**

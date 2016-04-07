@@ -1,5 +1,8 @@
 <div class="services index">
 	<h2><?php echo __('Services'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px;min-width:20%;">
+		<?php echo $this->Html->link(__('Add New Service'), array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
@@ -27,6 +30,9 @@
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $service['Service']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $service['Service']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $service['Service']['id']), array(), __('Are you sure you want to delete # %s?', $service['Service']['id'])); ?>
+			</br></br>
+			<?php echo $this->Html->link(__('Document Need'), array('controller'=>'ServiceDocuments','action' => 'add', $service['Service']['id'])); ?>
+			<?php echo $this->Html->link(__('Related Services'), array('controller'=>'RelatedServices','action' => 'add', $service['Service']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -46,6 +52,7 @@
 	?>
 	</div>
 </div>
+<!--
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
@@ -56,3 +63,4 @@
 		<li><?php echo $this->Html->link(__('New Service Package'), array('controller' => 'service_packages', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
+-->

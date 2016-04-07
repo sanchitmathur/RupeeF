@@ -23,6 +23,10 @@ class ServiceDocument extends AppModel {
         'DocumentType'=>array(
             'className'=>'DocumentType',
             'foreingKey'=>'document_type_id'
+        ),
+        'Service'=>array(
+            'className'=>'Service',
+            'foreingKey'=>'service_id'
         )
     );
 

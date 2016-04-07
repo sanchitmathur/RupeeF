@@ -30,7 +30,7 @@ $cakeVersion = __d('cake_dev', 'RupeeForadian :', "Footer");
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-
+		echo $this->Html->script('jquery-2.2.0');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');

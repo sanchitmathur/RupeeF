@@ -4,7 +4,7 @@
 	<fieldset>
 		<legend><?php echo __('Admin Add Document Type'); ?></legend>
 	<?php
-		echo $this->Form->input('service_id');
+		echo $this->Form->input('service_id',array('value'=>$serviceId));
 		echo $this->Form->input('document_type_id');
 	?>
 	</fieldset>

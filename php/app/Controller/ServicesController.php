@@ -113,6 +113,7 @@ class ServicesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
 		$this->Service->recursive = 0;
 		$this->set('services', $this->Paginator->paginate());
 	}
@@ -125,6 +126,7 @@ class ServicesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
 		if (!$this->Service->exists($id)) {
 			throw new NotFoundException(__('Invalid service'));
 		}
@@ -138,10 +140,11 @@ class ServicesController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->layout="admindefault";
 		if ($this->request->is('post')) {
 			$this->Service->create();
 			if ($this->Service->save($this->request->data)) {
-				$this->Session->setFlash(__('The service has been saved.'));
+				$this->Session->setFlash(__('The service has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
@@ -159,12 +162,13 @@ class ServicesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
 		if (!$this->Service->exists($id)) {
 			throw new NotFoundException(__('Invalid service'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Service->save($this->request->data)) {
-				$this->Session->setFlash(__('The service has been saved.'));
+				$this->Session->setFlash(__('The service has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The service could not be saved. Please, try again.'));
@@ -185,13 +189,14 @@ class ServicesController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
 		$this->Service->id = $id;
 		if (!$this->Service->exists()) {
 			throw new NotFoundException(__('Invalid service'));
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Service->delete()) {
-			$this->Session->setFlash(__('The service has been deleted.'));
+			$this->Session->setFlash(__('The service has been deleted.'),'default',array('class'=>'success'));
 		} else {
 			$this->Session->setFlash(__('The service could not be deleted. Please, try again.'));
 		}

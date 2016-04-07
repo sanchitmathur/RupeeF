@@ -6,16 +6,23 @@
         <div class="actions">
             <h3><?php echo __('Actions'); ?></h3>
             <ul>
-                <li><?php echo $this->Html->link(__('New Main Service'), array('action' => 'add')); ?></li>
-                <li><?php echo $this->Html->link(__('List Sub Services'), array('controller' => 'sub_services', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('New Sub Service'), array('controller' => 'sub_services', 'action' => 'add')); ?> </li>
-                <li><?php echo $this->Html->link(__('New City'), array('action' => 'add')); ?></li>
-                <li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Main Services'), array('controller'=>'MainServices','action' => 'index')); ?></li>
+                <li><?php echo $this->Html->link(__('Sub Services'), array('controller'=>'SubServices','action' => 'index')); ?></li>
+                <li><?php echo $this->Html->link(__('Services'), array('controller'=>'Services','action' => 'index')); ?></li>
+                <li><?php echo $this->Html->link(__('Menues'), array('controller'=>'Menus','action' => 'index')); ?></li>
                 
-                <li><?php echo $this->Html->link(__('List Document Type'), array('controller' => 'DocumentTypes', 'action' => 'index')); ?> </li>
-                <li><?php echo $this->Html->link(__('Service Document'), array('controller' => 'ServiceDocuments', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Document Types'), array('controller' => 'DocumentTypes', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Service Document Types'), array('controller' => 'ServiceDocuments', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Service Related Services'), array('controller' => 'RelatedServices', 'action' => 'index')); ?> </li>
+                
                 <li><?php echo $this->Html->link(__('User Documents'), array('controller' => 'UserDocuments', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('Send Notification'), array('controller' => 'Notifications', 'action' => 'add')); ?> </li>
+                
+                <li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
+                
+                <li><?php echo $this->Html->link(__('New Main Service'), array('controller'=>'MainServices','action' => 'add')); ?></li>
+                <li><?php echo $this->Html->link(__('New Sub Service'), array('controller' => 'sub_services', 'action' => 'add')); ?> </li>
+                <li><?php echo $this->Html->link(__('New City'), array('action' => 'add')); ?></li>
                 
             </ul>
         </div>
