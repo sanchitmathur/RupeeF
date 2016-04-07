@@ -108,3 +108,7 @@ CREATE TABLE IF NOT EXISTS `rf_related_services` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+Today(07-04-16):
+================
+ALTER TABLE `rf_menus` ADD `menu_link` VARCHAR(254) NOT NULL AFTER `description`;
+UPDATE `rupee_foradian`.`rf_menus` SET `menu_link` = 'Pages/contactus' WHERE `rf_menus`.`id` = 7;
