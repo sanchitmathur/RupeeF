@@ -93,4 +93,16 @@ class PagesController extends AppController {
 	public function findcity(){
 		$this->layout="main";
 	}
+	public function cfo(){
+		$this->layout="main";
+	}
+	public function mobileapp(){
+		$this->layout="main";
+	}
+	public function safty(){
+		$this->layout="main";
+	}
+	public function businesspartner(){
+		$this->layout="main";
+	}
 }
