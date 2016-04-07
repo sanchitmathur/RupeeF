@@ -566,20 +566,22 @@
 				?>
 				
 			</div>
-			<div class="close_menu">
-				<ul>
-					<li><a href="<?=$config['BaseUrl']?>">Home</a></li>
-					<li><a href="javascript:void(0);">our services</a></li>
-					<li><a href="javascript:void(0);">our cities</a></li>
-					<li><a href="javascript:void(0);">be a business partner</a></li>
-					<li><a href="javascript:void(0);">mobile app features</a></li>
-					<li><a href="javascript:void(0);">safety / confidentiality</a></li>
-					<li><a href="javascript:void(0);">cfo</a></li>
-					<li><a href="javascript:void(0);">about us</a></li>
-					<li><a href="javascript:void(0);">Careers</a></li>
-					<li><a href="javascript:void(0);">legal terms & conditions</a></li>
-					<li><a href="javascript:void(0);">News room</a></li>
-				</ul>
+			<div class="resscrol">
+				<div class="close_menu">
+					<ul>
+						<li><a href="<?=$config['BaseUrl']?>">Home</a></li>
+						<li><a href="javascript:void(0);">our services</a></li>
+						<li><a href="javascript:void(0);">our cities</a></li>
+						<li><a href="javascript:void(0);">be a business partner</a></li>
+						<li><a href="javascript:void(0);">mobile app features</a></li>
+						<li><a href="javascript:void(0);">safety / confidentiality</a></li>
+						<li><a href="javascript:void(0);">cfo</a></li>
+						<li><a href="javascript:void(0);">about us</a></li>
+						<li><a href="javascript:void(0);">Careers</a></li>
+						<li><a href="javascript:void(0);">legal terms & conditions</a></li>
+						<li><a href="javascript:void(0);">News room</a></li>
+					</ul>
+				</div>
 			</div>
 			<div class="playstore_icon">
 				<center>
@@ -735,7 +737,7 @@
 					?>
 							<ul class="sublogin_Div">
 								<li>
-									<div style="width:100%;">
+									<div style="width:100%;" class="res_wel">
 										Welcome 
 										<?php
 											$len = strlen($user_name);

@@ -265,22 +265,39 @@
 	</div>
 	<!------ End Slider ------>
 		<div class="res_menuSub">
-			<ul>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_1.png" class="icon1"/><span>Individual</span></li>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_2.png" class="icon1"/><span>Corporate</span></li>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_3.png" class="icon1"/><span>Banks</span></li>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_4.png" class="icon1"/><span>NGO/Trust</span></li>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_5.png" class="icon1"/><span>Govt</span></li>
-				<li><img src="<?=$config['BaseUrl']?>img/icon_6.png" class="icon1"/><span>Contact</span></li>
-				<div class="clr"></div>
-			</ul>
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_1.png" class="icon1"/><span>Individual</span>
+			</div>
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_2.png" class="icon1"/><span>Corporate</span>
+			</div>
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_3.png" class="icon1"/><span>Banks</span>
+			</div>
+			
+			<div class="clr"></div>
+			
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_4.png" class="icon1"/><span>NGO/Trust</span>
+			</div>
+			
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_5.png" class="icon1"/><span>Govt</span>
+			</div>
+			
+			<div class="col-sm-4 col-xs-4 res_indiicon">
+				<img src="<?=$config['BaseUrl']?>img/icon_6.png" class="icon1"/><span>Contact</span>
+			</div>
+			
+			<div class="clr"></div>
+			
 		</div>
 	<!------ Services ------>
 	<div class="service">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 service_body">
-					<h1>Services<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span></h1>
+					<h1>Services<span>We have specialisation in registering a wide range on business entities</span></h1>
 					<div class="allService">
 					<?php
 						//pr($mainServices);
@@ -427,7 +444,7 @@
 	<!--- Location --->
 	<div class="location">
 		<div class="service_body">
-			<h1>Location<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span></h1>
+			<h1>Location<span>We are available with our offices in various cities but we are serving pan india</span></h1>
 			<div class="location_body">
 				<div class="col-md-6 location_search">
 					<h3>All around the India<span>Available locally, expanding globally</span></h3>
