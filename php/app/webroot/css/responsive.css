@@ -4,10 +4,13 @@
 @media (max-width: 320px){
 	
 	.resscrol{
-		height: 340px !important;
+		height: 282px !important;
 	}
-	.slide_text{
+	/*.slide_text{
 		bottom:27px;
+	}*/
+	.slider{
+		height:213px !important;
 	}
 }
 
@@ -66,6 +69,13 @@
 	.slidText{
 		padding:0 !important;
 		width:100% !important;
+	}
+	.newpanelhead h4{
+		font-weight:300 !important;
+	}
+	.hoverSub_menu li a{
+		padding:0 0 0 10px;
+		font-size:14px !important;
 	}
 }
 
@@ -178,7 +188,7 @@
 		padding:40px 15px !important;
 	}
 	.service_body h1 {
-		font-size: 30px;
+		font-size:24px;
 	}
 	.abDiv{
 		border-right:inherit;
@@ -191,10 +201,12 @@
 	}
 	.service1{
 		padding:15px;
+		position:inherit !important;
 	}
 	.expandService p {
 		font-size: 16px;
 		padding: 0 0 0 14px;
+		font-weight:400;
 	}
 	.map_service{
 		width:100%;
@@ -289,7 +301,7 @@
 	.service_body h1 span{
 		font-size: 14px;
 		line-height: 20px;
-		padding:0 10px;
+		padding:8px 10px 0 10px;
 	}
 	.creerText{
 		padding:0;
@@ -344,7 +356,7 @@
 	}
 	.resscrol{
 		overflow-y: scroll;
-		height: 495px;
+		height:320px;
 	}
 	.sideMenu{
 		width:100%;
@@ -361,5 +373,11 @@
 	}
 	.signoutLogin{
 		width:400px !important;
+	}
+	.proprietorship{
+		padding: 55px 0 60px 0;
+	}
+	.proprietorship p{
+		width:100%;
 	}
 }
