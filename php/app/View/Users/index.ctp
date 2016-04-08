@@ -2,6 +2,8 @@
 <?php
 	//pr($userdocuments);
 	//pr($userservicepackages);
+	//pr($relatedServices);
+	$phpbaseurl=FULL_BASE_URL.$this->base."/";
 ?>
 <!-- user bye service section -->
 <div class="col-sm-9">
@@ -90,6 +92,48 @@
 <!-- new sugession section-->
 <div class="col-sm-3 other_offer" style="padding-right:0;">
 	<h1>Related service for you</h1>
+	<?php
+		if(is_array($relatedServices) && count($relatedServices)>0){
+			$i=1;
+			foreach($relatedServices as $relatedService){
+				$clas="";
+				if($i%2==0){
+					$clas="ab1";
+				}
+				elseif($i%3==0){
+					$clas="ab3";
+				}
+				else{
+					$clas="";	
+				}
+				$servicename=$relatedService['Service']['service_name'];
+				$service_description = $relatedService['Service']['service_description'];
+				$service_description=substr($service_description,0,100);
+				$packagecost="";
+				$serviceid=$relatedService['Service']['id'];
+				$link =$phpbaseurl."Services/bussiness_service/".$serviceid;
+				if(isset($relatedService['ServicePackage']) && is_array($relatedService['ServicePackage']) && count($relatedService['ServicePackage'])>0){
+					$package = $relatedService['ServicePackage']['0'];
+					$packagecost="Rs. ".$package['amount']."/- onwards";
+				}
+				else{
+					continue;
+				}
+				?>
+				<div class="itemchuse_log <?=$clas?>">
+					<h2><?=$servicename?></h2>
+					<p><?=$service_description?>...</p>
+					<h3><?=$packagecost?><span><a href="<?=$link?>" style="color:#fff;"><i><?php echo $this->Html->image('cart_icon3.png')?></i> checkout</a></span></h3>
+				</div>	
+				<?php
+				$i++;
+			}
+		}
+		else{
+			
+		}
+	?>
+	<!--
 	<div class="itemchuse_log">
 		<h2>Tax Registrations</h2>
 		<p>Shareholders are only liable for their share of money they invested in the company.</p>
@@ -110,6 +154,7 @@
 		<p>Shareholders are only liable for their share of money they invested in the company.</p>
 		<h3>Rs. 500/- <span><a href="" style="color:#fff;"><i><img src="img/cart_icon3.png"></i> checkout</a></span></h3>
 	</div>
+	-->
 </div>
 <div class="clr"></div>
 <!-- suggession section end-->

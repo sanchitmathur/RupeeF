@@ -112,3 +112,8 @@ Today(07-04-16):
 ================
 ALTER TABLE `rf_menus` ADD `menu_link` VARCHAR(254) NOT NULL AFTER `description`;
 UPDATE `rupee_foradian`.`rf_menus` SET `menu_link` = 'Pages/contactus' WHERE `rf_menus`.`id` = 7;
+
+Today(08-04-16):
+===============
+ALTER TABLE `rf_related_services` CHANGE `related_service_id` `other_service_id` INT(11) NOT NULL;
+

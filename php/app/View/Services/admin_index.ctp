@@ -33,6 +33,7 @@
 			</br></br>
 			<?php echo $this->Html->link(__('Document Need'), array('controller'=>'ServiceDocuments','action' => 'add', $service['Service']['id'])); ?>
 			<?php echo $this->Html->link(__('Related Services'), array('controller'=>'RelatedServices','action' => 'add', $service['Service']['id'])); ?>
+			<?php echo $this->Html->link(__('New Service Package'), array('controller'=>'service_packages','action' => 'add', $service['Service']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
