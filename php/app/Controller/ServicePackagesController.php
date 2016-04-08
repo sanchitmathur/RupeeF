@@ -113,8 +113,30 @@ class ServicePackagesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
+		$service_id=0;
+		$paginatecond=array();
+		if($this->request->is('post')){
+			$service_id=$this->request->data['Service']['service_id'];
+			if($service_id>0){
+				$paginatecond=array('ServicePackage.service_id'=>$service_id);
+			}
+		}
 		$this->ServicePackage->recursive = 0;
+		$this->Paginator->settings=array(
+			'conditions'=>$paginatecond
+		);
 		$this->set('servicePackages', $this->Paginator->paginate());
+		//
+		$service_cond = array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		$services = $this->ServicePackage->Service->find('list',array('conditions'=>$service_cond));
+		$services[0]="Select Service";
+		ksort($services);
+		$this->set(compact('services'));
+		$this->set('serviceId',$service_id);
 	}
 
 /**
@@ -135,19 +157,28 @@ class ServicePackagesController extends AppController {
 /**
  * admin_add method
  *
+ * @param string $service_id
  * @return void
  */
-	public function admin_add() {
+	public function admin_add($service_id) {
+		$this->layout="admindefault";
 		if ($this->request->is('post')) {
 			$this->ServicePackage->create();
 			if ($this->ServicePackage->save($this->request->data)) {
 				$this->Session->setFlash(__('The service package has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'index'),'default',array('class'=>'success'));
 			} else {
 				$this->Session->setFlash(__('The service package could not be saved. Please, try again.'));
 			}
 		}
-		$services = $this->ServicePackage->Service->find('list');
+		$service_cond = array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		if($service_id>0){
+			$service_cond['Service.id']=$service_id;
+		}
+		$services = $this->ServicePackage->Service->find('list',array('conditions'=>$service_cond));
 		$this->set(compact('services'));
 	}
 

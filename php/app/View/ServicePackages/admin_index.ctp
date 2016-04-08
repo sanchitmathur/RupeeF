@@ -1,5 +1,17 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+	});
+</script>
 <div class="servicePackages index">
 	<h2><?php echo __('Service Packages'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px; min-width:25% !important;">
+		<?php
+			echo $this->Form->create('Service');
+			echo $this->Form->input('service_id',array('value'=>$serviceId));
+		?>
+		<?php echo $this->Html->link(__('Add New Service Package'), array('action' => 'add')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
