@@ -1,21 +1,15 @@
 <div class="cities form">
-<?php echo $this->Form->create('City'); ?>
+<?php echo $this->Form->create('RelatedService'); ?>
 	<fieldset>
-		<legend><?php echo __('Admin Add City'); ?></legend>
+		<legend><?php echo __('Add Related Services'); ?></legend>
 	<?php
-		echo $this->Form->input('city_name');
-		echo $this->Form->input('is_blocked');
-		echo $this->Form->input('is_deleted');
+		echo $this->Form->input('service_id');
+		echo $this->Form->input('other_service_id',array('multiple'=>true,'value'=>$prevsavedserviceids));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
+<div class="actions" style="margin: -62px 0 0px 80px;font-size: 22px;">
+	<?php echo $this->Html->link(__('Back'), array('action' => 'index','admin'=>true)); ?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+</div>
 
-		<li><?php echo $this->Html->link(__('List Cities'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
-</div>

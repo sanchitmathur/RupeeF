@@ -69,8 +69,61 @@ class UsersController extends AppController {
 		else{
 			$userdocuments=array();
 		}
+		//others related services
+		$relatedServices = array();
+		if(count($userservicepackages)>0){
+			$this->UserServicePackage->displayField="service_id";
+			$findcond = array(
+				'UserServicePackage.user_id'=>$user_id,
+				'UserServicePackage.transaction_id >'=>'0',
+				'UserServicePackage.is_blocked'=>'0',
+				'UserServicePackage.is_deleted'=>'0',
+				'UserServicePackage.is_completed'=>'0'
+			);
+			$userbyeservicelist = $this->UserServicePackage->find('list',array('conditions'=>$findcond));
+			if(count($userbyeservicelist)>0){
+				$this->loadModel('RelatedService');
+				$buyed_service_ids = array_values($userbyeservicelist);
+				//get the service details
+				$cond=array('RelatedService.service_id'=>$buyed_service_ids,'RelatedService.other_service_id !='=>$buyed_service_ids);
+				//unbind model
+				$this->RelatedService->displayField='other_service_id';
+				$relatedServices=$this->RelatedService->find('list',array('conditions'=>$cond));
+				//pr($relatedServices);
+				//die();
+			}
+		}
+		//
+		$servicefind=array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		if(count($relatedServices)>0){
+			$service_ids = array_values($relatedServices);
+			$servicefind['Service.id']=$service_ids;
+		}
+		//unbind section
+		$this->RelatedService->Service->unbindModel(array(
+			'belongsTo'=>array('SubService'),
+			'hasMany'=>array('ServiceAdvantage','ServiceFaq','ServiceDocument')
+		));
+		
+		//bind the servicepackage details
+		/*$this->RelatedService->Service->bindModel(array(
+			'hasMany'=>array(
+				'ServicePackage'=>array(
+					'className'=>'ServicePackage',
+					'foreingKey'=>'service_id',
+					//'conditions'=>array('ServicePackage.package_name'=>'Basic')
+					'limit'
+				)
+			)
+		));*/
+		$relatedServices = $this->RelatedService->Service->find('all',array('recurcive'=>'1','conditions'=>$servicefind));
+		//valued set to the page
 		$this->set('userdocuments',$userdocuments);
 		$this->set('userservicepackages',$userservicepackages);
+		$this->set('relatedServices',$relatedServices);
 	}
 /**
  * documents method

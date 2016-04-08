@@ -29,6 +29,10 @@ class RelatedService extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-		)
+		),
+                'OtherService'=>array(
+                        'className'=>'Service',
+                        'foreingKey'=>'other_service_id'
+                )
 	);
 }
