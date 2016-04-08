@@ -1733,3 +1733,124 @@ sup {
 				margin:0 5px 0 0;
 				padding:5px;
 			}
+			
+	/*-----------------contact_body-----------------*/
+	
+		.contact_body{
+			padding:40px 15px 0 15px;
+		}
+			.common_contact{
+				padding-left:0 !important;
+				margin:20px 0 0 0;
+			}
+			.common_contact h2{
+				font-size:24px;
+				font-weight:300;
+				color:#000;
+				margin:0;
+				padding:20px 0;
+				text-align:center;
+				text-transform: capitalize;
+			}
+			.common_contact p{
+				font-size:16px;
+				font-weight:300;
+				color:#000;
+				margin:0;
+				padding:0 0 6px 0;
+				text-align:center;
+				text-transform: capitalize;
+			}
+			.common_contact p span{
+				color:#696f6f;
+				font-size:16px;
+				padding-left:8px;
+			}
+		.mapfromNew{
+			margin-top:30px;
+		}
+		.yourMsg{
+			border: 1px solid #e4e4e4;
+			padding: 10px;
+			text-align: left;
+			margin: 0 0 10px 0;
+			border-radius: 1px;
+			font-size: 16px;
+			font-weight: normal;
+			color: #000;
+			font-weight:300;
+			width: 100%;
+			background-color: transparent;
+		}
+	.Mobile_App{
+		padding:40px 15px 0 15px;
+	}
+		.Mobile_App h2{
+			font-size:24px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:20px 0;
+			text-align:center;
+			text-transform: capitalize;
+		}
+		.Mobile_App h2 span{
+			line-height:22px;
+			display:block;
+			width:80%;
+			margin:0 auto;
+			padding-top:8px;
+			font-size:16px;
+		}
+		.apptext{
+			padding:50px !important;
+		}
+		.apptext h2{
+			font-size:24px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:0 0 20px 0;
+			text-align:left;
+			text-transform: capitalize;
+		}
+		.apptext p{
+			font-size:16px;
+			font-weight:300;
+			color:#000;
+			margin:0;
+			padding:0 0 20px 0;
+			text-align:left;
+			text-transform: capitalize;
+		}
+		.fea_icon{
+			width:80px;
+			height:80px;
+			border-radius:100%;
+			background:#cfcfcf;
+		}
+		.feaText{
+			padding:0 0 0 30px !important;
+		}
+		.textfa{
+			margin:10px 0;
+		}
+		.helpser{
+			margin-bottom:50px;
+		}
+	.ourser{
+		background-color: rgba(15, 115, 194, 0.95);
+		position: relative;
+		margin: 0 0 30px 0;
+		height: 272px;
+		padding:15px;
+	}
+		.ourser h2{
+			font-size:24px;
+			margin: 0;
+			padding: 0 0 20px 0;
+			color: #fff;
+			text-align: center;
+			text-transform: uppercase;
+			font-weight: 300;
+		}

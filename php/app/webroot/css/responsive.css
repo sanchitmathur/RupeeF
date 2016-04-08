@@ -166,7 +166,7 @@
 		width:12px;
 	}
 	.allcommon_body{
-		padding:85px 0 60px 0;
+		padding:75px 0 60px 0;
 	}
 	.left_login{
 		padding:0 !important;
@@ -356,7 +356,7 @@
 	}
 	.resscrol{
 		overflow-y: scroll;
-		height:320px;
+		height:416px;
 	}
 	.sideMenu{
 		width:100%;
@@ -379,5 +379,33 @@
 	}
 	.proprietorship p{
 		width:100%;
+	}
+	.playstore_icon{
+		padding: 15px 0;
+		height: 60px;
+		position: absolute;
+		width: 100%;
+		bottom: 0;
+		background:rgba(253, 203, 24, 1);
+	}
+	.apptext{
+		padding:0 !important;
+	}
+	.Mobile_App {
+		padding: 20px 0 0 0; 
+	}
+	.resimg_mobile{
+		width:100%;
+	}
+	.fea_icon{
+		width:60px !important; 
+		height:60px !important;
+	}
+	.contact_body{
+		padding:20px 0 0 0;
+	}
+	.mapinput{
+		padding:0 !important;
+		margin-bottom:10px;
 	}
 }
