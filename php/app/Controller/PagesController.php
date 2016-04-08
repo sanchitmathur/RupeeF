@@ -105,4 +105,7 @@ class PagesController extends AppController {
 	public function businesspartner(){
 		$this->layout="main";
 	}
+	public function ourservices(){
+		$this->layout="main";
+	}
 }
