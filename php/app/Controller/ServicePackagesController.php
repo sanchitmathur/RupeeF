@@ -165,8 +165,8 @@ class ServicePackagesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->ServicePackage->create();
 			if ($this->ServicePackage->save($this->request->data)) {
-				$this->Session->setFlash(__('The service package has been saved.'));
-				return $this->redirect(array('action' => 'index'),'default',array('class'=>'success'));
+				$this->Session->setFlash(__('The service package has been saved.'),'default',array('class'=>'success'));
+				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The service package could not be saved. Please, try again.'));
 			}
@@ -190,12 +190,14 @@ class ServicePackagesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
+		$service_id=0;
 		if (!$this->ServicePackage->exists($id)) {
 			throw new NotFoundException(__('Invalid service package'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->ServicePackage->save($this->request->data)) {
-				$this->Session->setFlash(__('The service package has been saved.'));
+				$this->Session->setFlash(__('The service package has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The service package could not be saved. Please, try again.'));
@@ -203,8 +205,16 @@ class ServicePackagesController extends AppController {
 		} else {
 			$options = array('conditions' => array('ServicePackage.' . $this->ServicePackage->primaryKey => $id));
 			$this->request->data = $this->ServicePackage->find('first', $options);
+			$service_id=$this->request->data['ServicePackage']['service_id'];
 		}
-		$services = $this->ServicePackage->Service->find('list');
+		$service_cond = array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		if($service_id>0){
+			$service_cond['Service.id']=$service_id;
+		}
+		$services = $this->ServicePackage->Service->find('list',array('conditions'=>$service_cond));
 		$this->set(compact('services'));
 	}
 

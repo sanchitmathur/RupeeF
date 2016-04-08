@@ -41,7 +41,7 @@
                         <div class="chatwindow1">
                                 <div class="col-md-1 col-xs-1 userpicture">
                                         <!--<img src="img/userPic.png" class="userIMG">-->
-                                        <?php echo $this->Html->image('ricon.png',array('class'=>'userIMG'));?>
+                                        <?php echo $this->Html->image('ricon.png',array('class'=>'userIMG2'));?>
                                 </div>
                                 <div class="col-md-9 col-xs-9">
                                         <div class="userspick">
@@ -92,7 +92,7 @@
     <div class="col-md-1 col-xs-1 send_text">
             <input type="submit" value="" class="imgClass" id="postmessage" />
     </div>
-    </form>
+   <?php echo "</form>"; ?>
 </div>
 
 <!-- script setions-->

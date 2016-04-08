@@ -114,7 +114,7 @@
 				$link =$phpbaseurl."Services/bussiness_service/".$serviceid;
 				if(isset($relatedService['ServicePackage']) && is_array($relatedService['ServicePackage']) && count($relatedService['ServicePackage'])>0){
 					$package = $relatedService['ServicePackage']['0'];
-					$packagecost="Rs. ".$package['amount']."/- onwards";
+					$packagecost="Rs. ".$package['amount']."/- ";
 				}
 				else{
 					continue;
@@ -123,7 +123,7 @@
 				<div class="itemchuse_log <?=$clas?>">
 					<h2><?=$servicename?></h2>
 					<p><?=$service_description?>...</p>
-					<h3><?=$packagecost?><span><a href="<?=$link?>" style="color:#fff;"><i><?php echo $this->Html->image('cart_icon3.png')?></i> checkout</a></span></h3>
+					<h3><?=$packagecost?><span><a href="<?=$link?>" style="color:#fff;"><i><?php echo $this->Html->image('cart_icon3.png')?></i> Add To Cart</a></span></h3>
 				</div>	
 				<?php
 				$i++;

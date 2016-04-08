@@ -436,7 +436,7 @@ class UsersController extends AppController {
 						'user_id'=>$user_id,
 						'admin_user_id'=>'0',
 						'reciever_id'=>$user_id,
-						'message'=>"'".$messagetext."'",
+						'message'=>$messagetext,
 						'create_date'=>date("Y-m-d G:i:s"),
 						'is_user_post'=>'1',
 					)
@@ -1648,6 +1648,7 @@ class UsersController extends AppController {
 		}
 	}
 	
+	
 	public function paymentsuccess(){
 		if($this->request->is('post')){
 			$payureturnsdata = $this->request->data;
@@ -1676,6 +1677,8 @@ class UsersController extends AppController {
 							$this->Transaction->updateAll($updata,$finscond);
 							$succees=true;
 							$this->Session->write('cartItemNo','0');
+							
+							//now update the service progress steps
 						}
 					}
 					else{

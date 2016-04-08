@@ -1,3 +1,8 @@
+<?php
+	$currencies=array(
+		'INR'=>'INR'
+	);
+?>
 <div class="servicePackages form">
 <?php echo $this->Form->create('ServicePackage'); ?>
 	<fieldset>
@@ -7,10 +12,10 @@
 		echo $this->Form->input('package_name');
 		echo $this->Form->input('description');
 		echo $this->Form->input('amount');
-		echo $this->Form->input('currency');
+		echo $this->Form->input('currency',array('options'=>$currencies));
 		
-		echo $this->Form->hidden('is_blocked');
-		echo $this->Form->hidden('is_deleted');
+		echo $this->Form->hidden('is_blocked',array('value'=>'0'));
+		echo $this->Form->hidden('is_deleted',array('value'=>'0'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

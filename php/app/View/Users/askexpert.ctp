@@ -1,10 +1,32 @@
+<!-- script setions-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#postmessage").bind('click',postthemessage);
+    });
+    function postthemessage(e) {
+        e.preventDefault();
+        var message=$("#messagetext").val();
+        if (message!='') {
+            //
+            
+            $("#msgfrm").submit();
+        }
+        else{
+            alert("Please type your message");
+        }
+    }
+</script>
 <div class="typeChat2">
+    <?php
+        echo $this->Form->create('User',array('action'=>'postmessage','id'=>'msgfrm'));
+    ?>
     <div class="col-md-11 col-xs-11" style="padding:0;">
-            <input class="chatinput" name="text" value="" placeholder="Type your question here..." type="text">
+            <input class="chatinput" id="messagetext" name="messagetext" value="" placeholder="Type your question here..." type="text">
     </div>
     <div class="col-md-1 col-xs-1 send_text">
-            <input type="submit" value="" class="imgClass" />
+            <input type="submit" value="" class="imgClass" id="postmessage" />
     </div>
+    <?php echo "</form>"; ?>
     <div class="clr"></div>
 </div>
 
