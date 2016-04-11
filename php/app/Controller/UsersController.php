@@ -1671,13 +1671,25 @@ class UsersController extends AppController {
 					$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
 					if(is_array($transaction) && count($transaction)>0){
 						$amount = $transaction['Transaction']['total_service_cost'];
+						$user_id = $transaction['Transaction']['user_id'];
 						if($amount==$paying_amount){
 							//now update the table
 							$updata = array('Transaction.is_completed'=>'1');
 							$this->Transaction->updateAll($updata,$finscond);
 							$succees=true;
 							$this->Session->write('cartItemNo','0');
-							
+							//now delete all the cart item
+							$this->loadModel('UserCart');
+							$upcond = array(
+								'UserCart.user_id'=>$user_id,
+								'UserCart.is_deleted'=>'0',
+								'UserCart.is_active'=>'1'
+							);
+							$updata = array(
+								'UserCart.is_deleted'=>'1',
+								'UserCart.is_active'=>'0'
+							);
+							$this->UserCart->updateAll($updata,$upcond);
 							//now update the service progress steps
 						}
 					}
