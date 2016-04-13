@@ -625,11 +625,13 @@ sup {
 	}
 	.docADD h3 a{
 		color: #000;
-		padding: 0 15px 15px 0;
+		padding: 0 0 15px 0;
 		font-size: 16px;
-		font-weight:300;
+		font-weight: 300;
 		display: block;
 		transition: all 0.4s ease;
+		width: 114px;
+		float: right;
 	}
 	.docADD h3 a:hover{
 		color:#0c94d0;
@@ -642,4 +644,68 @@ sup {
 	.ricon2{
 		width:100%;
 		padding:6px 0;
+	}
+	
+/*----------------uplode_Doc-------------------------*/
+
+	.uplode_Doc table{
+		width:100%;
+		/*border:1px solid #e4e4e4;*/
+	}
+	.uplode_Doc table tr{
+	}
+	.uplode_Doc table tr td{
+		font-weight:300 !important;
+		color:#717171 !important;
+		padding:10px !important;
+		border-top:none !important;
+		vertical-align:middle !important;
+	}
+	.uplode_Doc table tr td label{
+		font-weight:300 !important;
+		padding:0 20px 0 0;
+		font-size:18px;
+	}
+	.uplode_Doc table tr td a{
+		color:#adadad;
+		padding:0 6px 0 0;
+		cursor:default;
+	}
+	input[type="file"] {
+		display:  inline !important;
+	}
+	.doc_drop{
+		border: 1px solid #ddd;
+		padding:5px;
+		text-align: left;
+		margin: 0 0 15px 0;
+		border-radius: 1px;
+		font-size: 16px;
+		font-weight: normal;
+		color: #000;
+		font-weight: 300;
+		width:30%;
+		background-color: transparent;
+	}
+	.doc_browse{
+		
+	}
+	.uplode_bnt{
+		border: 1px solid #ddd;
+		padding: 6px 40px;
+		text-align: center;
+		margin: 15px 0 0 115px;
+		font-size: 16px;
+		font-weight: 300;
+		color: #000;
+		background-color: transparent;
+		transition: all 0.4s ease;
+	}
+	.uplode_bnt:hover{
+		border: 1px solid #126abf;
+		background:#126abf;
+		color:#fff;
+	}
+	.doc_browse label{
+		margin-right:35px !important;
 	}
