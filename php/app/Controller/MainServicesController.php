@@ -103,6 +103,55 @@ class MainServicesController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * admin_login method
+ * 
+ */
+	public function admin_login(){
+		$this->layout="admindefault";
+		$this->adminsessionpresent();
+		if($this->request->is('post')){
+			$posteddata = $this->request->data;
+			$email = isset($posteddata['AdminUser']['email'])?$posteddata['AdminUser']['email']:'';
+			$password = isset($posteddata['AdminUser']['password'])?$posteddata['AdminUser']['password']:'';
+			//validaion
+			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+				$this->Session->setFlash(__('Please enter your valid email address'));	
+			}
+			else{
+				if($password==''){
+					$this->Session->setFlash(__('Please enter your password'));
+				}
+				else{
+					$findcond = array(
+						'AdminUser.email'=>$email,
+						'AdminUser.password'=>md5($password),
+						'AdminUser.is_active'=>'1',
+						'AdminUser.is_deleted'=>'0'
+					);
+					$this->loadModel('AdminUser');
+					$adminUser = $this->AdminUser->find('first',array('conditions'=>$findcond));
+					if(is_array($adminUser) && count($adminUser)>0){
+						//user found
+						$admin_id = $adminUser['AdminUser']['id'];
+						$findcond['AdminUser.email']=$admin_id;
+						//update the login time
+						$updata = array('AdminUser.lastlogin'=>time());
+						//update
+						$this->AdminUser->updateAll($updata,$findcond);
+						//now set the sesstion
+						$this->Session->write('adminuser',$adminUser['AdminUser']);
+						//
+						$this->adminsessionpresent();
+					}
+					else{
+						$this->Session->setFlash(__('Email or password does not matched'));
+					}
+				}
+			}
+		}
+	}
 
 /**
  * admin_index method
@@ -110,6 +159,7 @@ class MainServicesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->adminsessionchecked();
 		$this->layout="admindefault";
 		$this->MainService->recursive = 0;
 		$this->set('mainServices', $this->Paginator->paginate());

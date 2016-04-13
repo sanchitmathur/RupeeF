@@ -261,5 +261,33 @@ class AppController extends Controller {
         
         return $sitebasepath;
     }
+    
+/**
+ * admin section section done here
+ */
+
+ /**
+  * adminsessionchecked method
+  *
+  * @return void
+  */
+	public function adminsessionchecked(){
+		if(!$this->Session->check('adminuser')){
+			//redirect for login
+			return $this->redirect(array('controller'=>'MainServices','action'=>'login'));
+		}
+	}
+	
+/**
+  * adminsessionpresent method
+  *
+  * @return void
+  */
+	public function adminsessionpresent(){
+		if($this->Session->check('adminuser')){
+			//redirect for login
+			return $this->redirect(array('controller'=>'MainServices','action'=>'index'));
+		}
+	}
 	
 }

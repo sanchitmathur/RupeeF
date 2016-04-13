@@ -472,8 +472,11 @@
 	<script type="text/javascript">
 		var autocomplete='';
 		function initialize() {
-		    var input = document.getElementById('firstName');;
-		    var options = {componentRestrictions: {country: 'in'}};
+		    var input = document.getElementById('firstName');
+		    var options = {
+			type:['cities'],
+			componentRestrictions: {country: 'in'}
+			};
 				 
 		    autocomplete = new google.maps.places.Autocomplete(input, options);
 		    autocomplete.addListener('place_changed', function() {
