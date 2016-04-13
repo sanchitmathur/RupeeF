@@ -29,6 +29,7 @@ class UsersController extends AppController {
 		$user_id = $this->Session->read('user.user_id');
 		//get all byed service data og the user
 		$this->loadModel('UserServicePackage');
+		$this->loadModel('RelatedService');
 		$findcond = array(
 			'UserServicePackage.user_id'=>$user_id,
 			'UserServicePackage.transaction_id >'=>'0',
@@ -82,7 +83,7 @@ class UsersController extends AppController {
 			);
 			$userbyeservicelist = $this->UserServicePackage->find('list',array('conditions'=>$findcond));
 			if(count($userbyeservicelist)>0){
-				$this->loadModel('RelatedService');
+				
 				$buyed_service_ids = array_values($userbyeservicelist);
 				//get the service details
 				$cond=array('RelatedService.service_id'=>$buyed_service_ids,'RelatedService.other_service_id !='=>$buyed_service_ids);
