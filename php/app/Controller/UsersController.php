@@ -204,7 +204,7 @@ class UsersController extends AppController {
 						$posteddata['UserDocument']['doc_name']=$filename;
 						$posteddata['UserDocument']['user_id']=$user_id;
 						$posteddata['UserDocument']['doc_status']='0';
-						
+						$posteddata['UserDocument']['createdate']="'".date("Y-m-d h:i:s")."'";
 						if($this->User->UserDocument->save($posteddata)){
 							//saved the doc
 							
@@ -567,6 +567,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
 	}
@@ -579,11 +581,37 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+		//unbind models
+		$this->User->unbindModel(array(
+			'hasMany'=>array('UserService','Notification')
+		));
+		$this->User->City->unbindModel(array(
+			'hasMany'=>array('User')
+		));
+		$this->User->Language->unbindModel(array(
+			'hasMany'=>array('User')
+		));
+		$this->User->UserServicePackage->unbindModel(array(
+			'belongsTo'=>array('User','ServicePackage','Transaction')
+		));
+		$this->User->UserDocument->unbindModel(array(
+			'belongsTo'=>array('User')
+		));
+		
+		$this->User->recursive='2';
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
+		//image urls
+		$alltypefilepaths = $this->alltypefilepaths();
+		$thumb_filepath = $alltypefilepaths['dic']['userdocument_thumb'];
+		$thumb_fileurl = $alltypefilepaths['url']['userdocument_thumb'];
+		$this->set('thumb_filepath',$thumb_filepath);
+		$this->set('thumb_fileurl',$thumb_fileurl);
 	}
 
 /**
@@ -592,6 +620,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
@@ -611,6 +641,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -635,6 +667,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
@@ -1254,6 +1288,7 @@ class UsersController extends AppController {
 		return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 	}
 	
+
 /**
  * proceedToCheckout method
  *

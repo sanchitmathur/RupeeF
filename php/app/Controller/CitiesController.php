@@ -109,8 +109,11 @@ class CitiesController extends AppController {
  * @return void
  */
 	public function admin_index() {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->City->recursive = 0;
 		$this->set('cities', $this->Paginator->paginate());
+		
 	}
 
 /**
@@ -121,6 +124,8 @@ class CitiesController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->City->exists($id)) {
 			throw new NotFoundException(__('Invalid city'));
 		}
@@ -134,15 +139,18 @@ class CitiesController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if ($this->request->is('post')) {
 			$this->City->create();
 			if ($this->City->save($this->request->data)) {
-				$this->Session->setFlash(__('The city has been saved.'));
+				$this->Session->setFlash(__('The city has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The city could not be saved. Please, try again.'));
 			}
 		}
+		$this->set('google_mape_user_api_key',$this->google_mape_user_api_key);
 	}
 
 /**
@@ -153,6 +161,8 @@ class CitiesController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->City->exists($id)) {
 			throw new NotFoundException(__('Invalid city'));
 		}
@@ -177,6 +187,8 @@ class CitiesController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->City->id = $id;
 		if (!$this->City->exists()) {
 			throw new NotFoundException(__('Invalid city'));

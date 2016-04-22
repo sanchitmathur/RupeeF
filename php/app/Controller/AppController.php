@@ -45,6 +45,7 @@ class AppController extends Controller {
 	public $thumbImageWidth=400;
 	
 	public $allowedimageType=array('image/png','image/jpg','image/jpeg');
+	public $google_mape_user_api_key="";
 	
 /**
  * getCityList method

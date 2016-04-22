@@ -152,7 +152,16 @@ class MainServicesController extends AppController {
 			}
 		}
 	}
-
+	
+/**
+ * admin_logout method
+ * 
+ */
+	public function admin_logout(){
+		//first destroy the session
+		$this->Session->delete('adminuser');
+		$this->adminsessionchecked();
+	}
 /**
  * admin_index method
  *

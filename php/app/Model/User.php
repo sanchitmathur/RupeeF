@@ -52,7 +52,7 @@ class User extends AppModel {
 			'className' => 'UserServicePackage',
 			'foreignKey' => 'user_id',
 			'dependent' => false,
-			'conditions' => '',
+			'conditions' => array('UserServicePackage.service_id >'=>'0','UserServicePackage.transaction_id >'=>'0'),//,'UserServicePackage.is_completed'=>'1'
 			'fields' => '',
 			'order' => '',
 			'limit' => '',

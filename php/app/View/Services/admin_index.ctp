@@ -10,8 +10,9 @@
 			<th><?php echo $this->Paginator->sort('service_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('service_description'); ?></th>
 			<th><?php echo $this->Paginator->sort('sub_service_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('show_in_footer'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
-			<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>
+			<!--<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>-->
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -20,21 +21,38 @@
 	<tr>
 		<td><?php echo h($service['Service']['id']); ?>&nbsp;</td>
 		<td><?php echo h($service['Service']['service_name']); ?>&nbsp;</td>
-		<td><?php echo h($service['Service']['service_description']); ?>&nbsp;</td>
+		<td><?php echo substr(h($service['Service']['service_description']),0,400)."..."; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($service['SubService']['service_name'], array('controller' => 'sub_services', 'action' => 'view', $service['SubService']['id'])); ?>
 		</td>
-		<td><?php echo h($service['Service']['is_blocked']); ?>&nbsp;</td>
-		<td><?php echo h($service['Service']['is_deleted']); ?>&nbsp;</td>
+		<td><?php
+			if(h($service['Service']['show_in_footer'])==1){
+				echo $this->Html->link(__('Yes'),array('action'=>'shownidfooter',h($service['Service']['id']),0));
+			}
+			else{
+				echo $this->Html->link(__('No'),array('action'=>'shownidfooter',h($service['Service']['id']),1));
+			}
+		?>&nbsp;</td>
+		<td><?php 
+			if(h($service['Service']['is_blocked'])==1){
+				echo $this->Html->link(__('Yes'),array('action'=>'blockedservice',h($service['Service']['id']),0));
+			}
+			else{
+				echo $this->Html->link(__('No'),array('action'=>'blockedservice',h($service['Service']['id']),1));
+			}
+		?>&nbsp;</td>
+		<!--<td><?php echo h($service['Service']['is_deleted']); ?>&nbsp;</td>-->
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $service['Service']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $service['Service']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $service['Service']['id']), array(), __('Are you sure you want to delete # %s?', $service['Service']['id'])); ?>
 			</br></br>
 			<?php echo $this->Html->link(__('Document Need'), array('controller'=>'ServiceDocuments','action' => 'add', $service['Service']['id'])); ?>
+			</br></br>
 			<?php echo $this->Html->link(__('Related Services'), array('controller'=>'RelatedServices','action' => 'add', $service['Service']['id'])); ?>
 			</br></br>
 			<?php echo $this->Html->link(__('New Service Package'), array('controller'=>'service_packages','action' => 'add', $service['Service']['id'])); ?>
+			</br></br>
 			<?php echo $this->Html->link(__('Service Progress Step'), array('controller'=>'serviceProgresSteps','action' => 'add', $service['Service']['id'])); ?>
 		</td>
 	</tr>

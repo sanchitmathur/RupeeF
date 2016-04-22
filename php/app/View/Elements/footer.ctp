@@ -2,6 +2,9 @@
 	$config = Configure::read('RupeeForadian');
 	//pr($config);
 	$cartItemNo = $this->Session->read('cartItemNo');
+	//get all the footer active services
+	$footeractiveservices = $this->requestAction(array('controller'=>'Services','action'=>'footerservices'));
+	//pr($footeractiveservices);
 ?>
     <div class="all_footer">
 		<div class="footer">
@@ -9,34 +12,35 @@
 				<div class="row">
 					<div class="col-md-12 footer_body">
 						<div class="col-md-3 responciv_padding">
-							<h2>Services</h2>
-							<ul>
-								<li><a href="javascript:void(0);">For Indian business</a></li>
-								<li><a href="javascript:void(0);">Lets Make in India</a></li>
-								<li><a href="javascript:void(0);">We work for a cause</a></li>
-								<li><a href="javascript:void(0);">What else?</a></li>
-								<li><a href="javascript:void(0);">Get registered</a></li>
-								<li><a href="javascript:void(0);">Intellectual property</a></li>
-								<li><a href="javascript:void(0);">Business licenses</a></li>
-								<li><a href="javascript:void(0);">Employment</a></li>
-								<li><a href="javascript:void(0);">Digital Signatures</a></li>
-								<li><a href="javascript:void(0);">Tax Filings</a></li>
-								<li><a href="javascript:void(0);">Company specific</a></li>
-								<li><a href="javascript:void(0);">LLP Specific</a></li>
-								<li><a href="javascript:void(0);">Payroll processing</a></li>
-								<li><a href="javascript:void(0);">Hiring Documents</a></li>
-								<li><a href="javascript:void(0);">Investment Support</a></li>
-								<li><a href="javascript:void(0);">Legal Notice</a></li>
-								<li><a href="javascript:void(0);">Confidentiality/ Restrictive Agreement</a></li>
-								<li><a href="javascript:void(0);">Service-or-Vendor Agreement</a></li>
-								<li><a href="javascript:void(0);">Business Collaboration Agreement</a></li>
-								<li><a href="javascript:void(0);">Property Matters</a></li>
-								<li><a href="javascript:void(0);">Website Policies</a></li>
-								<li><a href="javascript:void(0);">Bank a/c opening</a></li>
-								<li><a href="javascript:void(0);">Funding</a></li>
-								<li><a href="javascript:void(0);">Check your Credit worthiness</a></li>
-							</ul>
+						<?php
+							if(is_array($footeractiveservices) && count($footeractiveservices)>0){
+								?>
+								<h2>Services</h2>
+								<ul>
+								<?php
+								$scount=1;
+								foreach($footeractiveservices as $footeractiveservice){
+									$s_name = $footeractiveservice['Service']['service_name'];
+									$s_id = $footeractiveservice['Service']['id'];
+									echo "<li>".$this->Html->link(__($s_name),array('controller'=>'Services','action'=>'bussiness_service',$s_id))."</li>";
+									if($scount%30==0){
+										?>
+								</ul>
 						</div>
+						<div class="col-md-3 responciv_padding">
+							<ul>
+										<?php
+									}
+									$scount++;
+								}
+								?>
+								</ul>
+								
+								<?php
+							}
+						?>
+						</div>
+						
 						<div class="col-md-6 responciv_padding">
 							<div class="col-sm-6 responciv_padding">
 								<h2>Testimonials</h2>
@@ -60,14 +64,18 @@
 									<li><a href="javascript:void(0);">Disclaimer</a></li>
 								</ul>
 							</div>
+							
 							<div class="col-sm-12 responciv_padding">
 								<div class="video_div">
-									<img src="<?=$config['BaseUrl']?>img/video_pic.png" class="video_pic"/>
-									<div class="play_video">
-										<a href="javascript:void(0);" style="text-align:center; display: block;">
-											<img src="<?=$config['BaseUrl']?>img/play_icon.png" class="playIcon"/>
-										</a>
+									<div id="static_sections" style="display: none;">
+										<img src="<?=$config['BaseUrl']?>img/video_pic.png" class="video_pic"/>
+										<div class="play_video">
+											<a href="javascript:void(0);" style="text-align:center; display: block;">
+												<img src="<?=$config['BaseUrl']?>img/play_icon.png" class="playIcon"/>
+											</a>
+										</div>
 									</div>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/Jbn39j-xa-k" frameborder="0" allowfullscreen></iframe>
 								</div>
 							</div>
 						</div>

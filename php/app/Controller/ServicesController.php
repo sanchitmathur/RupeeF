@@ -114,6 +114,7 @@ class ServicesController extends AppController {
  */
 	public function admin_index() {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->Service->recursive = 0;
 		$this->set('services', $this->Paginator->paginate());
 	}
@@ -127,6 +128,7 @@ class ServicesController extends AppController {
  */
 	public function admin_view($id = null) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->Service->exists($id)) {
 			throw new NotFoundException(__('Invalid service'));
 		}
@@ -141,6 +143,7 @@ class ServicesController extends AppController {
  */
 	public function admin_add() {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if ($this->request->is('post')) {
 			$this->Service->create();
 			if ($this->Service->save($this->request->data)) {
@@ -163,6 +166,7 @@ class ServicesController extends AppController {
  */
 	public function admin_edit($id = null) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->Service->exists($id)) {
 			throw new NotFoundException(__('Invalid service'));
 		}
@@ -190,18 +194,79 @@ class ServicesController extends AppController {
  */
 	public function admin_delete($id = null) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->Service->id = $id;
 		if (!$this->Service->exists()) {
 			throw new NotFoundException(__('Invalid service'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Service->delete()) {
+		
+		$this->Service->saveField('is_deleted','1');
+		$this->Session->setFlash(__('The service has been deleted.'),'default',array('class'=>'success'));
+		/*if ($this->Service->delete()) {
 			$this->Session->setFlash(__('The service has been deleted.'),'default',array('class'=>'success'));
 		} else {
 			$this->Session->setFlash(__('The service could not be deleted. Please, try again.'));
-		}
+		}*/
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/**
+ * admin_shownidfooter method
+ * @param string $id
+ * @param string $show_in_footer
+ */
+	public function admin_shownidfooter($id=null, $show_in_footer=0){
+		$this->adminsessionchecked();
+		if($id>0){
+			$upcond = array(
+				'Service.id'=>$id,
+				'Service.is_deleted'=>'0'
+			);
+			$updata = array('Service.show_in_footer'=>$show_in_footer);
+			$this->Service->updateAll($updata,$upcond);
+			if($show_in_footer==1){
+				$message="This service shown in footer section";
+			}
+			else{
+				$message="This service does not shown in footer section";
+			}
+			$this->Session->setFlash(__($message),'default',array('class'=>'success'));
+		}
+		else{
+			$this->Session->setFlash(__('Service id missing'));
+		}
+		return $this->redirect(array('controller'=>'Services','action'=>'index'));
+	}
+	
+/**
+ * admin_blockedservice method
+ * @param string $id
+ * @param string $is_blocked
+ */
+	public function admin_blockedservice($id=null, $is_blocked=0){
+		$this->adminsessionchecked();
+		if($id>0){
+			$upcond = array(
+				'Service.id'=>$id,
+				'Service.is_deleted'=>'0'
+			);
+			$updata = array('Service.is_blocked'=>$is_blocked);
+			$this->Service->updateAll($updata,$upcond);
+			if($is_blocked==1){
+				$message="This service is blocked successfully";
+			}
+			else{
+				$message="This service is unblocked successfully";
+			}
+			$this->Session->setFlash(__($message),'default',array('class'=>'success'));
+		}
+		else{
+			$this->Session->setFlash(__('Service id missing'));
+		}
+		return $this->redirect(array('controller'=>'Services','action'=>'index'));
+	}
+	
 	
 /**
  * bussiness_service method
@@ -358,6 +423,27 @@ class ServicesController extends AppController {
 		$this->numberOfItemInCart();
 		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 		return $this->redirect(array('controller'=>'UserCarts','action'=>'index'));
+	}
+	
+/**
+ * footerservices method
+ * @return array $services
+ */
+	public function footerservices(){
+		$findcond = array(
+			'Service.show_in_footer'=>'1',
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		$order = array('Service.service_name'=>'ASC');
+		//unbind models
+		$this->Service->unbindModel(array(
+			'belongsTo'=>array('SubService'),
+			'hasMany'=>array('ServiceAdvantage','ServiceFaq','ServicePackage','ServiceDocument')
+		));
+		
+		$services = $this->Service->find('all',array('recursive'=>'0','conditions'=>$findcond,'limit'=>60,'order'=>$order));
+		return $services;
 	}
 	
 }

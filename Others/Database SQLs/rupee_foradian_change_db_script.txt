@@ -119,3 +119,11 @@ ALTER TABLE `rf_related_services` CHANGE `related_service_id` `other_service_id`
 
 ==uploaded on server 08-04-16 ==
 
+Today(22-04-16):
+================
+ALTER TABLE `rf_services` ADD `show_in_footer` INT(1) NOT NULL DEFAULT '1' AFTER `sub_service_id`;
+
+ALTER TABLE `rf_user_documents` ADD `createdate` DATETIME NOT NULL AFTER `doc_status`, ADD `actiondate` DATETIME NOT NULL AFTER `createdate`;
+
+ALTER TABLE `rf_cities` ADD `lati` DOUBLE NOT NULL AFTER `city_name`, ADD `longi` DOUBLE NOT NULL AFTER `lati`;
+

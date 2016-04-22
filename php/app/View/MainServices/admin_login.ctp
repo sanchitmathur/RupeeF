@@ -3,7 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Admin Login'); ?></legend>
 	<?php
-		echo $this->Form->input('service_name');
+		echo $this->Form->input('email');
 		echo $this->Form->input('password');
 	?>
 	</fieldset>
