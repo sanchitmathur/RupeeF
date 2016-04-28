@@ -264,6 +264,31 @@ class MainServicesController extends AppController {
 		$this->layout = "main";
 		
 		$this->MainService->recursive = 2;
+		//bind the other models
+		$this->MainService->bindModel(array(
+			'hasMany'=>array(
+				'SubService'=>array(
+					'className'=>'SubService',
+					'foreingKey'=>'main_service_id',
+					'conditions'=>array('SubService.is_blocked'=>'0','SubService.is_deleted'=>'0')
+				)
+			)
+		));
+		$this->MainService->SubService->bindModel(array(
+			'hasMany'=>array(
+				'Service'=>array(
+					'className'=>'Service',
+					'foreingKey'=>'sub_service_id',
+					'conditions'=>array('Service.is_blocked'=>'0','Service.is_deleted'=>'0')
+				)
+			)
+		));
+		$this->Paginator->settings=array(
+			'conditions'=>array(
+				'MainService.is_blocked'=>'0',
+				'MainService.is_deleted'=>'0'
+			)
+		);
 		$this->set('mainServices', $this->Paginator->paginate());
 		
 		$session_id = $this->Session->read('session_id');
@@ -275,6 +300,10 @@ class MainServicesController extends AppController {
 		}
 		
 		$this->numberOfItemInCart();
+		
+		//google map api key
+		$this->set('google_api_key',$this->google_mape_user_api_key);
+		$this->set('basepath',$this->sitebasepath());
 	}
 	
 }

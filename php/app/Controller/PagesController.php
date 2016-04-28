@@ -90,8 +90,43 @@ class PagesController extends AppController {
 	public function legaltermscondition(){
 		$this->layout="main";
 	}
-	public function findcity(){
+	public function findcity($shoert_name=''){
 		$this->layout="main";
+		$this->loadModel('City');
+		$findcond = array(
+			'City.is_blocked'=>'0',
+			'City.is_deleted'=>'0'
+		);
+		if($shoert_name!=''){
+			$findcond['City.state_name']=$shoert_name;
+		}
+		$order = array('City.city_name'=>'ASC');
+		$groupby = array('City.state_name');
+		//unbind model
+		$this->City->unbindModel(array(
+			'hasMany'=>array('User')
+		));
+		$fields = array(
+			'group_concat(City.city_name) AS city_name',
+			'group_concat(City.lati)'
+		);
+		$cities = $this->City->find('all',array('recursive'=>'0',
+							'conditions'=>$findcond,
+							'order'=>$order));
+		$satatename = "";
+		if(is_array($cities) && count($cities)>0 && $shoert_name!=''){
+			$satatename = $cities[0]['City']['long_state_name'];
+		}
+		
+		//pr($cities);
+		
+		$this->set('cities',$cities);
+		$this->set('satatename',$satatename);
+		$this->set('short_name',$shoert_name);
+		
+		$this->set('google_api_key',$this->google_mape_user_api_key);
+		$this->set('basepath',$this->sitebasepath());
+		
 	}
 	public function cfo(){
 		$this->layout="main";

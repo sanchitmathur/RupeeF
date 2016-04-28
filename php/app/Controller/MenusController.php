@@ -106,6 +106,8 @@ class MenusController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/*ADMIN SECION START FROM HERE*/
 
 /**
  * admin_index method
@@ -115,7 +117,7 @@ class MenusController extends AppController {
  */
 	public function admin_index($id=0) {
 		$this->layout="admindefault";
-		
+		$this->adminsessionchecked();
 		$this->Menu->recursive = 0;
 		$conditions = array('Menu.is_blocked'=>'0','Menu.is_deleted'=>'0');
 		$conditions1=$conditions;
@@ -151,6 +153,8 @@ class MenusController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->Menu->exists($id)) {
 			throw new NotFoundException(__('Invalid menu'));
 		}
@@ -166,6 +170,7 @@ class MenusController extends AppController {
  */
 	public function admin_add($parent_menu_id=0) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if ($this->request->is('post')) {
 			$this->Menu->create();
 			if ($this->Menu->save($this->request->data)) {
@@ -192,6 +197,7 @@ class MenusController extends AppController {
  */
 	public function admin_edit($id = null) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->Menu->exists($id)) {
 			throw new NotFoundException(__('Invalid menu'));
 		}
@@ -223,6 +229,8 @@ class MenusController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->Menu->id = $id;
 		if (!$this->Menu->exists()) {
 			throw new NotFoundException(__('Invalid menu'));

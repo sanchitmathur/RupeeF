@@ -37,15 +37,24 @@ class AppController extends Controller {
 	public $APP_SECRET = '74739fdb7f1869613fd0e8288a94e3b0';
 	
 	//Google Client ID & Client Secret
-	public $CLIENT_ID = '683114562708-ki5aombr7qvlq0981nssrrj90pdfegtb.apps.googleusercontent.com';
-	public $CLIENT_SECRET = 'aTfcg3C1wztVD0gFe0-to1NI';
+	/*public $CLIENT_ID = '683114562708-ki5aombr7qvlq0981nssrrj90pdfegtb.apps.googleusercontent.com';
+	public $CLIENT_SECRET = 'aTfcg3C1wztVD0gFe0-to1NI';*/
+	
+	public $CLIENT_ID = '859474289527-a0pvl63cr0rn5n3nm3jt2svc8sh9q0oh.apps.googleusercontent.com';
+	public $CLIENT_SECRET = '1472Vtz72DCJsNfZvkjGc09v';
 	public $COOKIE_LIFE_TIME = 365;
 	
 	public $thumbImageHeight=400;
 	public $thumbImageWidth=400;
 	
 	public $allowedimageType=array('image/png','image/jpg','image/jpeg');
-	public $google_mape_user_api_key="";
+	public $google_mape_user_api_key="AIzaSyC6_a4N5vVm6upRF3pF0TJbbDrC-_1UMSQ";
+	
+	// service process progress status sections
+	public $serviceProgressStatusServiceSubmit='0';
+	public $serviceProgressStatusDocUploaded='1';
+	public $serviceProgressStatusDocRejected='2';
+	public $serviceProgressStatusDocProvidedByAdmin='3';
 	
 /**
  * getCityList method
@@ -287,7 +296,7 @@ class AppController extends Controller {
 	public function adminsessionpresent(){
 		if($this->Session->check('adminuser')){
 			//redirect for login
-			return $this->redirect(array('controller'=>'MainServices','action'=>'index'));
+			return $this->redirect(array('controller'=>'Menus','action'=>'index'));
 		}
 	}
 	

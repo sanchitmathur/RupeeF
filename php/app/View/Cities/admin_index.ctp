@@ -21,10 +21,10 @@
 		<td><?php echo h($city['City']['city_name']); ?>&nbsp;</td>
 		<td><?php echo h($city['City']['lati']); ?>&nbsp;</td>
 		<td><?php echo h($city['City']['longi']); ?>&nbsp;</td>
-		<td><?php echo h($city['City']['is_blocked']); ?>&nbsp;</td>
+		<td><?php echo (h($city['City']['is_blocked']))?"Yes":"No"; ?>&nbsp;</td>
 		
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $city['City']['id'])); ?>
+			<?php //echo $this->Html->link(__('View'), array('action' => 'view', $city['City']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $city['City']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $city['City']['id']), array(), __('Are you sure you want to delete # %s?', $city['City']['id'])); ?>
 		</td>

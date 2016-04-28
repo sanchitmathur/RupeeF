@@ -15,7 +15,7 @@ class UsersController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session', 'Thumb');
-	public $user_page_limit=30;
+	public $user_page_limit=5;
 
 /**
  * index method
@@ -375,18 +375,89 @@ class UsersController extends AppController {
 		$this->layout="user_inner_main";
 		//validation
 		$this->usersessionchecked();
-		
 	}
 	
 /**
  * askexpert method
- *
+ * @param string $expert_cat_id
  * @return void
  */
-	public function askexpert(){
+	public function askexpert($expert_cat_id=0){
 		$this->layout="user_inner_main";
 		//validation
 		$this->usersessionchecked();
+		//get all category
+		$this->loadModel('AskExpertCategory');
+		//unbind model
+		$this->AskExpertCategory->unbindModel(array(
+			'hasMany'=>array('AskExpert')
+		));
+		//find cond
+		$findcond = array(
+			'AskExpertCategory.is_blocked'=>'0',
+			'AskExpertCategory.is_deleted'=>'0'
+		);
+		
+		$this->AskExpertCategory->displayField='category_name';
+		$askExpertCategories = $this->AskExpertCategory->find('list',array('conditions'=>$findcond));
+		if($expert_cat_id==0){
+			if(is_array($askExpertCategories) && count($askExpertCategories)>0){
+				$expert_cat_ids = array_keys($askExpertCategories);
+				$expert_cat_id = $expert_cat_ids[0];
+			}
+		}
+		$allquestionanswers = $this->expertquestionans($expert_cat_id);
+		
+		$this->set('askExpertCategories',$askExpertCategories);
+		$this->set('allquestionanswers',$allquestionanswers);
+		$this->set('expert_cat_id',$expert_cat_id);
+		$this->set('sitebasepath', $this->sitebasepath());
+	}
+	
+/**
+ * expertquestionans method
+ * @param string $expert_cat_id
+ * @param string $is_ajax_call
+ */
+	public function expertquestionans($expert_cat_id=0,$is_ajax_call=0){
+		$expertquestionands=array();
+		
+		if($expert_cat_id==0){
+			if($this->request->is('post')){
+				$expert_cat_id = isset($this->request->data['expert_cat_id'])?$this->request->data['expert_cat_id']:0;
+				$is_ajax_call = isset($this->request->data['is_ajax_call'])?$this->request->data['is_ajax_call']:0;
+			}
+		}
+		//now get the data
+		$this->loadModel('AskExpert');
+		$findcond = array(
+			'AskExpert.is_blocked'=>'0',
+			'AskExpert.is_deleted'=>'0',
+			'AskExpert.ask_expert_category_id'=>$expert_cat_id
+		);
+		//unbind model
+		$this->AskExpert->unbindModel(array(
+			'belongsTo'=>array('AskExpertCategory')
+		));
+		$allquestionans = $this->AskExpert->find('all',array('recursive'=>'0','conditions'=>$findcond));
+		//pr($allquestionans);
+		if(is_array($allquestionans) && count($allquestionans)>0){
+			foreach($allquestionans as $allquestionan){
+				array_push($expertquestionands,$allquestionan['AskExpert']);
+			}
+		}
+		//return the response
+		if($is_ajax_call==0){
+			return $expertquestionands;
+		}
+		else{
+			$status=0;
+			if(count($expertquestionands)>0){
+				$status='1';
+			}
+			header('Content-type:application/json');
+			die(json_encode(array('status'=>$status,'expertquestionanswes'=>$expertquestionands)));
+		}
 	}
 	
 /**
@@ -404,14 +475,16 @@ class UsersController extends AppController {
 		
 		$findcond = array('Communication.reciever_id'=>$user_id,'Communication.is_deleted'=>'0');
 		//load last paginate data
-		$total_rec = $this->Communication->find('count',array('conditions'=>$findcond,'limit'=>$this->user_page_limit));
+		$total_rec = $this->Communication->find('count',array('conditions'=>$findcond));
 		$offset=0;
 		if($total_rec>$this->user_page_limit){
 			$offset=$total_rec-$this->user_page_limit;
 		}
-		$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit));
+		$order = array('Communication.id'=>'ASC');
+		$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit,'order'=>$order));
 		
 		$this->set('communications',$communications);
+		$this->set('sitebasepath', $this->sitebasepath());
 	}
 	
 /**
@@ -472,13 +545,14 @@ class UsersController extends AppController {
 				$this->loadModel('Communication');
 				$findcond = array('Communication.reciever_id'=>$user_id,'Communication.is_deleted'=>'0','Communication.id <'=>$communication_id);
 				//load last paginate data
-				$total_rec = $this->Communication->find('count',array('conditions'=>$findcond,'limit'=>$this->user_page_limit));
+				$total_rec = $this->Communication->find('count',array('conditions'=>$findcond));
 				$offset=0;
 				if($total_rec>$this->user_page_limit){
 					$offset=$total_rec-$this->user_page_limit;
 				}
+				$order = array('Communication.id'=>'ASC');
 				$status='1';
-				$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit));
+				$communications = $this->Communication->find('all',array('recursive'=>'1','conditions'=>$findcond,'offset'=>$offset,'limit'=>$this->user_page_limit,'order'=>$order));
 			}
 		}
 		die(json_encode(array('status'=>$status,'message'=>$message,'communications'=>$communications)));
@@ -1472,6 +1546,7 @@ class UsersController extends AppController {
 		//return $this->redirect(array('controller'=>'MainServices','action'=>'services'));
 	}
 	
+	
 	public function payupaymentsecondstep(){
 		$this->layout="blank";
 		
@@ -1685,6 +1760,8 @@ class UsersController extends AppController {
 	}
 	
 	
+	
+	
 	public function paymentsuccess(){
 		if($this->request->is('post')){
 			$payureturnsdata = $this->request->data;
@@ -1703,15 +1780,30 @@ class UsersController extends AppController {
 				$transid = $payureturnsdata['mihpayid'];
 				if($transaction_id>0){
 					$this->loadModel('Transaction');
+					//bind transaction model
+					$this->Transaction->bindModel(array(
+						'hasMany'=>array(
+							'UserServicePackage'=>array(
+								'className'=>'UserServicePackage',
+								'foreingKey'=>'transaction_id',
+							),
+						)
+					));
 					$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'0');
 					$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
 					if(is_array($transaction) && count($transaction)>0){
 						$amount = $transaction['Transaction']['total_service_cost'];
 						$user_id = $transaction['Transaction']['user_id'];
+						$total_services =$transaction['Transaction']['total_service'];
+						$datetime=date("Y-m-d h:i:s");
 						if($amount==$paying_amount){
 							//now update the table
-							$updata = array('Transaction.is_completed'=>'1');
+							$updata = array(
+								'Transaction.is_completed'=>'1',
+								'Transaction.trans_detail'=>"'".serialize($payureturnsdata)."'"
+							);
 							$this->Transaction->updateAll($updata,$finscond);
+							
 							$succees=true;
 							$this->Session->write('cartItemNo','0');
 							//now delete all the cart item
@@ -1726,7 +1818,44 @@ class UsersController extends AppController {
 								'UserCart.is_active'=>'0'
 							);
 							$this->UserCart->updateAll($updata,$upcond);
+							//now update notifications section
+							$this->loadModel('Notifications');
+							
+							if($total_services>1){
+								$notify_txt = "Your buyed ".$total_services." services are submitted successfully";
+							}
+							else{
+								$notify_txt = "Your buyed ".$total_services." service is submitted successfully";
+							}
+							
+							$notdata = array(
+								'Notifications'=>array(
+									'user_id'=>$user_id,
+									'notify_txt'=>$notify_txt,
+									'notify_date'=>$datetime,
+									'is_user_deleted'=>'0'
+								)
+							);
+							$this->Notifications->create();
+							$this->Notifications->save($notdata);
 							//now update the service progress steps
+							if(isset($transaction['UserServicePackage']) && count($transaction['UserServicePackage'])>0){
+								$this->loadModel('ServiceProcessProgress');
+								foreach($transaction['UserServicePackage'] as $userpackage){
+									$user_service_package_id = $userpackage['id'];
+									$vseddata = array(
+										'ServiceProcessProgress'=>array(
+											'user_service_package_id'=>$user_service_package_id,
+											'user_id'=>$user_id,
+											'status'=>$this->serviceProgressStatusServiceSubmit,
+											'create_date'=>$datetime,
+											'is_deleted'=>'0'
+										)
+									);
+									$this->ServiceProcessProgress->create();
+									$this->ServiceProcessProgress->save($vseddata);
+								}
+							}
 						}
 					}
 					else{
@@ -1746,6 +1875,8 @@ class UsersController extends AppController {
 		
 	}
 	
+	
+	
 	public function paymenterror(){
 		
 		if($this->request->is('post')){
@@ -1757,5 +1888,50 @@ class UsersController extends AppController {
 		}
 		//pr($payureturnsdata);
 		//die();
+	}
+
+
+	public function testtransection($transaction_id=0){
+		if($transaction_id>0){
+			$this->loadModel('Transaction');
+			//bind transaction model
+			$this->Transaction->bindModel(array(
+				'hasMany'=>array(
+					'UserServicePackage'=>array(
+						'className'=>'UserServicePackage',
+						'foreingKey'=>'transaction_id',
+					)
+				)
+			));
+			$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'1');
+			$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
+			pr($transaction);
+			if(is_array($transaction) && count($transaction)>0){
+				$user_id = $transaction['Transaction']['user_id'];
+				$datetime=date("Y-m-d h:i:s");
+				//now update the service progress steps
+				if(isset($transaction['UserServicePackage']) && count($transaction['UserServicePackage'])>0){
+					$this->loadModel('ServiceProcessProgress');
+					foreach($transaction['UserServicePackage'] as $userpackage){
+						$user_service_package_id = $userpackage['id'];
+						$vseddata = array(
+							'ServiceProcessProgress'=>array(
+								'user_service_package_id'=>$user_service_package_id,
+								'user_id'=>$user_id,
+								'status'=>$this->serviceProgressStatusServiceSubmit,
+								'create_date'=>$datetime,
+								'is_deleted'=>'0'
+							)
+						);
+						pr($vseddata);
+						$this->ServiceProcessProgress->create();
+						$this->ServiceProcessProgress->save($vseddata);
+					}
+				}
+			}
+			
+		}
+		
+		die();
 	}
 }

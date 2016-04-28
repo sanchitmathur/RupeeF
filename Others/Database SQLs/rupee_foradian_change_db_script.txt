@@ -127,3 +127,54 @@ ALTER TABLE `rf_user_documents` ADD `createdate` DATETIME NOT NULL AFTER `doc_st
 
 ALTER TABLE `rf_cities` ADD `lati` DOUBLE NOT NULL AFTER `city_name`, ADD `longi` DOUBLE NOT NULL AFTER `lati`;
 
+==upload on server 22-04-16 ====
+
+Today(26-04-16):
+————————————————
+ALTER TABLE `rf_cities` ADD `state_name` VARCHAR(254) NOT NULL AFTER `longi`;
+
+ALTER TABLE `rf_cities` ADD `long_state_name` VARCHAR(254) NOT NULL AFTER `state_name`;
+
+
+DROP TABLE IF EXISTS `rf_ask_experts`;
+CREATE TABLE IF NOT EXISTS `rf_ask_experts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ask_expert_category_id` int(11) NOT NULL,
+  `question` text NOT NULL,
+  `answer` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `is_blocked` int(1) NOT NULL DEFAULT '0',
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+
+DROP TABLE IF EXISTS `rf_ask_expert_categories`;
+CREATE TABLE IF NOT EXISTS `rf_ask_expert_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(254) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `is_blocked` int(1) NOT NULL DEFAULT '0',
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+
+
+==== uploaded on server on 26-04-16 ====
+
+Today(27-04-16):
+——————————————-
+
+DROP TABLE IF EXISTS `rf_service_process_progresses`;
+CREATE TABLE IF NOT EXISTS `rf_service_process_progresses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_service_package_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` int(2) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `is_deleted` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+=== upload on server 27-04-16 ====
+
