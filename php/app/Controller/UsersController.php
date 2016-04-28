@@ -375,6 +375,53 @@ class UsersController extends AppController {
 		$this->layout="user_inner_main";
 		//validation
 		$this->usersessionchecked();
+		$user_id = $this->Session->read('user.user_id');
+		//get the users order history
+		$this->loadModel('ServiceProcessProgress');
+		//unbid models
+		$this->ServiceProcessProgress->UserServicePackage->unbindModel(array(
+			'belongsTo'=>array('User','ServicePackage','Transaction')
+		));
+		$findcond = array(
+			'ServiceProcessProgress.user_id'=>$user_id,
+			'ServiceProcessProgress.is_deleted'=>'0'
+		);
+		$serviceProcessprogresses = $this->ServiceProcessProgress->find('all',array(
+			'recursive'=>'2',
+			'conditions'=>$findcond,
+		));
+		
+		$this->set('serviceProcessprogresses',$serviceProcessprogresses);
+		$this->set('serviceProgressStatus',$this->serviceProgressStatus());
+		$this->set('sitedatedisplayformat',$this->sitedatedisplayformat);
+	}
+	
+/**
+ * removeorderhistory method
+ * @param string $orderhistory_id
+ */
+	public function removeorderhistory($orderhistory_id=0){
+		$this->layout="user_inner_main";
+		//validation
+		$this->usersessionchecked();
+		
+		$user_id = $this->Session->read('user.user_id');
+		if($orderhistory_id>0){
+			$this->loadModel('ServiceProcessProgress');
+			
+			$findcond = array(
+				'ServiceProcessProgress.id'=>$orderhistory_id,
+				'ServiceProcessProgress.user_id'=>$user_id
+			);
+			$updata = array('ServiceProcessProgress.is_deleted'=>'1');
+			$this->ServiceProcessProgress->updateAll($updata,$findcond);
+			$this->Session->setFlash(__('Successfully deleted this record'));
+		}
+		else{
+			//
+			$this->Session->setFlash(__('Invalid Informations'),'default',array('class'=>'error'));
+		}
+		$this->redirect(array('action'=>'orderhistory'));
 	}
 	
 /**
@@ -1547,6 +1594,13 @@ class UsersController extends AppController {
 	}
 	
 	
+
+/**
+ * payupaymentsecondstep method
+ *
+ * @return void
+ */
+
 	public function payupaymentsecondstep(){
 		$this->layout="blank";
 		
@@ -1795,7 +1849,7 @@ class UsersController extends AppController {
 						$amount = $transaction['Transaction']['total_service_cost'];
 						$user_id = $transaction['Transaction']['user_id'];
 						$total_services =$transaction['Transaction']['total_service'];
-						$datetime=date("Y-m-d h:i:s");
+						$datetime=date("Y-m-d H:i:s");
 						if($amount==$paying_amount){
 							//now update the table
 							$updata = array(
@@ -1891,6 +1945,7 @@ class UsersController extends AppController {
 	}
 
 
+	
 	public function testtransection($transaction_id=0){
 		if($transaction_id>0){
 			$this->loadModel('Transaction');
@@ -1908,7 +1963,7 @@ class UsersController extends AppController {
 			pr($transaction);
 			if(is_array($transaction) && count($transaction)>0){
 				$user_id = $transaction['Transaction']['user_id'];
-				$datetime=date("Y-m-d h:i:s");
+				$datetime=date("Y-m-d H:i:s");
 				//now update the service progress steps
 				if(isset($transaction['UserServicePackage']) && count($transaction['UserServicePackage'])>0){
 					$this->loadModel('ServiceProcessProgress');
