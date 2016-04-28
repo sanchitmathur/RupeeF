@@ -10,6 +10,7 @@
 			<th><?php echo $this->Paginator->sort('city_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('latitude'); ?></th>
 			<th><?php echo $this->Paginator->sort('longitude'); ?></th>
+			<th><?php echo $this->Paginator->sort('region'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -21,6 +22,7 @@
 		<td><?php echo h($city['City']['city_name']); ?>&nbsp;</td>
 		<td><?php echo h($city['City']['lati']); ?>&nbsp;</td>
 		<td><?php echo h($city['City']['longi']); ?>&nbsp;</td>
+		<td><?php echo isset($cityregions[h($city['City']['region'])])?$cityregions[h($city['City']['region'])]:"Not Set"; ?>&nbsp;</td>
 		<td><?php echo (h($city['City']['is_blocked']))?"Yes":"No"; ?>&nbsp;</td>
 		
 		<td class="actions">

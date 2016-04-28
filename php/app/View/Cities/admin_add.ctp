@@ -70,6 +70,7 @@
 		echo $this->Form->input('city_name',array('id'=>'cityname'));
 		echo $this->Form->input('lati',array('label'=>'Latitude','id'=>'lat'));
 		echo $this->Form->input('longi',array('label'=>'Longitude','id'=>'lon'));
+		echo $this->Form->input('region',array('option'=>$cityregions));
 		echo $this->Form->hidden('state_name',array('id'=>'state_name'));
 		echo $this->Form->hidden('long_state_name',array('id'=>'long_state_name'));
 		echo $this->Form->hidden('is_blocked',array('value'=>'0'));

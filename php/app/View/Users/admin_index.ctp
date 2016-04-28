@@ -9,7 +9,6 @@
 			<th><?php echo $this->Paginator->sort('password'); ?></th>
 			<th><?php echo $this->Paginator->sort('image'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
-			<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -21,11 +20,10 @@
 		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['image']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['is_blocked']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['is_deleted']); ?>&nbsp;</td>
+		<td><?php echo (h($user['User']['is_blocked'])==1)?"Yes":"No"; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
+			<?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array(), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
 		</td>
 	</tr>
@@ -45,14 +43,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List User Service Packages'), array('controller' => 'user_service_packages', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User Service Package'), array('controller' => 'user_service_packages', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List User Services'), array('controller' => 'user_services', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User Service'), array('controller' => 'user_services', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

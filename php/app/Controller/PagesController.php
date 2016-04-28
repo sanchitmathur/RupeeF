@@ -90,6 +90,7 @@ class PagesController extends AppController {
 	public function legaltermscondition(){
 		$this->layout="main";
 	}
+	
 	public function findcity($shoert_name=''){
 		$this->layout="main";
 		$this->loadModel('City');
@@ -99,6 +100,19 @@ class PagesController extends AppController {
 		);
 		if($shoert_name!=''){
 			$findcond['City.state_name']=$shoert_name;
+		}
+		//get the gerion code
+		$this->City->displayField='region';
+		$city = $this->City->find('list',array('conditions'=>$findcond));
+		$region='0';
+		if(is_array($city) && count($city)>0){
+			$regions = array_values($city);
+			
+			$region = $regions['0'];
+		}
+		if($region>0 && isset($findcond['City.state_name'])){
+			unset($findcond['City.state_name']);
+			$findcond['City.region']=$region;
 		}
 		$order = array('City.city_name'=>'ASC');
 		$groupby = array('City.state_name');
@@ -116,6 +130,8 @@ class PagesController extends AppController {
 		$satatename = "";
 		if(is_array($cities) && count($cities)>0 && $shoert_name!=''){
 			$satatename = $cities[0]['City']['long_state_name'];
+			$regionnames = $this->cityregion();
+			$satatename = isset($regionnames[$region])?$regionnames[$region]:$satatename;
 		}
 		
 		//pr($cities);
@@ -142,5 +158,34 @@ class PagesController extends AppController {
 	}
 	public function ourservices(){
 		$this->layout="main";
+		$mainServices=array();
+		$this->loadModel('MainService');
+		$this->MainService->recursive = 2;
+		//bind the other models
+		$this->MainService->bindModel(array(
+			'hasMany'=>array(
+				'SubService'=>array(
+					'className'=>'SubService',
+					'foreingKey'=>'main_service_id',
+					'conditions'=>array('SubService.is_blocked'=>'0','SubService.is_deleted'=>'0')
+				)
+			)
+		));
+		$this->MainService->SubService->bindModel(array(
+			'hasMany'=>array(
+				'Service'=>array(
+					'className'=>'Service',
+					'foreingKey'=>'sub_service_id',
+					'conditions'=>array('Service.is_blocked'=>'0','Service.is_deleted'=>'0')
+				)
+			)
+		));
+		$findcond = array(
+				'MainService.is_blocked'=>'0',
+				'MainService.is_deleted'=>'0'
+			);
+		$mainServices = $this->MainService->find('all',array('conditions'=>$findcond));
+		//$this->set('mainServices', $this->Paginator->paginate());
+		$this->set('mainServices',$mainServices);
 	}
 }

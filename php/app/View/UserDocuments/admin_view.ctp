@@ -34,7 +34,7 @@
 		<dt>File </dt>
 		<dd><?php
 			//$allowedimage = array('image/jpeg','image/png','image/jpg');
-			$allowedimage = $this->allowedimageType;
+			
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
 			//determind is a image or not
 			$filename = h($userDocument['UserDocument']['doc_name']);
@@ -52,6 +52,11 @@
 		?>
 		</dd>
 	</dl>
+	</br>
+	</br>
+	<div class="actions">
+		<?php echo $this->Html->link(__('Back'), array('action' => 'index','admin'=>true)); ?>
+	</div>
 </div>
 
 

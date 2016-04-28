@@ -56,6 +56,9 @@ class AppController extends Controller {
 	public $serviceProgressStatusDocRejected='2';
 	public $serviceProgressStatusDocProvidedByAdmin='3';
 	
+	//site date format
+	public $sitedatedisplayformat = "F d, Y";
+	
 /**
  * getCityList method
  *
@@ -300,4 +303,34 @@ class AppController extends Controller {
 		}
 	}
 	
+/**
+ * serviceProgressStatus method
+ *
+ * @return array $serviceProgressStatus
+ */
+	public function serviceProgressStatus(){
+		$serviceProgressStatus = array(
+			$this->serviceProgressStatusServiceSubmit=>'Service Submited',
+			$this->serviceProgressStatusDocUploaded=>'Document Uploaded',
+			$this->serviceProgressStatusDocRejected=>'Document Rejected',
+			$this->serviceProgressStatusDocProvidedByAdmin=>'Admin Upload Ducument',
+		);
+		return $serviceProgressStatus;
+	}
+	
+/**
+ * cityregion method
+ *
+ * @return array $cityregions
+ */
+	public function cityregion(){
+		$cityregions=array(
+			'1'=>'North East India',
+			'2'=>'North West India',
+			'3'=>'South EAST India',
+			'4'=>'South West India'
+		);
+		return $cityregions;
+	}
+
 }

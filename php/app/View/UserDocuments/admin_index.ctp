@@ -31,8 +31,6 @@
 	<?php
 		//pr($userDocuments);
 		//$allowedimage = array('image/jpeg','image/png','image/jpg');
-		$allowedimage = $this->allowedimageType;
-		
 		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		foreach ($userDocuments as $userDocument): ?>
 	<tr>

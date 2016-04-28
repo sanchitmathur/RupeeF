@@ -1,13 +1,13 @@
 <?php
 App::uses('AppController', 'Controller');
 /**
- * Users Controller
+ * AdminUsers Controller
  *
- * @property User $User
+ * @property AdminUser $AdminUser
  * @property PaginatorComponent $Paginator
  * @property SessionComponent $Session
  */
-class UsersController extends AppController {
+class AdminUsersController extends AppController {
 
 /**
  * Components
@@ -16,6 +16,50 @@ class UsersController extends AppController {
  */
 	public $components = array('Paginator', 'Session', 'Thumb');
 	public $user_page_limit=5;
+
+/**
+ * admin_changepassword method
+ * 
+ */
+	public function admin_changepassword(){
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
+		if($this->request->is('post')){
+			$admin_id = $this->Session->read('adminuser.id');
+			
+			$posteddata = isset($this->request->data['AdminUser'])?$this->request->data['AdminUser']:array();
+			if(is_array($posteddata) && count($posteddata)>0){
+				$old_password = isset($posteddata['old_password'])?$posteddata['old_password']:'';
+				$new_password = isset($posteddata['new_password'])?$posteddata['new_password']:'';
+				$confirm_password = isset($posteddata['confirm_password'])?$posteddata['confirm_password']:'';
+				//validation
+				if($new_password!=''){
+					if($new_password==$confirm_password){
+						//old password validate
+						$findcond = array(
+							'AdminUser.id'=>$admin_id,
+							'AdminUser.is_deleted'=>'0',
+							'AdminUser.is_active'=>'1',
+							//'AdminUser.password'=>md5($old_password)
+						);
+						$updata = array('AdminUser.password'=>md5($new_password));
+						$this->AdminUser->updateAll($updata,$findcond);
+						$this->Session->setFlash(__('Your password change successfully'),'default',array('class'=>'success'));
+						return $this->redirect(array('action'=>'changepassword'));
+					}
+					else{
+						// confirm password missmatched
+						$this->Session->setFlash(__('You confirmation password does not matched'));
+					}
+				}
+				else{
+					//password not blank
+					$this->Session->setFlash(__('Enter your new password'));
+				}
+			}
+			
+		}
+	}
 
 /**
  * index method

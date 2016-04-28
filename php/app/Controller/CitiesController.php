@@ -144,7 +144,7 @@ class CitiesController extends AppController {
 		$this->adminsessionchecked();
 		$this->City->recursive = 0;
 		$this->set('cities', $this->Paginator->paginate());
-		
+		$this->set('cityregions',$this->cityregion());
 	}
 
 /**
@@ -182,6 +182,7 @@ class CitiesController extends AppController {
 			}
 		}
 		$this->set('google_mape_user_api_key',$this->google_mape_user_api_key);
+		$this->set('cityregions',$this->cityregion());
 	}
 
 /**
@@ -209,6 +210,7 @@ class CitiesController extends AppController {
 			$this->request->data = $this->City->find('first', $options);
 		}
 		$this->set('google_mape_user_api_key',$this->google_mape_user_api_key);
+		$this->set('cityregions',$this->cityregion());
 	}
 
 /**
