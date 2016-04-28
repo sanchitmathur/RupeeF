@@ -107,12 +107,12 @@
                     window.location=basepath+path;
             }
     </script>
-<div class="allcommon_body findBODY">
+    
+    <div class="allcommon_body findBODY">
     <div class="checkout">
             <div class="findcity">
                     <div class="mapDiv" id="googleMap">
-                            <!--<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3633509.1117495685!2d79.63053017840285!3d27.208198568519247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39994e9f7b4a09d3%3A0xf6a5476d3617249d!2sUttar+Pradesh!5e0!3m2!1sen!2sin!4v1459935891199" width="100%" height="286" frameborder="0" style="border:0" allowfullscreen></iframe>
-                    -->
+                            
                     </div>
                     <div class="searchDiv">
                             <div class="search_locet sub_Search">
@@ -126,94 +126,102 @@
                             </div>
                     </div>
             </div>
+            
             <div class="container">
                     <div class="row">
-                            <div class="col-md-12 service_body">
-                                    <div class="find">
-                                            <h2><?=$satatename?></h2>
-                                            <div>
-                                                <div class="col-md-2 resCity">
-                                                    <ul class="cityname">
-                                                <?php
-                                                    if(isset($cities) && is_array($cities) && count($cities)>0){
-                                                        $i=1;
-                                                        foreach($cities as $city){
-                                                            $city_name=$city['City']['city_name'];
-                                                            ?>
-                                                            <li><a href="javascript:void(0);"><?=$city_name?></a></li>
-                                                            <?php
-                                                            
-                                                            if($i%6==0){
-                                                            ?>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-md-2 resCity">
-                                                    <ul class="cityname">
-                                                                
-                                                                <?php
-                                                            }
-                                                            $i++;
-                                                        }
-                                                    }
+                            
+            <?php
+            //pr($cities);
+                if($is_all_cities==1){
+                    
+                    if(isset($cities)){
+                        foreach($cities as $keyname=>$citydata){
+                            $satatename=$keyname;
+                            
+                            ?>
+                        <div class="col-md-12 service_body">
+                            <div class="find">
+                                <h2><?=$satatename?></h2>
+                                <div>
+                                    <div class="col-md-2 resCity">
+                                        <ul class="cityname">
+                                    <?php
+                                        if(isset($citydata) && is_array($citydata) && count($citydata)>0){
+                                            $i=1;
+                                            foreach($citydata as $city){
+                                                $city_name=$city['City']['city_name'];
                                                 ?>
-                                                    </ul>
-                                                </div>
-                                                    <!--<div class="col-md-2 resCity">
-                                                            <ul class="cityname">
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Allahabad</a></li>
-                                                                    <li><a href="javascript:void(0);">Ambedkar Nagar</a></li>
-                                                                    <li><a href="javascript:void(0);">Auraiya</a></li>
-                                                                    <li><a href="javascript:void(0);">Azamgarh</a></li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-2 resCity">
-                                                            <ul class="cityname">
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Allahabad</a></li>
-                                                                    <li><a href="javascript:void(0);">Ambedkar Nagar</a></li>
-                                                                    <li><a href="javascript:void(0);">Auraiya</a></li>
-                                                                    <li><a href="javascript:void(0);">Azamgarh</a></li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-2 resCity">
-                                                            <ul class="cityname">
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Allahabad</a></li>
-                                                                    <li><a href="javascript:void(0);">Ambedkar Nagar</a></li>
-                                                                    <li><a href="javascript:void(0);">Auraiya</a></li>
-                                                                    <li><a href="javascript:void(0);">Azamgarh</a></li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-2 resCity">
-                                                            <ul class="cityname">
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Allahabad</a></li>
-                                                                    <li><a href="javascript:void(0);">Ambedkar Nagar</a></li>
-                                                                    <li><a href="javascript:void(0);">Auraiya</a></li>
-                                                                    <li><a href="javascript:void(0);">Azamgarh</a></li>
-                                                            </ul>
-                                                    </div>
-                                                    <div class="col-md-2 resCity">
-                                                            <ul class="cityname">
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Agra</a></li>
-                                                                    <li><a href="javascript:void(0);">Allahabad</a></li>
-                                                                    <li><a href="javascript:void(0);">Ambedkar Nagar</a></li>
-                                                                    <li><a href="javascript:void(0);">Auraiya</a></li>
-                                                                    <li><a href="javascript:void(0);">Azamgarh</a></li>
-                                                            </ul>
-                                                    </div>-->
-                                                    
-                                                    <div class="crl"></div>
-                                            </div>
-                                            <div class="crl"></div>
+                                                <li><a href="javascript:void(0);"><?=$city_name?></a></li>
+                                                <?php
+                                                
+                                                if($i%6==0){
+                                                ?>
+                                        </ul>
                                     </div>
-                            </div>
+                                    <div class="col-md-2 resCity">
+                                        <ul class="cityname">
+                                                    
+                                                    <?php
+                                                }
+                                                $i++;
+                                            }
+                                        }
+                                    ?>
+                                        </ul>
+                                    </div>
+                                        
+                                        <div class="crl"></div>
+                                </div>
+                                <div class="crl"></div>
+                        </div>
+                            <div class="crl"></div>
+                        </div>
+                            <?
+                        }
+                    }
+                }
+                else{
+                    ?>
+                    <div class="col-md-12 service_body">
+                        <div class="find">
+                                <h2><?=$satatename?></h2>
+                                <div>
+                                    <div class="col-md-2 resCity">
+                                        <ul class="cityname">
+                                    <?php
+                                        if(isset($cities) && is_array($cities) && count($cities)>0){
+                                            $i=1;
+                                            foreach($cities as $city){
+                                                $city_name=$city['City']['city_name'];
+                                                ?>
+                                                <li><a href="javascript:void(0);"><?=$city_name?></a></li>
+                                                <?php
+                                                
+                                                if($i%6==0){
+                                                ?>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-2 resCity">
+                                        <ul class="cityname">
+                                                    
+                                                    <?php
+                                                }
+                                                $i++;
+                                            }
+                                        }
+                                    ?>
+                                        </ul>
+                                    </div>
+                                        
+                                        <div class="crl"></div>
+                                </div>
+                                <div class="crl"></div>
+                        </div>
+                     </div>      
+                    <?php
+                }
+            ?>
+             
                     </div>
             </div>
     </div>

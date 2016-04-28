@@ -489,7 +489,7 @@
 		function initialize() {
 			var input = document.getElementById('firstName');
 			var options = {
-				type:['cities'],
+				type:['geocode'],
 				componentRestrictions: {country: 'in'}
 			};
 			

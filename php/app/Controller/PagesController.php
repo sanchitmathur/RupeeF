@@ -98,48 +98,70 @@ class PagesController extends AppController {
 			'City.is_blocked'=>'0',
 			'City.is_deleted'=>'0'
 		);
+		$cities=array();
+		$satatename="";
+		$is_allres='0';
+		$regionnames = $this->cityregion();
+		$order = array('City.city_name'=>'ASC');
+		
 		if($shoert_name!=''){
 			$findcond['City.state_name']=$shoert_name;
-		}
-		//get the gerion code
-		$this->City->displayField='region';
-		$city = $this->City->find('list',array('conditions'=>$findcond));
-		$region='0';
-		if(is_array($city) && count($city)>0){
-			$regions = array_values($city);
+			//now filter section
+			//get the gerion code
+			$this->City->displayField='region';
+			$city = $this->City->find('list',array('conditions'=>$findcond));
+			$region='0';
+			if(is_array($city) && count($city)>0){
+				$regions = array_values($city);
+				$region = $regions['0'];
+			}
+			if($region>0){
+				unset($findcond['City.state_name']);
+				$findcond['City.region']=$region;
+			}
 			
-			$region = $regions['0'];
+			//$groupby = array('City.state_name');
+			//unbind model
+			$this->City->unbindModel(array(
+				'hasMany'=>array('User')
+			));
+			/*$fields = array(
+				'group_concat(City.city_name) AS city_name',
+				'group_concat(City.lati)'
+			);*/
+			$cities = $this->City->find('all',array('recursive'=>'0',
+								'conditions'=>$findcond,
+								'order'=>$order));
+			
+			if(is_array($cities) && count($cities)>0 && $shoert_name!=''){
+				$satatename = $cities[0]['City']['long_state_name'];
+				$satatename = isset($regionnames[$region])?$regionnames[$region]:$satatename;
+			}
 		}
-		if($region>0 && isset($findcond['City.state_name'])){
-			unset($findcond['City.state_name']);
-			$findcond['City.region']=$region;
+		else{
+			$is_allres='1';
+			//get all region data city
+			if(is_array($regionnames) && count($regionnames)>0){
+				foreach($regionnames as $region=>$keyvalue){
+					$findcond['City.region']=$region;
+					$this->City->unbindModel(array(
+						'hasMany'=>array('User')
+					));
+					$regioncities = $this->City->find('all',array('recursive'=>'0',
+										'conditions'=>$findcond,
+										'order'=>$order));
+					$cities[$keyvalue]=$regioncities;
+				}
+			}
 		}
-		$order = array('City.city_name'=>'ASC');
-		$groupby = array('City.state_name');
-		//unbind model
-		$this->City->unbindModel(array(
-			'hasMany'=>array('User')
-		));
-		$fields = array(
-			'group_concat(City.city_name) AS city_name',
-			'group_concat(City.lati)'
-		);
-		$cities = $this->City->find('all',array('recursive'=>'0',
-							'conditions'=>$findcond,
-							'order'=>$order));
-		$satatename = "";
-		if(is_array($cities) && count($cities)>0 && $shoert_name!=''){
-			$satatename = $cities[0]['City']['long_state_name'];
-			$regionnames = $this->cityregion();
-			$satatename = isset($regionnames[$region])?$regionnames[$region]:$satatename;
-		}
+		
 		
 		//pr($cities);
 		
 		$this->set('cities',$cities);
 		$this->set('satatename',$satatename);
 		$this->set('short_name',$shoert_name);
-		
+		$this->set('is_all_cities',$is_allres);
 		$this->set('google_api_key',$this->google_mape_user_api_key);
 		$this->set('basepath',$this->sitebasepath());
 		
