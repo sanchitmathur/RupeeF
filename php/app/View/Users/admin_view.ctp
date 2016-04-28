@@ -37,6 +37,10 @@
 			&nbsp;
 		</dd>
 	</dl>
+	</br></br>
+	<div class="actions">
+		<?php echo $this->Html->link(__('Back'), array('action' => 'index','admin'=>true)); ?>
+	</div>
 	</br></br></br>
 	
 	<div class="related">
@@ -83,8 +87,13 @@
 	
 	<div class="related">
 		<h3><?php echo __('Related User Documents'); ?></h3>
+		
+		<div class="actions" style="float: right;margin-top: -40px; min-width:22%;">
+			<?php echo $this->Html->link(__('Add New Document'), array('action' => 'adddocument',$user['User']['id'])); ?>
+		</div>
+		
 		<?php if (!empty($user['UserDocument'])):
-			$allowedimage = $this->allowedimageType;
+			//$allowedimage = $this->allowedimageType;
 			$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		?>
 		<table cellpadding = "0" cellspacing = "0">

@@ -10,6 +10,7 @@
             <h3><?php echo __('Actions'); ?></h3>
             <ul>
                 <li><?php echo $this->Html->link(__('Log Out'), array('controller'=>'MainServices','action' => 'logout'),array('style'=>'color:#e32;')); ?></li>
+                <li><?php echo $this->Html->link(__('Change Password'), array('controller'=>'AdminUsers','action' => 'changepassword'),array('style'=>'color:#e32;')); ?></li>
                 <li><?php echo $this->Html->link(__('Menues'), array('controller'=>'Menus','action' => 'index')); ?></li>
                 <li><?php echo $this->Html->link(__('Main Services'), array('controller'=>'MainServices','action' => 'index')); ?></li>
                 <li><?php echo $this->Html->link(__('Sub Services'), array('controller'=>'SubServices','action' => 'index')); ?></li>

@@ -178,3 +178,6 @@ CREATE TABLE IF NOT EXISTS `rf_service_process_progresses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 === upload on server 27-04-16 ====
 
+Today(28-04-16):
+———————————————-
+ALTER TABLE `rf_cities` ADD `region` INT(2) NOT NULL DEFAULT '0' AFTER `long_state_name`;

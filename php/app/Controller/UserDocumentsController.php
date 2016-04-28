@@ -52,6 +52,7 @@ class UserDocumentsController extends AppController {
 		$thumb_fileurl = $alltypefilepaths['url']['userdocument_thumb'];
 		$this->set('thumb_filepath',$thumb_filepath);
 		$this->set('thumb_fileurl',$thumb_fileurl);
+		$this->set('allowedimage',$this->allowedimageType);
 	}
 
 /**
@@ -74,6 +75,7 @@ class UserDocumentsController extends AppController {
 		$thumb_fileurl = $alltypefilepaths['url']['userdocument_thumb'];
 		$this->set('thumb_filepath',$thumb_filepath);
 		$this->set('thumb_fileurl',$thumb_fileurl);
+		$this->set('allowedimage',$this->allowedimageType);
 	}
 
 /**

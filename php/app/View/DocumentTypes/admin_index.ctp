@@ -8,6 +8,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th><?php echo $this->Paginator->sort('is_user_provide'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -16,10 +17,19 @@
 	<?php foreach ($documentTypes as $documentType): ?>
 	<tr>
 		<td><?php echo h($documentType['DocumentType']['id']); ?>&nbsp;</td>
-		<td><?php echo h($documentType['DocumentType']['name']); ?>&nbsp;</td>
+		<td><?php echo ucwords(h($documentType['DocumentType']['name'])); ?>&nbsp;</td>
+		<td><?php echo (h($documentType['DocumentType']['is_user_provide'])==1)?"Yes":"No"; ?>&nbsp;</td>
 		<td><?php echo (h($documentType['DocumentType']['is_blocked'])==1)?"Yes":"No"; ?>&nbsp;</td>
 		<td class="actions">
 			<?php //echo $this->Html->link(__('View'), array('action' => 'view', $documentType['DocumentType']['id'])); ?>
+			<?php
+				if(h($documentType['DocumentType']['is_blocked'])){
+					echo $this->html->link(__('Un Block'),array('action'=>'blockeunblocked',$documentType['DocumentType']['id'],0));	
+				}
+				else{
+					echo $this->html->link(__('Block'),array('action'=>'blockeunblocked',$documentType['DocumentType']['id'],1));
+				}
+			?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $documentType['DocumentType']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $documentType['DocumentType']['id']), array(), __('Are you sure you want to delete # %s?', $documentType['DocumentType']['id'])); ?>
 		</td>
@@ -41,11 +51,3 @@
 	?>
 	</div>
 </div>
-<!--<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New City'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
-</div>-->

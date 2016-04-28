@@ -529,10 +529,12 @@
 				mapTypeId:google.maps.MapTypeId.ROADMAP,
 				draggable: false,
 				mapTypeControl : false,
-				scrollwheel: false
+				scrollwheel: false,
+				disableDefaultUI:true
 			};
 			map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 			if (map) {
+				map.setOptions({disableDoubleClickZoom: true });
 				//load all city on the map
 				allcities();
 			}
@@ -564,11 +566,13 @@
 		}
 		function makeMarker(city){
 			console.log(city);
-			
+			var icon=basepath+"img/location_point.png";
+			console.log(icon);
 			var myLatlng = new google.maps.LatLng(city.lati,city.longi);
 			var marker = new google.maps.Marker({
 				position: myLatlng,
-				title:city.city_name
+				title:city.city_name,
+				icon:icon
 			});
 			marker.setMap(map);
 		}
@@ -594,7 +598,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 location_seclect">
-					<div id="googleMap" style="width: 100%; height:430px;" class="mapDiv">
+					<div id="googleMap" style="width: 100%; height:430px;" class="mapDivs">
 						<!--<img src="<?=$config['BaseUrl']?>img/map_pic.png" class="map_service"/>-->
 					</div>
 					

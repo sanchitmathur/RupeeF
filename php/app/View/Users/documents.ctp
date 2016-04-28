@@ -21,20 +21,33 @@
 	
 	  <tbody>
 		<?php
+			//pr($userdocumens);
+			
 			if(is_array($userdocumens) && count($userdocumens)>0){
 				foreach($userdocumens as $userdocumen){
 					$documenttypename=ucwords($userdocumen['DocumentType']['name']);
 					$doc_name= $userdocumen['UserDocument']['doc_name'];
+					$stscla="";
+					$is_user_provide = isset($userdocumen['DocumentType']['is_user_provide'])?$userdocumen['DocumentType']['is_user_provide']:'1';
+					
 					if($userdocumen['UserDocument']['doc_status']=='1'){
 						$docstatus="Approved";
+						$stscla="app";
 					}
 					elseif($userdocumen['UserDocument']['doc_status']=='2'){
 						$docstatus="Rejected";
+						$stscla="reg";
 					}
 					else{
 						$docstatus="Not decieded";
 					}
+					
 					$docid=$userdocumen['UserDocument']['id'];
+					
+					if($is_user_provide==0){
+						$docstatus="Admin Uploaded";
+						$stscla="app";
+					}
 				?>
 					<tr>
 						<td>
@@ -44,10 +57,14 @@
 						      <?=$documenttypename?>
 						</td>
 						<td>
-						      <a href="javascript:void(0)" class="app"><?=$docstatus?></a>
+						      <a href="javascript:void(0)" class="<?=$stscla?>"><?=$docstatus?></a>
 						</td>
 						<td>
-						      <?php echo $this->Html->link($this->Html->image('download.png',array('class'=>'downEdit')),array('controller'=>'users','action'=>'downloaddoc',$doc_name),array('escape'=>false));?>
+						      <?php
+								if($is_user_provide==0){
+									echo $this->Html->link($this->Html->image('download.png',array('class'=>'downEdit')),array('controller'=>'users','action'=>'downloaddoc',$doc_name),array('escape'=>false));
+								}
+							?>
 						      <?php echo $this->Html->link($this->Html->image('edit.png',array('class'=>'downEdit')),array('controller'=>'users','action'=>'documentupload',$docid),array('escape'=>false));?>
 						      <?php echo $this->Html->link($this->Html->image('delite.png',array('class'=>'downEdit')),array('controller'=>'users','action'=>'deletedoc',$docid),array('escape'=>false),__('Are you sure you want to delete ?'));?>
 						</td>

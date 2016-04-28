@@ -317,4 +317,20 @@ class AppController extends Controller {
 		);
 		return $serviceProgressStatus;
 	}
+	
+/**
+ * cityregion method
+ *
+ * @return array $cityregions
+ */
+	public function cityregion(){
+		$cityregions=array(
+			'1'=>'North East India',
+			'2'=>'North West India',
+			'3'=>'South EAST India',
+			'4'=>'South West India'
+		);
+		return $cityregions;
+	}
+
 }
