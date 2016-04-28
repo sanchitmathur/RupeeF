@@ -518,7 +518,7 @@ sup {
 		}
 				
 		.location_seclect{
-			padding:40px 60px;
+			padding:0 !important;
 			height:430px;
 			border-top:1px solid #d3d3d3;
 			border-bottom:1px solid #d3d3d3;

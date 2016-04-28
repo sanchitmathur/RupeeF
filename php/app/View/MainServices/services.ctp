@@ -594,7 +594,7 @@
 					</div>
 				</div>
 				<div class="col-md-6 location_seclect">
-					<div id="googleMap" style="width: 100%; height: 349px; background-color: red;">
+					<div id="googleMap" style="width: 100%; height:430px;" class="mapDiv">
 						<!--<img src="<?=$config['BaseUrl']?>img/map_pic.png" class="map_service"/>-->
 					</div>
 					
