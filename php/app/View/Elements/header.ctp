@@ -596,7 +596,8 @@
 						<li><?php echo $this->Html->link(__('Our services'),array('controller'=>'Pages','action'=>'ourservices'));?></li>
 						<!--<li><a href="javascript:void(0);">our cities</a></li>-->
 						<li><?php echo $this->Html->link(__('Our cities'),array('controller'=>'Pages','action'=>'findcity'));?></li>
-						<li><a href="javascript:void(0);">be a business partner</a></li>
+						<!--<li><a href="javascript:void(0);">be a business partner</a></li>-->
+						<li><?php echo $this->Html->link(__('Be a business partner'),array('controller'=>'Pages','action'=>'businesspartner'));?></li>
 						<!--<li><a href="javascript:void(0);">mobile app features</a></li>-->
 						<li><?php echo $this->Html->link(__('Mobile app features'),array('controller'=>'Pages','action'=>'mobileapp'));?></li>
 						<!--<li><a href="javascript:void(0);">safety / confidentiality</a></li>-->

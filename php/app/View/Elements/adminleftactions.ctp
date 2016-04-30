@@ -32,6 +32,8 @@
                 <li><?php echo $this->Html->link(__('Ask Expert Categories'), array('controller' => 'AskExpertCategories', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('Ask Expert Questions'), array('controller' => 'AskExperts', 'action' => 'index')); ?> </li>
                 
+                <li><?php echo $this->Html->link(__('Careers'), array('controller' => 'careers', 'action' => 'index')); ?> </li>
+                
                 <li><?php echo $this->Html->link(__('New Main Service'), array('controller'=>'MainServices','action' => 'add')); ?></li>
                 <li><?php echo $this->Html->link(__('New Sub Service'), array('controller' => 'sub_services', 'action' => 'add')); ?> </li>
                 <li><?php echo $this->Html->link(__('New City'), array('action' => 'add')); ?></li>

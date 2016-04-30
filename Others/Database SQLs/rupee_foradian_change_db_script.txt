@@ -190,3 +190,60 @@ ALTER TABLE `rf_admin_users` ADD `reset_token` VARCHAR(245) NOT NULL AFTER `last
 ALTER TABLE `rf_communications` ADD `user_read` INT(1) NOT NULL DEFAULT '0' AFTER `is_user_post`, ADD `admin_read` INT(1) NOT NULL DEFAULT '0' AFTER `user_read`;
 
 ====== uploaded on server done=======
+
+Today(30-04-16):
+———————————————
+
+CREATE TABLE IF NOT EXISTS `rf_admin_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(254) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `password` varchar(254) NOT NULL,
+  `lastlogin` int(11) NOT NULL,
+  `reset_token` varchar(245) NOT NULL,
+  `is_active` int(1) NOT NULL DEFAULT '1',
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `rf_admin_users`
+--
+
+INSERT INTO `rf_admin_users` (`id`, `name`, `email`, `password`, `lastlogin`, `reset_token`, `is_active`, `is_deleted`) VALUES
+(1, 'RupeeForadian Admin', 'administrator@rupeeforadian.com', '827ccb0eea8a706c4c34a16891f84e7b', 0, 'MTQ2MjAwNTc3N18x', 1, 0);
+
+
+
+CREATE TABLE IF NOT EXISTS `rf_careers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_title` varchar(254) NOT NULL,
+  `job_role` varchar(254) NOT NULL,
+  `job_type` int(2) NOT NULL,
+  `city` varchar(254) NOT NULL,
+  `monthly_salary` double NOT NULL,
+  `job_description` text NOT NULL,
+  `vacancy` int(11) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `is_blocked` int(1) NOT NULL DEFAULT '0',
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  `applicant` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+
+
+CREATE TABLE IF NOT EXISTS `rf_job_applicants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `career_id` int(11) NOT NULL,
+  `name` varchar(254) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `contact_number` varchar(254) NOT NULL,
+  `cv` varchar(254) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `is_selected` int(1) NOT NULL DEFAULT '0',
+  `is_contacted` int(1) NOT NULL DEFAULT '0',
+  `is_deleted` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+

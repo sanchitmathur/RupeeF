@@ -525,5 +525,29 @@ class AppController extends Controller {
 		
 		return true;
 	}
-
+	
+/**
+ * currencysymboles method
+ * @return array $currencysymboles
+ */
+	public function currencysymboles(){
+		$currencysymboles=array(
+			'INR'=>'Rs.'
+		);
+		return $currencysymboles;
+	}
+	
+/**
+ * careerjobtypes method
+ *
+ * @return array $careerjobtypes
+ */
+	public function careerjobtypes(){
+		$careerjobtypes = array(
+			'1'=>'Part Time Jobs',
+			'2'=>'Full Time Jobs',
+		);
+		return $careerjobtypes;
+	}
+	
 }

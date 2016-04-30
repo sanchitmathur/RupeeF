@@ -90,6 +90,7 @@ class UserCartsController extends AppController {
 		
 		$serviceTax = $this->getServiceTax();
 		$this->set('serviceTax', $serviceTax);
+		$this->set('currencysymboles',$this->currencysymboles());
 	}
 
 /**

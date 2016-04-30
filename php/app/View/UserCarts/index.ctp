@@ -109,17 +109,28 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 service_body">
-						<h1>Check out
+						<h1>Check Out
 							<span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text</span>
 						</h1>
 						<div class="checkout_body">
 							<h3>
+							<span>
+							<?php
+							if(isset($userCarts) && is_array($userCarts) && count($userCarts)==0){
+								echo "There is nothing in the cart";
+							}
+							?>	
+							</span>	
 								<a href="<?=$config['BaseUrl']?>">
+								
 									<i class="fa fa-plus-circle plus"></i> 
 									Continue Shopping
 								</a>
 							</h3>
 							<div class="col-sm-12 checkout_table">
+								<?php
+									if(isset($userCarts) && is_array($userCarts) && count($userCarts)>0){
+								?>
 								<div class="table-responsive">
 									<table class="table table-striped table-responsive">
 										<thead>
@@ -133,7 +144,7 @@
 										</thead>
 										<tbody>
 										<?php
-											if(isset($userCarts) && is_array($userCarts) && count($userCarts)>0){
+											
 												foreach($userCarts as $userCart){
 													$cart_id = isset($userCart['UserCart']['id'])?$userCart['UserCart']['id']:0;
 													
@@ -142,7 +153,8 @@
 													$packge_id = isset($userCart['ServicePackage']['id'])?$userCart['ServicePackage']['id']:"";
 													$description = isset($userCart['ServicePackage']['description'])?$userCart['ServicePackage']['description']:"";
 													$amount = isset($userCart['ServicePackage']['amount'])?$userCart['ServicePackage']['amount']:0;
-													$currency = isset($userCart['ServicePackage']['currency'])?$userCart['ServicePackage']['currency']:"";
+													$currency = isset($userCart['ServicePackage']['currency'])?strtoupper($userCart['ServicePackage']['currency']):"";
+													$currency = isset($currencysymboles[$currency])?$currencysymboles[$currency]:'';
 										?>
 												<tr class="parentTR">
 													<td>
@@ -183,11 +195,11 @@
 												</tr>
 										<?php
 												}
-											}
 										?>
 										</tbody>
 									</table>
 								</div>
+								
 								
 								<div class="rightcost">
 									<div class="allcost">
@@ -256,6 +268,9 @@
 									?>
 									</div>
 								</div>
+								<?php
+									}
+								?>
 							</div>
 							<div class="crl"></div>
 						</div>
