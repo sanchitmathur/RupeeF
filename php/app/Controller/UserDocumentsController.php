@@ -22,11 +22,11 @@ class UserDocumentsController extends AppController {
  *
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($user_id=0) {
 		$this->layout="admindefault";
 		$this->adminsessionchecked();
 		$this->UserDocument->recursive = 0;
-		$user_id=0;
+		
 		if($this->request->is('post')){
 			$user_id = isset($this->request->data['User']['user_id'])?$this->request->data['User']['user_id']:0;
 		}
@@ -157,7 +157,7 @@ class UserDocumentsController extends AppController {
  */
 	public function admin_docacceptreject($id=null,$approveReject=2){
 		//$approveReject  : 2=Reject 1= approved
-		
+		$user_id=0;
 		if($id>0){
 			$upcond=array(
 				'UserDocument.is_deleted'=>'0',
@@ -165,9 +165,34 @@ class UserDocumentsController extends AppController {
 			);
 			$updata = array(
 				'UserDocument.doc_status'=>$approveReject,
-				'UserDocument.actiondate'=>"'".date('Y-m-d h:i:s')."'"
+				'UserDocument.actiondate'=>"'".date('Y-m-d H:i:s')."'"
 			);
 			$this->UserDocument->updateAll($updata,$upcond);
+			
+			//get user information for send notifications
+			$userdocument = $this->UserDocument->find('first',array('recursive'=>'0','conditions'=>$upcond));
+			//pr($userdocument);
+			//die();
+			if(is_array($userdocument) && count($userdocument)>0){
+				//validate user details
+				if(isset($userdocument['User']) && count($userdocument['User'])>0){
+					$user_id = $userdocument['User']['id'];
+					$user_name = $userdocument['User']['name'];
+					$user_email = $userdocument['User']['email'];
+					$emaildata=array(
+						'reciever_name'=>$user_name,
+						'email'=>$user_email
+					);
+					if($approveReject==1){
+						$this->allnotificationsection($this->emailSendAdminApprovedDocument,$user_id,$is_email_send='1',$emaildata);
+					}
+					else{
+						$this->allnotificationsection($this->emailSendAdminRejectDocument,$user_id,$is_email_send='1',$emaildata);
+					}
+					
+				}
+			}
+			
 			if($approveReject==1){
 				$message = "You approved that document successfully";
 			}
@@ -180,7 +205,13 @@ class UserDocumentsController extends AppController {
 			$this->Session->setFlash(__('Invalid Document details'));	
 		}
 		
-		return $this->redirect(array('controller'=>'userDocuments','action'=>'index'));
+		if($user_id>0){
+			return $this->redirect(array('controller'=>'userDocuments','action'=>'index',$user_id));
+		}
+		else{
+			return $this->redirect(array('controller'=>'userDocuments','action'=>'index'));
+		}
+		
 	}
 	
 }

@@ -15,7 +15,7 @@ class UsersController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session', 'Thumb');
-	public $user_page_limit=5;
+	public $user_page_limit=30;
 
 /**
  * index method
@@ -155,6 +155,8 @@ class UsersController extends AppController {
 		$this->usersessionchecked();
 		$user=$this->Session->read('user');
 		$user_id=$user['user_id'];
+		$user_name = $user['name'];
+		$user_email=$user['email'];
 		
 		if($this->request->is(array('post','put'))){
 			$posteddata = $this->request->data;
@@ -186,7 +188,7 @@ class UsersController extends AppController {
 						if($isImage){
 							$soucepath=$basepath.$filename;
 							$destination = $alltypefilepaths['dic']['userdocument_thumb'].$filename;
-							$this->Thumb->createthumb( $soucepath, $destination, $this->thu , $height = 0 ) ;
+							$this->Thumb->createthumb( $soucepath, $destination, $this->thumbImageWidth ,$this->thumbImageHeight ) ;
 						}
 						
 						//old doct file should remove from the
@@ -204,10 +206,16 @@ class UsersController extends AppController {
 						$posteddata['UserDocument']['doc_name']=$filename;
 						$posteddata['UserDocument']['user_id']=$user_id;
 						$posteddata['UserDocument']['doc_status']='0';
-						$posteddata['UserDocument']['createdate']="'".date("Y-m-d h:i:s")."'";
+						//$posteddata['UserDocument']['createdate']="'".date("Y-m-d H:i:s")."'";
+						$posteddata['UserDocument']['createdate']=date("Y-m-d H:i:s");
 						if($this->User->UserDocument->save($posteddata)){
 							//saved the doc
-							
+							//now send a notification and a email to the user
+							$emaildata = array(
+								'reciever_name'=>$user_name,
+								'email'=>$user_email,
+							);
+							$this->allnotificationsection($this->emailSendUserUploadDocument,$user_id,$is_send_email='1',$emaildata);
 						}
 					}
 					else{
@@ -240,6 +248,7 @@ class UsersController extends AppController {
 			else{
 				$this->Session->setFlash(__('The user document has been saved.'));
 			}
+			
 			if($id>0){
 				return $this->redirect(array('action'=>'documents'));
 			}
@@ -320,6 +329,7 @@ class UsersController extends AppController {
 		return $this->redirect(array('action'=>'documents'));
 	}
 	
+
 /**
  * notificaions method
  *
@@ -365,6 +375,7 @@ class UsersController extends AppController {
 		return $this->redirect(array('action'=>'notifications'));
 	}
 	
+
 
 /**
  * orderhistory method
@@ -560,6 +571,7 @@ class UsersController extends AppController {
 						'message'=>$messagetext,
 						'create_date'=>date("Y-m-d G:i:s"),
 						'is_user_post'=>'1',
+						'user_read'=>'1',
 					)
 				);
 				if($this->Communication->save($postdata)){
@@ -613,6 +625,8 @@ class UsersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->layout="user_inner_main";
+		$this->usersessionchecked();
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -626,6 +640,9 @@ class UsersController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->layout="user_inner_main";
+		$this->usersessionchecked();
+		
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
@@ -645,6 +662,9 @@ class UsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$this->layout="user_inner_main";
+		$this->usersessionchecked();
+		
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -681,6 +701,11 @@ class UsersController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/*
+* ADMIN SECTIONS
+*/	
+
 
 /**
  * admin_index method
@@ -751,9 +776,83 @@ class UsersController extends AppController {
 		$this->layout="admindefault";
 		$this->adminsessionchecked();
 		if($this->request->is('post')){
-			$posteddata = $this->request->data;
+			$posteddata = isset($this->request->data['User'])?$this->request->data['User']:array();
 			//pr($posteddata);
-			//die();
+			if(is_array($posteddata) && count($posteddata)>0){
+				$user_id = $posteddata['user_id'];
+				$document_type_id = $posteddata['document_type_id'];
+				$image = $posteddata['image'];
+				if(is_array($image) && count($image)>0){
+					if(isset($image['size']) && $image['size']>0){
+						$filename = time()."_".$this->replacespecialcharacter($image['name']);
+						
+						$alltypefilepaths = $this->alltypefilepaths();
+						$basepath = $alltypefilepaths['dic']['userdocument'];
+						$isImage=true;
+						if(!in_array(strtolower($image['type']),$this->allowedimageType)){
+							$isImage=false;
+						}
+						
+						if(move_uploaded_file($image['tmp_name'],$basepath.$filename)){
+							//after upload create thum nail
+							if($isImage){
+								$soucepath=$basepath.$filename;
+								$destination = $alltypefilepaths['dic']['userdocument_thumb'].$filename;
+								$this->Thumb->createthumb( $soucepath, $destination, $this->thumbImageWidth ,$this->thumbImageHeight) ;
+							}
+							//now save the data into db
+							$savedata = array(
+								'UserDocument'=>array(
+									'doc_name'=>$filename,
+									'user_id'=>$user_id,
+									'document_type_id'=>$document_type_id,
+									'doc_status'=>'1',
+									'createdate'=>date("Y-m-d H:i:s"),
+									'actiondate'=>date("Y-m-d H:i:s")
+								)
+							);
+							if($this->User->UserDocument->save($savedata)){
+								//saved the doc
+								//now send a notification and a email to the user
+								$this->User->unbindModel(array(
+									'hasMany'=>array(
+										'UserServicePackage','UserService','UserDocument','Notification'
+									)
+								));
+								
+								$userdetail = $this->User->find('first',array('recursive'=>'0','conditions'=>array('User.id'=>$user_id)));
+								if(is_array($userdetail) && count($userdetail)>0){
+									$user_name = $userdetail['User']['name'];
+									$user_email = $userdetail['User']['email'];
+									$emaildata = array(
+										'reciever_name'=>$user_name,
+										'email'=>$user_email,
+									);
+									$this->allnotificationsection($this->emailSendAdminUploadDocument,$user_id,$is_send_email='1',$emaildata);
+								}
+								$this->Session->setFlash(__('File successfully uploaded'),'default',array('class'=>'success'));
+								return $this->redirect(array('action'=>'adddocument',$user_id));
+							}
+							else{
+								$this->Session->setFlash(__('File data saving error'));
+							}
+						}
+						else{
+							$this->Session->setFlash(__('File upload error'));
+						}
+					}
+					else{
+						$this->Session->setFlash(__('Invalid file upload'));
+					}
+				}
+				else{
+					$this->Session->setFlash(__('Please choose a file to upload'));
+				}
+			}
+			else{
+				$this->Session->setFlash(__('Invalid request post'));
+			}
+			
 		}
 		//user find sections
 		$finduser = array(
@@ -1028,6 +1127,14 @@ class UsersController extends AppController {
 				//update the cart item user data
 				$isupdate = $this->updatecartitemwithuser();
 				
+				//notify the user
+				$emaildata= $saveData['User'];
+				$emaildata['password']=$password;
+				$emaildata['reciever_name']=$name;
+				
+				$this->allnotificationsection($this->emailSendNewRegistration,$user_id,$is_email_send=1,$emaildata);
+				
+				
 				/* $service = $this->Session->read('service');
 				$service_id = isset($service['service_id'])?$service['service_id']:0;
 				$service_package_id = isset($service['service_package_id'])?$service['service_package_id']:0; */
@@ -1241,6 +1348,7 @@ class UsersController extends AppController {
 			
 			//Check user exist or not
 			$cond = array(
+				'User.is_deleted'=>'0',
 				'OR'=>array(
 					'User.email'=>$fb_email,
 					'User.fb_id'=>$fb_id
@@ -1276,6 +1384,7 @@ class UsersController extends AppController {
 						'name'=>$fb_name,
 						'email'=>$fb_email,
 						'fb_id'=>$fb_id,
+						'fb_image'=>$fb_image
 					)
 				);
 				$this->User->create();
@@ -1285,6 +1394,14 @@ class UsersController extends AppController {
 				$name = $fb_name;
 				$email = $fb_email;
 				$phone_no='';
+				
+				//notify the user
+				$emaildata= $saveData['User'];
+				$emaildata['password']='';
+				$emaildata['reciever_name']=$fb_name;
+				
+				$this->allnotificationsection($this->emailSendNewRegistration,$user_id,$is_email_send=1,$emaildata);
+				
 			}
 			
 			//Set session
@@ -1420,6 +1537,14 @@ class UsersController extends AppController {
 				$email = $google_email;
 				$image = $google_picture;
 				$phone_no='';
+				
+				//notify the user
+				$emaildata= $saveData['User'];
+				$emaildata['password']='';
+				$emaildata['reciever_name']=$google_name;
+				
+				$this->allnotificationsection($this->emailSendNewRegistration,$user_id,$is_email_send=1,$emaildata);
+				
 			}
 			
 			//Set session
@@ -1886,6 +2011,12 @@ class UsersController extends AppController {
 								'className'=>'UserServicePackage',
 								'foreingKey'=>'transaction_id',
 							),
+						),
+						'belongsTo'=>array(
+							'User'=>array(
+								'className'=>'User',
+								'foreingKey'=>'user_id'
+							)
 						)
 					));
 					$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'0');
@@ -1955,6 +2086,14 @@ class UsersController extends AppController {
 									$this->ServiceProcessProgress->save($vseddata);
 								}
 							}
+							
+							//notify the user for buying the service
+							if(isset($transaction['User']) && count($transaction['User'])>0){
+								$reciever_email=$transaction['User']['email'];
+								$data = array(
+								);
+								$this->siteemailnotification($this->emailSendUserBuyService,array(),$reciever_email,$data);
+							}
 						}
 					}
 					else{
@@ -2001,9 +2140,15 @@ class UsersController extends AppController {
 						'className'=>'UserServicePackage',
 						'foreingKey'=>'transaction_id',
 					)
+				),
+				'belongsTo'=>array(
+					'User'=>array(
+						'className'=>'User',
+						'foreingKey'=>'user_id'
+					)
 				)
 			));
-			$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'1');
+			$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>array('0','1'));
 			$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
 			pr($transaction);
 			if(is_array($transaction) && count($transaction)>0){
@@ -2034,4 +2179,8 @@ class UsersController extends AppController {
 		
 		die();
 	}
+	
+
+
+	
 }

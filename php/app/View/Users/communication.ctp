@@ -65,7 +65,7 @@
                 ?>
                 <div class="chatwindow1 extradiv">
                         <div class="col-md-1 col-xs-1 userpicture">
-                                <?php echo $this->Html->image('userPic.png',array('class'=>'userIMG'));?>
+                                <?php echo $this->Html->image('ricon.png',array('class'=>'userIMG2'));?>
                         </div>
                         <div class="col-md-9 col-xs-9">
                                 <div class="userspick">

@@ -181,3 +181,12 @@ CREATE TABLE IF NOT EXISTS `rf_service_process_progresses` (
 Today(28-04-16):
 ———————————————-
 ALTER TABLE `rf_cities` ADD `region` INT(2) NOT NULL DEFAULT '0' AFTER `long_state_name`;
+
+===== uploaded ====
+Today(29-04-16):
+———————————————-
+ALTER TABLE `rf_admin_users` ADD `reset_token` VARCHAR(245) NOT NULL AFTER `lastlogin`;
+
+ALTER TABLE `rf_communications` ADD `user_read` INT(1) NOT NULL DEFAULT '0' AFTER `is_user_post`, ADD `admin_read` INT(1) NOT NULL DEFAULT '0' AFTER `user_read`;
+
+====== uploaded on server done=======

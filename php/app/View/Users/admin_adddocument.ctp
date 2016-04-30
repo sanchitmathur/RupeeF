@@ -1,7 +1,7 @@
 <div class="users form">
 <?php echo $this->Form->create('User',array('type'=>'file')); ?>
 	<fieldset>
-		<legend><?php echo __('Admin Add User'); ?></legend>
+		<legend><?php echo __('Admin Upload Document'); ?></legend>
 	<?php
 		echo $this->Form->input('user_id');
 		echo $this->Form->input('document_type_id');

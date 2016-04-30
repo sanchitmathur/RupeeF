@@ -27,6 +27,9 @@ function SetNewWH(){
 	$h = $imginfo[1];
 	$this->type = $imginfo["mime"];
 	$nh=($this->maxW/$w)*$h;
+	if($nh > $this->maxH && $this->maxH>0){
+		$nh = $this->maxH;
+	}
 	$this->infoImage[0]=$w;
 	$this->infoImage[1]=$h;
 	$this->infoImage[2]=$this->maxW;

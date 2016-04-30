@@ -40,4 +40,15 @@
         </div>
         <?php
     }
+    else{
+        ?>
+        <!--<div class="actions">
+            
+            <h3><?php echo __('Actions'); ?></h3>
+            <ul>
+                <li><?php echo $this->Html->link(__('Forgot Password'), array('controller'=>'AdminUsers','action' => 'forgotpassword'),array('style'=>'color:#e32;')); ?></li>
+            </ul>
+        </div>-->
+        <?php
+    }
 ?>
