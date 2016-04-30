@@ -15,7 +15,9 @@
 }
 
 @media (max-width: 360px){
-	
+	.popupName {
+		width:90%
+	}
 	
 }
 
@@ -427,5 +429,8 @@
 	}
 	.apply_popup{
 		padding:0;
+	}
+	.formTable tr td {
+		padding: 5px 10px;
 	}
 }
