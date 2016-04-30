@@ -129,7 +129,7 @@
             
             <div class="container">
                     <div class="row">
-                            
+						<div class="col-md-12 service_body">
             <?php
             //pr($cities);
                 if($is_all_cities==1){
@@ -139,50 +139,52 @@
                             $satatename=$keyname;
                             
                             ?>
-                        <div class="col-md-12 service_body">
+                        <!--<div class="col-md-12 service_body">-->
                             <div class="find">
-                                <h2><?=$satatename?></h2>
-                                <div>
-                                    <div class="col-md-2 resCity">
-                                        <ul class="cityname">
-                                    <?php
-                                        if(isset($citydata) && is_array($citydata) && count($citydata)>0){
-                                            $i=1;
-                                            foreach($citydata as $city){
-                                                $city_name=$city['City']['city_name'];
-                                                ?>
-                                                <li><a href="javascript:void(0);"><?=$city_name?></a></li>
-                                                <?php
-                                                
-                                                if($i%6==0){
-                                                ?>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-2 resCity">
-                                        <ul class="cityname">
-                                                    
-                                                    <?php
-                                                }
-                                                $i++;
-                                            }
-                                        }
-                                    ?>
-                                        </ul>
-                                    </div>
-                                        
-                                        <div class="crl"></div>
-                                </div>
+								<div class="col-md-3">
+									<h2><?=$satatename?></h2>
+									<div>
+										<div class="col-md-2 resCity">
+											<ul class="cityname">
+										<?php
+											if(isset($citydata) && is_array($citydata) && count($citydata)>0){
+												$i=1;
+												foreach($citydata as $city){
+													$city_name=$city['City']['city_name'];
+													?>
+													<li><a href="javascript:void(0);"><?=$city_name?></a></li>
+													<?php
+													
+													if($i%1000==0){
+													?>
+											</ul>
+										</div>
+										<div class="col-md-2 resCity">
+											<ul class="cityname">
+														
+														<?php
+													}
+													$i++;
+												}
+											}
+										?>
+											</ul>
+										</div>
+											
+											<div class="crl"></div>
+									</div>
+								</div>
                                 <div class="crl"></div>
                         </div>
                             <div class="crl"></div>
-                        </div>
+                        <!--</div>-->
                             <?
                         }
                     }
                 }
                 else{
                     ?>
-                    <div class="col-md-12 service_body">
+                    <!--<div class="col-md-12 service_body">-->
                         <div class="find">
                                 <h2><?=$satatename?></h2>
                                 <div>
@@ -217,11 +219,11 @@
                                 </div>
                                 <div class="crl"></div>
                         </div>
-                     </div>      
+                     <!--</div>-->     
                     <?php
                 }
             ?>
-             
+             </div>
                     </div>
             </div>
     </div>

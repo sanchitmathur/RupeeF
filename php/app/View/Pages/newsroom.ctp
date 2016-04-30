@@ -46,13 +46,13 @@
                                                 <div class="recentPost">
                                                         <h2>Recent Posts</h2>
                                                         <div>
-                                                                <p>Maecenas etos sit amet, consectetur adipiscing elit hasellus volutpat lacus eu lacus lacinia et dolore magna.<span>November 02, 2014  /  2 comments</span></p>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>November 02, 2014  /  2 comments</span></p>
                                                         </div>
                                                         <div>
-                                                                <p>Maecenas etos sit amet, consectetur adipiscing elit hasellus volutpat lacus eu lacus lacinia et dolore magna.<span>November 02, 2014  /  2 comments</span></p>
+                                                                <p>MLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>November 02, 2014  /  2 comments</span></p>
                                                         </div>
                                                         <div>
-                                                                <p>Maecenas etos sit amet, consectetur adipiscing elit hasellus volutpat lacus eu lacus lacinia et dolore magna.<span>November 02, 2014  /  2 comments</span></p>
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<span>November 02, 2014  /  2 comments</span></p>
                                                         </div>
                                                 </div>
                                                 

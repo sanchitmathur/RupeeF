@@ -529,7 +529,7 @@ sup {
 	.documentTable table tr td a{
 		color:#adadad;
 		padding:0 6px 0 0;
-		cursor:default;
+		cursor: pointer;
 	}
 	.app{
 		color:#33b600 !important;

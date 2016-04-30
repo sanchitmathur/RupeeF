@@ -1888,3 +1888,158 @@ sup {
 			padding-bottom:8px;
 			color:#999;
 		}
+		.bulet_Text{
+			width:1000px;
+			margin:0 auto;
+		}
+		.bulet_Text p {
+			background: url(../img/bulet_point.png) no-repeat 0 13px;
+			padding: 10px 15px 10px 28px;
+		}
+		
+/*--------------------Apply_popup--------------------------*/
+
+	.apply_popup{
+		background:rgba(0, 0, 0, 0.8);
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		z-index:9999;
+		padding:80px 0 0 0;
+	}
+	.subApply{
+		width:600px;
+		height:auto;
+		padding:20px;
+		background:#fff;
+		position:relative;
+		margin:0 auto;
+	}
+	.subApply h3{
+		font-size:24px;
+		margin: 0;
+		padding:0;
+		color: #000;
+		text-align: left;
+		font-weight:400;
+	}
+	.cross_pop{
+		position:absolute;
+		top:0;
+		right:0;
+		padding:15px;
+	}
+	.formTable{
+		width:100%;
+		margin-top:40px;
+	}
+	.formTable tr{
+		vertical-align:middle;
+	}
+	.formTable tr td{
+		padding:10px;
+		font-size:18px;
+		font-weight:300;
+		margin:0;
+	}
+	.popupName {
+		border: 1px solid #126abf;
+		padding: 10px;
+		text-align: left;
+		border-radius: 1px;
+		font-size: 16px;
+		font-weight: normal;
+		color: #000;
+		font-weight: 300;
+		width: 100%;
+		background-color: transparent;
+	}
+	.popup_button {
+		border: 1px solid #126abf;
+		padding: 6px 40px;
+		text-align: center;
+		margin: 0;
+		font-size: 16px;
+		font-weight: 300;
+		color: #000;
+		background-color: transparent;
+		transition: all 0.4s ease;
+	}
+	.popup_button:hover {
+		background-color:#126abf;
+		color:#fff;
+	}
+	.popup_button2 {
+		border: 1px solid #868686;
+		padding: 6px 40px;
+		text-align: center;
+		margin: 0;
+		font-size: 16px;
+		font-weight: 300;
+		color: #000;
+		background-color: transparent;
+		transition: all 0.4s ease;
+	}
+	.popup_button2:hover {
+		background-color:#868686;
+		color:#fff;
+	}
+	.subApply2{
+		width:600px;
+		height:auto;
+		padding:20px;
+		background:#fff;
+		position:relative;
+		margin:0 auto;
+	}
+	.subApply2 h3{
+		font-size:24px;
+		margin: 0;
+		padding:0;
+		color: #000;
+		text-align: left;
+		font-weight:400;
+	}
+	.subApply2 h4{
+		font-size:20px;
+		margin:30px 0 15px 0;
+		padding:0;
+		color: #000;
+		text-align: left;
+		font-weight:300;
+	}
+	.subApply2 h5{
+		font-size:18px;
+		margin:0;
+		padding:0 0 15px 0;
+		color:#000;
+		text-align: left;
+		font-weight:300;
+	}
+	.subApply2 h5 span{
+		padding-left:5px;
+		font-size:16px;
+	}
+	.subApply2 h2{
+		font-size:18px;
+		margin: 0;
+		padding:0 0 15px 0;
+		color: #000;
+		text-align: left;
+		font-weight:300;
+	}
+	.subApply2 h2 span{
+		font-size:16px;
+		display:block;
+		padding:15px 0 0 0;
+	}
+	.subApply2 p{
+		font-size:14px;
+		margin: 0;
+		padding:0 0 20px 0;
+		color: #000;
+		text-align:justify;
+		font-weight:300;
+	}

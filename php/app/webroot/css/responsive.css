@@ -408,4 +408,24 @@
 		padding:0 !important;
 		margin-bottom:10px;
 	}
+	.bulet_Text{
+		width:100%;
+	}
+	.subApply{
+		width:100%;
+		padding:15px;
+	}
+	.formTable{
+		margin-top:20px;
+	}
+	.formTable tr td{
+		display:block;
+	}
+	.subApply2{
+		width:100%;
+		padding:15px;
+	}
+	.apply_popup{
+		padding:0;
+	}
 }
