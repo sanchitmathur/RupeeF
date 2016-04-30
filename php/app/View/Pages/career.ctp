@@ -15,45 +15,50 @@
                                             <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text </span>
                                     </h1>
                                     <div class="creerText table-responsive">
+                                            <?php
+                                                if(isset($careers) && is_array($careers) && count($careers)>0){
+                                                   ?>
                                             <table class="table table-striped">
-                                              <thead>
+                                                <thead>
                                                     <tr>
-                                                      <th>ROLE</th>
+                                                      <th>TITLE</th>
                                                       <th>TEAM</th>
                                                       <th>CITY</th>
                                                       <th></th>
                                                     </tr>
-                                              </thead>
-                                              <tbody>
-                                                    <tr>
-                                                      <td>Communication Desinger</td>
-                                                      <td>Design</td>
-                                                      <td>Haryana</td>
-                                                      <td style="width:174px;">
-                                                            <input class="viewapply" id="" value="View" type="submit">
-                                                            <input class="viewapply" id="" value="Apply" type="submit">
-                                                      </td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>account executive</td>
-                                                      <td>Business development</td>
-                                                      <td>karnataka</td>
-                                                      <td style="width:174px;">
-                                                            <input class="viewapply" id="" value="View" type="submit">
-                                                            <input class="viewapply" id="" value="Apply" type="submit">
-                                                      </td>
-                                                    </tr>
-                                                    <tr>
-                                                      <td>Communication Desinger</td>
-                                                      <td>Design</td>
-                                                      <td>Orisa</td>
-                                                      <td style="width:174px;">
-                                                            <input class="viewapply" id="" value="View" type="submit">
-                                                            <input class="viewapply" id="" value="Apply" type="submit">
-                                                      </td>
-                                                    </tr>
-                                              </tbody>
+                                                </thead>
+                                                <tbody>
+                                                   <?php
+                                                    foreach($careers as $career){
+                                                       $job_type ="";
+                                                       if(isset($jobTypes[$career['Career']['job_type']])){
+                                                            $job_type="( ".$jobTypes[$career['Career']['job_type']]." )";
+                                                       }
+                                                       ?>
+                                                       <tr>
+                                                            <td><?php
+                                                                echo ucwords($career['Career']['job_title'])." ".$job_type;
+                                                            ?></td>
+                                                            <td><?php echo ucwords($career['Career']['job_role']);?></td>
+                                                            <td><?php echo ucwords($career['Career']['city']);?></td>
+                                                            <td style="width:174px;">
+                                                                  <input class="viewapply" value="View" type="submit" jobdtl="<?=json_encode($career['Career'])?>" job_id="<?=$career['Career']['id']?>">
+                                                                  <input class="viewapply" value="Apply" type="submit" job_id="<?=$career['Career']['id']?>">
+                                                            </td>
+                                                        </tr>
+                                                       <?php 
+                                                    }
+                                                    ?>
+                                                </tbody>
                                             </table>
+                                                    <?php
+                                                }
+                                                else{
+                                                    ?>
+                                                    <h3>There is nothing available right now</h3>
+                                                    <?php
+                                                }
+                                            ?>
                                             <div class="crl"></div>
                                     </div>
                             </div>
@@ -61,6 +66,7 @@
             </div>
     </div>
 </div>
+
 <div class="apply_popup" style="display:none">
 	<div class="subApply" style="display:none">
 		<div>

@@ -83,6 +83,15 @@ class PagesController extends AppController {
 	}
 	public function career(){
 		$this->layout="main";
+		$this->loadModel('Career');
+		$findcond = array(
+			'Career.is_blocked'=>'0',
+			'Career.is_deleted'=>'0'
+		);
+		$careers = $this->Career->find('all',array('recursive'=>'0','conditions'=>$findcond));
+		$careers=array();
+		$this->set('careers',$careers);
+		$this->set('jobTypes',$this->careerjobtypes());
 	}
 	public function newsroom(){
 		$this->layout="main";
