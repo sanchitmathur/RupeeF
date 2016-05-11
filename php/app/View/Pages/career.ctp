@@ -12,7 +12,7 @@
                     <div class="row">
                             <div class="col-md-12 service_body">
                                     <h1>Careers
-                                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text </span>
+                                        <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text </span>
                                     </h1>
                                     <div class="creerText table-responsive">
                                             <?php
@@ -42,8 +42,8 @@
                                                             <td><?php echo ucwords($career['Career']['job_role']);?></td>
                                                             <td><?php echo ucwords($career['Career']['city']);?></td>
                                                             <td style="width:174px;">
-                                                                  <input class="viewapply" value="View" type="submit" jobdtl="<?=json_encode($career['Career'])?>" job_id="<?=$career['Career']['id']?>">
-                                                                  <input class="viewapply" value="Apply" type="submit" job_id="<?=$career['Career']['id']?>">
+                                                                  <input class="viewapply jobview" value="View" type="submit" jobdtl='<?=json_encode($career['Career'])?>' job_id="<?=$career['Career']['id']?>">
+                                                                  <input class="viewapply jobapply" value="Apply" type="submit" job_id="<?=$career['Career']['id']?>">
                                                             </td>
                                                         </tr>
                                                        <?php 
@@ -67,32 +67,242 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    var jobtypes = $.parseJSON('<?=json_encode($jobTypes)?>');
+    var chooseJobId=0;
+    var errColor="red";
+    var succColor="#126abf";
+    var baseurl="<?=$sitepath?>";
+    var jobrequest="jobApplicants/applyjob";
+    
+    $(document).ready(function(){
+        $(".jobview").bind('click',viewJobDetails);
+        $(".jobapply").bind('click',applyToTheJob);
+        $(".cross_pop a").bind('click',cloaseTheViewApllySection);
+        $("#jobapply").bind('click',viwedJobApply);
+        $("#applionjob").bind('click',applyOnTheJob);
+        $(".frmvalied").bind('focusout',frmfieldvalidate);
+    });
+    
+    function viewJobDetails(e) {
+        $(".apply_popup").show();
+        
+        var career = $.parseJSON($(e.currentTarget).attr('jobdtl'));
+        //console.log(career);
+        //console.log(career.job_title);
+        //console.log(jobtypes[career.job_type]);
+        
+        $("#jobtitle").html(career.job_title+" ("+jobtypes[career.job_type]+" )");
+        $("#jobrole").html(career.job_role);
+        $("#jobcity").html(career.city);
+        $("#jobsalary").html(career.monthly_salary);
+        $("#jobdesc").html(career.job_description);
+        $("#jobapply").attr('job_id',career.id);
+        $(".subApply2").show();
+        
+    }
+    
+    function viwedJobApply(e){
+        $(".subApply2").hide();
+        chooseJobId = $(e.currentTarget).attr('job_id');
+        $(".subApply").show();
+    }
+    
+    function applyToTheJob(e) {
+        $(".apply_popup").show();
+        $(".subApply").show();
+        chooseJobId = $(e.currentTarget).attr('job_id');
+    }
+    
+    function cloaseTheViewApllySection(e) {
+        $(".apply_popup").hide();
+        $(".subApply").hide();
+        $(".subApply2").hide();
+        chooseJobId=0;
+    }
+    
+    function applyOnTheJob(e){
+        e.preventDefault();
+        //validate the sections
+        var name="";
+        var email="";
+        var mobile="";
+        var files="";
+        
+        if (chooseJobId>0) {
+            //validate form
+            var formValidate = true;
+            
+            $.each($(".frmvalied"),function(i,item){
+                var itemval = $.trim($(item).val());
+                var itemtype = $(item).attr('type');
+                console.log('val : '+itemval+" type : "+itemtype);
+                switch (itemtype) {
+                    case "name":
+                        if (itemval=='') {
+                            formValidate=false;
+                            $(item).attr('style','border:1px solid '+errColor+';');
+                        }
+                        else{
+                            name=itemval;
+                            $(item).attr('style','border:1px solid '+succColor+';');
+                        }
+                        break;
+                    case "email":
+                        if (!isEmail(itemval)) {
+                            formValidate=false;
+                            $(item).attr('style','border:1px solid '+errColor+';');
+                        }
+                        else{
+                            email=itemval;
+                            $(item).attr('style','border:1px solid '+succColor+';');
+                        }
+                        break;
+                    case "mobile":
+                        if (itemval=='' || !$.isNumeric(itemval) ) {
+                            formValidate=false;
+                            $(item).attr('style','border:1px solid '+errColor+';');
+                        }
+                        else{
+                            mobile=itemval;
+                            $(item).attr('style','border:1px solid '+succColor+';');
+                        }
+                        break;
+                    case "file":
+                        if (itemval=='') {
+                            formValidate=false;
+                            $(item).attr('style','border:1px solid '+errColor+';');
+                        }
+                        else{
+                            files=item.files[0];
+                            console.log(files);
+                            $(item).attr('style','border:1px solid '+succColor+';');
+                            
+                        }    
+                        break;
+                    default:
+                        break;
+                }
+            });
+            //submit the  request
+            if (formValidate) {
+                //now do the ajax call
+                var fd = new FormData();
+                fd.append('name',name);
+                fd.append('email',email);
+                fd.append('mobile',mobile);
+                fd.append('cvdoct',files);
+                fd.append('career_id',chooseJobId);
+                //now call the server
+                $.ajax({
+                    url:baseurl+jobrequest,
+                    type:'post',
+                    dataType:'json',
+                    contentType:false,
+                    processData:false,
+                    data:fd,
+                    success:function(response){
+                        console.log(response);
+                        if (response.status>0) {
+                            cloaseTheViewApllySection();
+                            $.each($(".frmvalied"),function(i,item){
+                                $(item).val('');
+                            });
+                            alert(response.message);
+                        }
+                        else{
+                            alert(response.message);
+                        }
+                    },
+                    error:function(response){
+                        console.log(response);
+                    }
+                });
+            }
+        }
+        else{
+            //do nothing
+        }
+    }
+    
+    function frmfieldvalidate(e){
+        var item = $(e.currentTarget);
+        
+        var itemval = $.trim($(item).val());
+        var itemtype = $(item).attr('type');
+        console.log('val : '+itemval+" type : "+itemtype);
+        switch (itemtype) {
+            case "name":
+                if (itemval=='') {
+                    $(item).attr('style','border:1px solid '+errColor+';');
+                }
+                else{
+                    $(item).attr('style','border:1px solid '+succColor+';');
+                }
+                break;
+            case "email":
+                if (!isEmail(itemval)) {
+                    $(item).attr('style','border:1px solid '+errColor+';');
+                }
+                else{
+                    $(item).attr('style','border:1px solid '+succColor+';');
+                }
+                break;
+            case "mobile":
+                if (itemval=='' || !$.isNumeric(itemval) || itemval < 0) {
+                    $(item).attr('style','border:1px solid '+errColor+';');
+                }
+                else{
+                    $(item).attr('style','border:1px solid '+succColor+';');
+                }
+                break;
+            case "file":
+                if (itemval=='') {
+                    $(item).attr('style','border:1px solid '+errColor+';');
+                }
+                else{
+                    $(item).attr('style','border:1px solid '+succColor+';');
+                    var file = e.currentTarget.files[0];
+                    console.log(file);
+                }    
+                break;
+            default:
+                break;
+        }
+    }
+    
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+</script>
+
 <div class="apply_popup" style="display:none">
 	<div class="subApply" style="display:none">
 		<div>
 			<h3>Apply Form</h3>
-			<form action="demo_form.asp" method="get">
+			<form action="" method="get">
 				<table class="formTable">
 					<tr>
 						<td style="width:105px;">Full Name</td>
-						<td><input class="popupName" name="email" value="" placeholder="Please Enter Name" type="name"></td>
+						<td><input class="popupName frmvalied" name="email" value="" placeholder="Please Enter Name" type="name"></td>
 					</tr>
 					<tr>
 						<td>Email Id</td>
-						<td><input class="popupName" name="email" value="" placeholder="Please Enter Email" type="email"></td>
+						<td><input class="popupName frmvalied" name="email" value="" placeholder="Please Enter Email" type="email"></td>
 					</tr>
 					<tr>
 						<td>Mobile No.</td>
-						<td><input class="popupName" name="email" value="" placeholder="Please Enter mobile no." type="mobile"></td>
+						<td><input class="popupName frmvalied" name="email" value="" placeholder="Please Enter mobile no." type="mobile"></td>
 					</tr>
 					<tr>
 						<td>Uplode CV</td>
-						<td><input type="file" name="img"></td>
+						<td><input type="file" name="img" class="frmvalied" ></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<input class="popup_button" id="" value="Submit" type="submit">
+							<input class="popup_button" id="applionjob" value="Submit" type="submit">
 							<button type="reset" class="popup_button2" value="Reset">Reset</button>
 						</td>
 					</tr>
@@ -104,16 +314,20 @@
 		</div>
 	</div>
 
-	<div class="subApply2">
+	<div class="subApply2" style="display:none">
 		<div>
-			<h3>Title</h3>
-			<h4>Job Role</h4>
-			<h5>salary : <span>8000/-</span></h5>
-			<h2>kolkata west bengal
+			<h3 id="jobtitle">Title</h3>
+			<h4 id="jobrole">Job Role</h4>
+			<h5>salary : <span id="jobsalary">8000/-</span></h5>
+                        <h5>location : <span id="jobcity">Kolkata</span></h5>
+                        <h5>vacancy : <span id="jobsalary">5</span></h5>
+                        
+			<!--<h2>kolkata west bengal
 				<span>vacancy : 5</span>
-			</h2>
-			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-			<input class="popup_button" id="" value="Apply" type="submit">
+			</h2>-->
+                        
+			<p id="jobdesc"></p>
+			<input class="popup_button" id="jobapply" value="Apply" type="submit" job_id="0">
 		</div>
 		<div class="cross_pop">
 			<a href="javascript:void(0);"><img src="<?=$config['BaseUrl']?>img/cross2.png" class="cr_bg"/></a>

@@ -16,6 +16,7 @@
                 <li><?php echo $this->Html->link(__('Sub Services'), array('controller'=>'SubServices','action' => 'index')); ?></li>
                 <li><?php echo $this->Html->link(__('Services'), array('controller'=>'Services','action' => 'index')); ?></li>
                 <li><?php echo $this->Html->link(__('Document Types'), array('controller' => 'DocumentTypes', 'action' => 'index')); ?> </li>
+                <li><?php echo $this->Html->link(__('Service Progress Steps'), array('controller' => 'ProgressSteps', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('Cities'), array('controller'=>'cities','action' => 'index')); ?></li>
                 
                 <li><?php echo $this->Html->link(__('Service Packages'), array('controller'=>'service_packages','action' => 'index')); ?></li>

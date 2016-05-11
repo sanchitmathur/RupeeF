@@ -431,10 +431,10 @@
 			//alert('childCount : '+childCount);
 		if(childCount > 0){
 			//Call function for render sub menus
-			/*renderSubMenus(menu_id);
+			renderSubMenus(menu_id);
 			$('#subMenus').fadeIn(300);
-			$('.header_all').show();*/
-			setTimeout(delaycall(menu_id),6000);
+			$('.header_all').show();
+			//setTimeout(delaycall(menu_id),6000);
 		}else{
 			$('#subMenus').fadeOut(300);
 			//$('.header_all').hide();

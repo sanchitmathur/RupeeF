@@ -75,9 +75,9 @@
 				<td><?php echo $jobApplicant['contact_number']; ?></td>
 				<td><?php echo $jobApplicant['cv']; ?></td>
 				<td class="actions">
-					<?php echo $this->Html->link(__('View'), array('controller' => 'user_service_packages', 'action' => 'view', $jobApplicant['id'])); ?>
-					<?php echo $this->Html->link(__('Edit'), array('controller' => 'user_service_packages', 'action' => 'edit', $jobApplicant['id'])); ?>
-					<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'user_service_packages', 'action' => 'delete', $jobApplicant['id']), array(), __('Are you sure you want to delete # %s?', $jobApplicant['id'])); ?>
+					<?php //echo $this->Html->link(__('View'), array('controller' => 'user_service_packages', 'action' => 'view', $jobApplicant['id'])); ?>
+					<?php //echo $this->Html->link(__('Edit'), array('controller' => 'user_service_packages', 'action' => 'edit', $jobApplicant['id'])); ?>
+					<?php //echo $this->Form->postLink(__('Delete'), array('controller' => 'user_service_packages', 'action' => 'delete', $jobApplicant['id']), array(), __('Are you sure you want to delete # %s?', $jobApplicant['id'])); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

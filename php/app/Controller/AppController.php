@@ -261,10 +261,12 @@ class AppController extends Controller {
             'url'=>array(
                 'userdocument'=>$sitebasepath.'userdocuments/',
                 'userdocument_thumb'=>$sitebasepath.'userdocuments/thumb_',
+		'applicant_cv'=>$sitebasepath.'applicant_cv/',
             ),
             'dic'=>array(
                 'userdocument'=>WWW_ROOT.'userdocuments/',
                 'userdocument_thumb'=>WWW_ROOT.'userdocuments/thumb_',
+		'applicant_cv'=>WWW_ROOT.'applicant_cv/',
             )
         );
         return $alltypefilepath;
@@ -460,9 +462,9 @@ class AppController extends Controller {
 		$subject="";
 		$layoutname='rupeeforadianemail';
 		$templatename='sitemailtemp';
-		
+		$linktitle="";
 		if(!is_array($from) || (is_array($from) && count($from)==0)){
-			$from=array('noreply@rupeeforadian.com'=>'RupeeForadian Admin');
+			$from=array('noreply@rupeeforadian.com'=>'RupeeForadian');
 		}
 		if(!filter_var($to,FILTER_VALIDATE_EMAIL)){
 			$revertemail = $to;
@@ -479,8 +481,16 @@ class AppController extends Controller {
 				$subject="Password update";
 				break;
 			case $this->emailSendNewRegistration:
-				$body_text="Congratulation! You successfully get restritard with us. Thanks to you be a member of RupeeForadian";
-				$subject="You successfully get registared with RupeeForadian";
+				$body_text="Congratulations on taking your first step toward making a simple life. Now you concentrate on your expertise area and we take care of all you CA/CA compliances etc";
+				$subject="Welcome to Rupee Foradian";
+				$linktitle="Click to access your dashboard";
+				//for time being
+				$body_text.="Greeting from team Rupee Foradian";
+				$body_text.=" </br> </br> \n\n ";
+				$body_text.="Following is your credentials to easily access our platform : </br> \n ";
+				$body_text.=" Email : ".isset($data['email'])?$data['email']:$to." </br> \n ";
+				$body_text.=" Password : ".isset($data['password'])?$data['password']:'';
+				$body_text.=" </br></br> \n\n";
 				break;
 			case $this->emailSendAdminApprovedDocument:
 				$body_text="One of your uploded document approved by the admin";
@@ -495,8 +505,11 @@ class AppController extends Controller {
 				$subject="RupeeForadian upload a new document";
 				break;
 			case $this->emailSendUserBuyService:
-				$body_text="You Successfully purchase a service";
-				$subject="Service purchase successfully";
+				$service_name = isset($data['service_name'])?$data['service_name']:'';
+				$body_text="Your service booking for ".$service_name." was successful and we are immediately taking action on this. You can track the progress from dashboard.";
+				$body_text.=" </br> An invoice copy of this transaction is attached. </br></br>";
+				
+				$subject=$service_name." booked successfully";
 				break;
 			case $this->emailSendUserUploadDocument:
 				$body_text="You upload a new document";
@@ -507,7 +520,7 @@ class AppController extends Controller {
 		}
 		
 		$data['body_text']=$body_text;
-		
+		$data['linktitle']=$linktitle;
 		//for test
 		//$data['body_text']=$body_text." </br> Sending data : ".json_encode($data);
 		//$to="mrintoryal@gmail.com";
@@ -548,6 +561,14 @@ class AppController extends Controller {
 			'2'=>'Full Time Jobs',
 		);
 		return $careerjobtypes;
+	}
+	
+/**
+ * userservicepackageprograastatus method
+ * @return array $serviceprogressstatus
+ */
+	public function userservicepackageprograastatus(){
+		
 	}
 	
 }

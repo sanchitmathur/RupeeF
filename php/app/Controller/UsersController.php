@@ -2019,6 +2019,16 @@ class UsersController extends AppController {
 							)
 						)
 					));
+					//unbind moddels
+					$this->Transaction->User->unbindModel(array(
+						'hasMany'=>array('UserServicePackage','UserService','Notification','UserDocument'),
+						'belongsTo'=>array('City','Language'),
+					));
+					$this->Transaction->UserServicePackage->unbindModel(array(
+						'belongsTo'=>array('User','ServicePackage','Transaction')
+					));
+					$allservicename='';
+					
 					$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>'0');
 					$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
 					if(is_array($transaction) && count($transaction)>0){
@@ -2068,6 +2078,7 @@ class UsersController extends AppController {
 							);
 							$this->Notifications->create();
 							$this->Notifications->save($notdata);
+							$allservicename='';
 							//now update the service progress steps
 							if(isset($transaction['UserServicePackage']) && count($transaction['UserServicePackage'])>0){
 								$this->loadModel('ServiceProcessProgress');
@@ -2082,6 +2093,13 @@ class UsersController extends AppController {
 											'is_deleted'=>'0'
 										)
 									);
+									if($allservicename==''){
+										$allservicename=$userpackage['Service']['service_name'];
+									}
+									else{
+										$allservicename.=", ".$userpackage['Service']['service_name'];
+									}
+									
 									$this->ServiceProcessProgress->create();
 									$this->ServiceProcessProgress->save($vseddata);
 								}
@@ -2090,7 +2108,11 @@ class UsersController extends AppController {
 							//notify the user for buying the service
 							if(isset($transaction['User']) && count($transaction['User'])>0){
 								$reciever_email=$transaction['User']['email'];
+								$reciever_name=$transaction['User']['name'];
+								$service_name=$allservicename;
 								$data = array(
+									'service_name'=>$service_name,
+									'reciever_name'=>$reciever_name
 								);
 								$this->siteemailnotification($this->emailSendUserBuyService,array(),$reciever_email,$data);
 							}
@@ -2148,8 +2170,17 @@ class UsersController extends AppController {
 					)
 				)
 			));
+			//unbind moddels
+			$this->Transaction->User->unbindModel(array(
+				'hasMany'=>array('UserServicePackage','UserService','Notification','UserDocument'),
+				'belongsTo'=>array('City','Language'),
+			));
+			$this->Transaction->UserServicePackage->unbindModel(array(
+				'belongsTo'=>array('User','ServicePackage','Transaction')
+			));
+			$allservicename='';
 			$finscond = array('Transaction.id'=>$transaction_id,'Transaction.is_completed'=>array('0','1'));
-			$transaction = $this->Transaction->find('first',array('recursive'=>'1','conditions'=>$finscond));
+			$transaction = $this->Transaction->find('first',array('recursive'=>'2','conditions'=>$finscond));
 			pr($transaction);
 			if(is_array($transaction) && count($transaction)>0){
 				$user_id = $transaction['Transaction']['user_id'];
@@ -2168,11 +2199,18 @@ class UsersController extends AppController {
 								'is_deleted'=>'0'
 							)
 						);
+						if($allservicename==''){
+							$allservicename=$userpackage['Service']['service_name'];
+						}
+						else{
+							$allservicename.=", ".$userpackage['Service']['service_name'];
+						}
 						pr($vseddata);
 						$this->ServiceProcessProgress->create();
 						$this->ServiceProcessProgress->save($vseddata);
 					}
 				}
+				echo $allservicename;
 			}
 			
 		}

@@ -280,5 +280,79 @@ class JobApplicantsController extends AppController {
 		$this->Session->setFlash(__('The JobApplicant has been deleted'),'default',array('class'=>'success'));
 		return $this->redirect(array('action' => 'index'));
 	}
+	
+/* user apply on the respective job*/
+
+/**
+ * applyjob method
+ */
+	public function applyjob(){
+		header('Content-type:application/json');
+		$status=0;
+		$message="";
+		if($this->request->is('post')){
+			//pr($this->request->data);
+			$upcv = array();
+			$posteddata = isset($this->request->data)?$this->request->data:array();
+			if(isset($_FILES['cvdoct'])){
+				$upcv=$_FILES['cvdoct'];
+			}
+			//pr($upcv);
+			//othe data validation
+			$name = (isset($posteddata['name']))?$posteddata['name']:'';
+			$email = (isset($posteddata['email']))?$posteddata['email']:'';
+			$contact_number = (isset($posteddata['mobile']))?$posteddata['mobile']:'';
+			$career_id = (isset($posteddata['career_id']))?$posteddata['career_id']:'0';
+			$otherdatavalied=true;
+			if($name=='' || $contact_number=='' || $email=='' || $career_id=='' || $career_id<1){
+				$otherdatavalied=false;
+				$message="All fields are mandatory";
+			}
+			if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+				$otherdatavalied=false;
+				$message="Email is not in proper format";
+			}
+			
+			if($otherdatavalied){
+				if(is_array($upcv) && count($upcv)>0){
+					if(isset($upcv['size']) && $upcv['size']>0){
+						
+						$filename = time()."_".$this->replacespecialcharacter($upcv['name']);
+						$alltypefilepaths = $this->alltypefilepaths();
+						$uploadpath = $alltypefilepaths['dic']['applicant_cv'];
+						if(move_uploaded_file($upcv['tmp_name'],$uploadpath.$filename)){
+							//now upload the details
+							$savedata = array(
+								'JobApplicant'=>array(
+									'career_id'=>$career_id,
+									'name'=>$name,
+									'email'=>$email,
+									'contact_number'=>$contact_number,
+									'cv'=>$filename,
+									'create_date'=>date("Y-m-d H:i:s")
+								)
+							);
+							if($this->JobApplicant->save($savedata)){
+								$status='1';
+								$message="Thanks for applying for this position. We shall get back to you after evaluating your profile";
+							}
+							else{
+								$message="Something wrong please try after some time.";
+							}
+						}
+					}
+					else{
+						$message="Invalid CV file";
+					}
+				}
+				else{
+					$message="Please upload your cv";
+				}
+			}
+			
+		}
+		
+		die(json_encode(array('status'=>$status,'message'=>$message)));
+	}
  
 }

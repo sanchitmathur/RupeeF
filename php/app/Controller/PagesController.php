@@ -89,9 +89,10 @@ class PagesController extends AppController {
 			'Career.is_deleted'=>'0'
 		);
 		$careers = $this->Career->find('all',array('recursive'=>'0','conditions'=>$findcond));
-		$careers=array();
+		
 		$this->set('careers',$careers);
 		$this->set('jobTypes',$this->careerjobtypes());
+		$this->set('sitepath',$this->sitebasepath());
 	}
 	public function newsroom(){
 		$this->layout="main";

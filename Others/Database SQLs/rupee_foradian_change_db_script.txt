@@ -247,3 +247,9 @@ CREATE TABLE IF NOT EXISTS `rf_job_applicants` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+=========== Upload on the server section ==========
+
+ALTER TABLE `rf_user_service_packages` ADD `progress_status` INT(2) NOT NULL DEFAULT '0' COMMENT '0=Service booked , 1= Upload documents, 2=Document Verification, 3=Processing, 4=Completion' AFTER `transaction_id`;
+
+
+ALTER TABLE `rf_service_progres_steps` ADD `step_order` INT(2) NOT NULL DEFAULT '0' AFTER `progress_step_id`;
