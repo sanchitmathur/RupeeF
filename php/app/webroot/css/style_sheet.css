@@ -359,6 +359,7 @@ sup {
 			margin:0;
 			padding:12px 0 0 0;
 			display:block;
+			line-height:25px;
 		}
 		.allService{
 			margin:0 auto;
@@ -1715,17 +1716,20 @@ sup {
 				padding-top:10px;
 			}
 		.team_member{
-			padding:40px 0 0 0;
+			padding:100px 0 0 0;
+			width:780px;
+			margin:0 auto;
 		}
 			.member{
-				background:#f6f6f6;
+				background:#f9f9f9;
+				height: 405px;
 			}
 				.member h3{
 					font-size:18px;
 					font-weight:400;
 					color:#000;
 					margin:0;
-					padding:20px 0;
+					padding:0 0 20px 0;
 					text-align:center;
 					text-transform: capitalize;
 				}
@@ -1734,6 +1738,13 @@ sup {
 					font-weight:300;
 					display:block;
 					padding-top:8px;
+				}
+				.member p{
+					font-size:14px;
+					font-weight:300;
+					display:block;
+					padding:6px 20px 0 20px;
+					text-align:justify;
 				}
 			.pingIcon{
 				margin:0 5px 0 0;
@@ -2048,4 +2059,31 @@ sup {
 		color: #000;
 		text-align:justify;
 		font-weight:300;
+	}
+	.careers_small{
+		padding:40px 0 0 0;
+	}
+	.careers_small p{
+		font-size:16px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:0 0 8px 0;
+		text-align:center;
+	}
+	.member_img{
+		width:120px;
+		height:120px;
+		border-radius:100%;
+		margin:0 auto;
+		position:relative;
+		top:-43px;
+		
+		
+	}
+	.mem2{
+		width:120px;
+		height:120px;
+		border-radius:100%;
+		border:5px solid #fff;
 	}

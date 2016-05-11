@@ -433,4 +433,15 @@
 	.formTable tr td {
 		padding: 5px 10px;
 	}
+	.team_member{
+		width:100%;
+	}
+	.resAbout{
+		padding:0 !important;
+	}
+	.member{
+		margin-bottom:80px;
+		height:auto;
+		padding-bottom:15px;
+	}
 }

@@ -12,8 +12,12 @@
                     <div class="row">
                             <div class="col-md-12 service_body">
                                     <h1>Careers
-                                        <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text </span>
+                                        <span>Inspiring, Empowering, Rewarding, Fun. These are some of the words people commonly use to describe their careers at RF. </span>
                                     </h1>
+									<div class="careers_small">
+										<p>Our small team is growing fast. Come and be a part of the team. We'll be happy to hear from you. Drop us an email at <a href="javascript:void(0);">careers@rupeeforadian.com</a></p>
+										
+									</div>
                                     <div class="creerText table-responsive">
                                             <?php
                                                 if(isset($careers) && is_array($careers) && count($careers)>0){
