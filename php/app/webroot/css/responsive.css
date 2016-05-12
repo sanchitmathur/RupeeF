@@ -18,6 +18,17 @@
 	.popupName {
 		width:90%
 	}
+	.already p {
+		font-size: 16px;
+		padding: 0;
+	}
+	.already{
+		display:none;
+	}
+	.already2{
+		width:100% !important;
+		padding-left:0 !important;
+	}
 	
 }
 
@@ -443,5 +454,8 @@
 		margin-bottom:80px;
 		height:auto;
 		padding-bottom:15px;
+	}
+	.memberSignup{
+		width:100%;
 	}
 }

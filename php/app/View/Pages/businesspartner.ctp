@@ -22,6 +22,84 @@
 							<p>Resource sharing: RF is made up of professionals who are willing to work and grow together.</p>
 						</div>
 					</div>
+					<div class="mem_sign">
+						<div class="signupbutton">
+							<div class="text"><a href="">Already a member? <span>Sign in Or Sign up</span></a></div>
+						</div>
+						<div class="memberSignup" style="display:none;">
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>First Name</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="fastName3" name="Name" value="" placeholder="Enter First Name" type="text">
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>Last Name</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="fastName3" name="Name" value="" placeholder="Enter Last Name" type="text">
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>Email Id</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="fastName3" name="Name" value="" placeholder="Enter Email Id" type="email">
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>Phone Number</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="fastName3" name="Name" value="" placeholder="Enter Phone Number" type="text">
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>Password</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="fastName3" name="Name" value="" placeholder="Enter Password" type="password">
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+									<p>Where did hear about about us?</p>
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<select class="fastName3" name="language">
+										<option value="0">-- select one --</option>
+										<option value="1">Family + Friends</option>
+										<option value="2">Email</option>
+										<option value="2">TV ad</option>
+										<option value="2">Radio</option>
+										<option value="2">Youtube</option>
+										<option value="2">Others</option>
+										
+									</select>
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div style="margin-bottom:8px;">
+								<div class="col-sm-5 col-xs-5 already">
+								</div>
+								<div class="col-sm-7 col-xs-7 already2">
+									<input class="didhear" value="Submit" type="submit">
+								</div>
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

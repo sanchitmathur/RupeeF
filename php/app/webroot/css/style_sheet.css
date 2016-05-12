@@ -2087,3 +2087,91 @@ sup {
 		border-radius:100%;
 		border:5px solid #fff;
 	}
+
+/*--------------signUp-----------------*/
+
+	.memberSignup{
+		position: relative;
+		width: 700px;
+		margin: 0 auto;
+		padding: 50px 20px 20px 20px;
+		border: 1px solid #126abf;
+		top: -25px;
+		background: #fff;
+	}
+	.signupbutton{
+		padding:40px 0 0 0;
+	}
+	.text{
+		text-align:center;
+		position:relative;
+		z-index:1;
+	}
+	.text a{
+		padding:10px 20px;
+		display:block;
+		width:262px;
+		text-align:center;
+		font-size:16px;
+		font-weight:300;
+		color:#fff;
+		margin:0px auto;
+		border:5px solid #fff;
+		background:#0098d9;
+		transition: all 0.4s ease;
+	}
+	.text a span{
+		padding:0 0 0 5px;
+	}
+	.text a:hover{
+		color:#fff;
+		border:5px solid #fff;
+		background:#f6ab3a;
+	}
+	.text a:focus{
+		color:#fff;
+		border:2px solid #f6ab3a;
+		background:#f6ab3a;
+	}
+	.already{
+		padding-left:0 !important;
+	}
+	.already p{
+		font-size:18px;
+		font-weight:300;
+		color:#000;
+		margin:0;
+		padding:12px 0 0 0;
+	}
+	.fastName3{
+			border: 1px solid #126abf;
+			padding: 10px;
+			text-align: left;
+			margin: 0;
+			border-radius: 1px;
+			font-size: 16px;
+			font-weight: normal;
+			color: #000;
+			font-weight:300;
+			width: 100%;
+			background-color: transparent;
+		}
+	.didhear{
+		border:1px solid #126abf;
+		padding: 6px 40px;
+		text-align: center;
+		margin:0;
+		font-size: 16px;
+		font-weight:300;
+		color: #fff;
+		background-color:#126abf;
+		transition: all 0.4s ease;
+	}
+	.didhear:hover{
+		color:#fff;
+		border:1px solid #f6ab3a;
+		background:#f6ab3a;
+	}
+	.already2{
+		padding-right:0 !important;
+	}
