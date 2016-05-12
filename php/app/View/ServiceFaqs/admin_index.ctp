@@ -1,5 +1,21 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#parentmenuid").bind('change',filtermenu);
+	});
+	function filtermenu(e) {
+		$("#parentmenufrm").submit();
+	}
+</script>
 <div class="serviceFaqs index">
 	<h2><?php echo __('Service Faqs'); ?></h2>
+	<div class="actions" style="float: right;margin-top: -50px; width:40%;">
+		<?php
+			echo $this->Form->create('Menu',array('id'=>'parentmenufrm'));
+			echo $this->Form->input('service_id',array('id'=>'parentmenuid','value'=>$serviceId));
+			echo "</form>";
+		?>
+		<?php echo $this->Html->link(__('Add New Faq'), array('action' => 'add',$serviceId),array('style'=>'float:right;')); ?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
@@ -8,7 +24,7 @@
 			<th><?php echo $this->Paginator->sort('question'); ?></th>
 			<th><?php echo $this->Paginator->sort('answer'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
-			<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>
+			<!--<th><?php echo $this->Paginator->sort('is_deleted'); ?></th>-->
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -22,7 +38,7 @@
 		<td><?php echo h($serviceFaq['ServiceFaq']['question']); ?>&nbsp;</td>
 		<td><?php echo h($serviceFaq['ServiceFaq']['answer']); ?>&nbsp;</td>
 		<td><?php echo h($serviceFaq['ServiceFaq']['is_blocked']); ?>&nbsp;</td>
-		<td><?php echo h($serviceFaq['ServiceFaq']['is_deleted']); ?>&nbsp;</td>
+		<!--<td><?php echo h($serviceFaq['ServiceFaq']['is_deleted']); ?>&nbsp;</td>-->
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $serviceFaq['ServiceFaq']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $serviceFaq['ServiceFaq']['id'])); ?>
@@ -46,6 +62,7 @@
 	?>
 	</div>
 </div>
+<!--
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
@@ -53,4 +70,4 @@
 		<li><?php echo $this->Html->link(__('List Services'), array('controller' => 'services', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Service'), array('controller' => 'services', 'action' => 'add')); ?> </li>
 	</ul>
-</div>
+</div>-->

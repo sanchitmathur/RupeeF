@@ -9,6 +9,7 @@
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('service_name'); ?></th>
 			<th><?php echo $this->Paginator->sort('service_description'); ?></th>
+			<th><?php echo $this->Paginator->sort('releted_service_description'); ?></th>
 			<th><?php echo $this->Paginator->sort('sub_service_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('show_in_footer'); ?></th>
 			<th><?php echo $this->Paginator->sort('is_blocked'); ?></th>
@@ -22,6 +23,7 @@
 		<td><?php echo h($service['Service']['id']); ?>&nbsp;</td>
 		<td><?php echo h($service['Service']['service_name']); ?>&nbsp;</td>
 		<td><?php echo substr(h($service['Service']['service_description']),0,400)."..."; ?>&nbsp;</td>
+		<td><?php echo substr(h($service['Service']['releted_service_description']),0,300)."..."; ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($service['SubService']['service_name'], array('controller' => 'sub_services', 'action' => 'view', $service['SubService']['id'])); ?>
 		</td>

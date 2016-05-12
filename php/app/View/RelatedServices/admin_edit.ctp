@@ -1,5 +1,5 @@
-<div class="cities form">
-<?php echo $this->Form->create('City'); ?>
+<div class="reletedservices form">
+<?php echo $this->Form->create('RelatedServices'); ?>
 	<fieldset>
 		<legend><?php echo __('Admin Edit City'); ?></legend>
 	<?php

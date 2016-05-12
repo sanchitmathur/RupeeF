@@ -16,6 +16,11 @@
 			<?php echo h($service['Service']['service_description']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Releted Service Description'); ?></dt>
+		<dd>
+			<?php echo h($service['Service']['releted_service_description']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Sub Service'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($service['SubService']['service_name'], array('controller' => 'sub_services', 'action' => 'view', $service['SubService']['id'])); ?>
@@ -34,7 +39,7 @@
 	</dl>
 	
 	<div class="related">
-		<h3><?php echo __('Related Service Packages'); ?></h3>
+		<h3><?php echo __('Service Packages'); ?></h3>
 		<?php if (!empty($service['ServicePackage'])): ?>
 		<table cellpadding = "0" cellspacing = "0">
 		<tr>
