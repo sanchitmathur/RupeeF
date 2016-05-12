@@ -603,7 +603,8 @@
 						<!--<li><a href="javascript:void(0);">safety / confidentiality</a></li>-->
 						<li><?php echo $this->Html->link(__('Safety / confidentiality'),array('controller'=>'Pages','action'=>'safty'));?></li>
 						
-						<li><a href="javascript:void(0);">cfo</a></li>
+						<!--<li><a href="javascript:void(0);">cfo</a></li>-->
+						<li><?php echo $this->Html->link(__('cfo'),array('controller'=>'Pages','action'=>'cfo'));?></li>
 						<!--<li><a href="javascript:void(0);">about us</a></li>-->
 						<li><?php echo $this->Html->link(__('About us'),array('controller'=>'Pages','action'=>'aboutus'));?></li>
 						<!--<li><a href="javascript:void(0);">Careers</a></li>-->
