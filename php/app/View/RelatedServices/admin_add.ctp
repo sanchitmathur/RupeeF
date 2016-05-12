@@ -4,7 +4,8 @@
 		<legend><?php echo __('Add Related Services'); ?></legend>
 	<?php
 		echo $this->Form->input('service_id');
-		echo $this->Form->input('other_service_id',array('multiple'=>true,'value'=>$prevsavedserviceids));
+		echo $this->Form->input('other_service_id'); //,array('multiple'=>true,'value'=>$prevsavedserviceids)
+		echo $this->Form->input('description',array('type'=>'textarea'))
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

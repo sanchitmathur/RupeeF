@@ -25,6 +25,7 @@
 			<!--<th><?php echo $this->Paginator->sort('id'); ?></th>-->
 			<th><?php echo $this->Paginator->sort('service_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('related_service_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('description'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -34,8 +35,9 @@
 		<!--<td><?php echo h($relatedService['RelatedService']['id']); ?>&nbsp;</td>-->
 		<td><?php echo h($relatedService['Service']['service_name']); ?>&nbsp;</td>
 		<td><?php echo h($relatedService['OtherService']['service_name']); ?>&nbsp;</td>
+		<td><?php echo substr(h($relatedService['RelatedService']['description']),0,300)."..."; ?>&nbsp;</td>
 		<td class="actions">
-			<?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $relatedService['RelatedService']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $relatedService['RelatedService']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $relatedService['RelatedService']['id']), array(), __('Are you sure you want to delete # %s?', $relatedService['RelatedService']['id'])); ?>
 		</td>
 	</tr>

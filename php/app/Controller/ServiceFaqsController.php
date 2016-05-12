@@ -109,12 +109,48 @@ class ServiceFaqsController extends AppController {
 
 /**
  * admin_index method
- *
+ * @param string $serviceId
+ * 
  * @return void
  */
-	public function admin_index() {
+	public function admin_index($serviceId=0) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
+		if($this->request->is('post')){
+			$serviceId = isset($this->request->data['Menu']['service_id'])?$this->request->data['Menu']['service_id']:0;
+		}
+		$findqes = array(
+			'ServiceFaq.is_blocked'=>'0',
+			'ServiceFaq.is_deleted'=>'0'
+		);
+		if($serviceId>0){
+			$findqes['ServiceFaq.service_id']=$serviceId;
+		}
+		$this->Paginator->settings=array(
+			'conditions'=>$findqes
+		);
 		$this->ServiceFaq->recursive = 0;
 		$this->set('serviceFaqs', $this->Paginator->paginate());
+		
+		//gel all services
+		$findservice = array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		$services = $this->ServiceFaq->Service->find('list',array('conditions'=>$findservice));
+		$services[0]="Select service";
+		ksort($services);
+		if(is_array($services) && count($services)>0 && $serviceId==0){
+			foreach($services as $key=>$val){
+				$serviceId = $key;
+				break;
+			}
+		}
+		if($serviceId==0){
+			$serviceId='';
+		}
+		$this->set('serviceId',$serviceId);
+		$this->set(compact('services'));
 	}
 
 /**
@@ -125,6 +161,8 @@ class ServiceFaqsController extends AppController {
  * @return void
  */
 	public function admin_view($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->ServiceFaq->exists($id)) {
 			throw new NotFoundException(__('Invalid service faq'));
 		}
@@ -134,20 +172,33 @@ class ServiceFaqsController extends AppController {
 
 /**
  * admin_add method
- *
+ * @param string $service_id
  * @return void
  */
-	public function admin_add() {
+	public function admin_add($service_id=0) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if ($this->request->is('post')) {
 			$this->ServiceFaq->create();
+			$this->request->data['ServiceFaq']['is_blocked']=0;
+			$this->request->data['ServiceFaq']['is_deleted']=0;
+			
 			if ($this->ServiceFaq->save($this->request->data)) {
-				$this->Session->setFlash(__('The service faq has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The service faq has been saved.'),'default',array('class'=>'success'));
+				//return $this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'add',$service_id));
 			} else {
 				$this->Session->setFlash(__('The service faq could not be saved. Please, try again.'));
 			}
 		}
-		$services = $this->ServiceFaq->Service->find('list');
+		$findservice = array(
+			'Service.is_blocked'=>'0',
+			'Service.is_deleted'=>'0'
+		);
+		if($service_id>0){
+			$findservice['Service.id']=$service_id;
+		}
+		$services = $this->ServiceFaq->Service->find('list',array('conditions'=>$findservice));
 		$this->set(compact('services'));
 	}
 
@@ -159,12 +210,14 @@ class ServiceFaqsController extends AppController {
  * @return void
  */
 	public function admin_edit($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		if (!$this->ServiceFaq->exists($id)) {
 			throw new NotFoundException(__('Invalid service faq'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->ServiceFaq->save($this->request->data)) {
-				$this->Session->setFlash(__('The service faq has been saved.'));
+				$this->Session->setFlash(__('The service faq has been saved.'),'default',array('class'=>'success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The service faq could not be saved. Please, try again.'));
@@ -185,16 +238,20 @@ class ServiceFaqsController extends AppController {
  * @return void
  */
 	public function admin_delete($id = null) {
+		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->ServiceFaq->id = $id;
 		if (!$this->ServiceFaq->exists()) {
 			throw new NotFoundException(__('Invalid service faq'));
 		}
 		$this->request->allowMethod('post', 'delete');
-		if ($this->ServiceFaq->delete()) {
+		$this->ServiceFaq->saveField('is_deleted','1');
+		$this->Session->setFlash(__('The service faq has been deleted.'),'default',array('class'=>'success'));
+		/*if ($this->ServiceFaq->delete()) {
 			$this->Session->setFlash(__('The service faq has been deleted.'));
 		} else {
 			$this->Session->setFlash(__('The service faq could not be deleted. Please, try again.'));
-		}
+		}*/
 		return $this->redirect(array('action' => 'index'));
 	}
 }

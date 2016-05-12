@@ -24,6 +24,7 @@ class RelatedServicesController extends AppController {
  */
 	public function admin_index() {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->loadModel('Service');
 		//$this->RelatedService->recursive = 0;
 		//bind model
@@ -90,10 +91,11 @@ class RelatedServicesController extends AppController {
  */
 	public function admin_add($service_id=0){
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->loadModel('Service');
 		if($this->request->is('post')){
 			$posteddata=$this->request->data;
-			pr($posteddata);
+			//pr($posteddata);
 			//validate
 			
 			$service_id=isset($posteddata['RelatedService']['service_id'])?$posteddata['RelatedService']['service_id']:'0';
@@ -137,10 +139,11 @@ class RelatedServicesController extends AppController {
 		$cond2=array('Service.is_deleted'=>'0');
 		if($service_id>0){
 			$condition['Service.id']=$service_id;
-			$cond2['Service.id !=']=$service_id;
+			//$cond2['Service.id !=']=$service_id;
 		}
+		
 		$services = $this->Service->find('list',array('recursive'=>'1','conditions'=>$condition));
-		$otherServices = $this->Service->find('list',array('recursive'=>'1','conditions'=>$cond2));
+		
 		if(count($services)>1){
 			$services['0']="Select Service";
 			ksort($services);
@@ -155,7 +158,15 @@ class RelatedServicesController extends AppController {
 				$prevsavedserviceids = array_values($prevsavedserviceids);
 			}
 		}
+		//other releted services
+		if($service_id>0){
+			array_push($prevsavedserviceids,$service_id);
+		}
+		if(is_array($prevsavedserviceids) && count($prevsavedserviceids)>0){
+			$cond2['Service.id !=']=$prevsavedserviceids;
+		}
 		
+		$otherServices = $this->Service->find('list',array('recursive'=>'1','conditions'=>$cond2));
 		$this->set(compact(array('services','otherServices')));
 		$this->set('prevsavedserviceids',$prevsavedserviceids);
 	}
@@ -169,6 +180,7 @@ class RelatedServicesController extends AppController {
  */
 	public function admin_delete($id = null) {
 		$this->layout="admindefault";
+		$this->adminsessionchecked();
 		$this->RelatedService->id = $id;
 		if (!$this->RelatedService->exists()) {
 			throw new NotFoundException(__('Invalid user'));

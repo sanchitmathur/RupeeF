@@ -20,6 +20,7 @@
                 <li><?php echo $this->Html->link(__('Cities'), array('controller'=>'cities','action' => 'index')); ?></li>
                 
                 <li><?php echo $this->Html->link(__('Service Packages'), array('controller'=>'service_packages','action' => 'index')); ?></li>
+                <li><?php echo $this->Html->link(__('Service Faqs'), array('controller'=>'serviceFaqs','action' => 'index')); ?></li>
                 <li><?php echo $this->Html->link(__('Service Document Types'), array('controller' => 'ServiceDocuments', 'action' => 'index')); ?> </li>
                 <li><?php echo $this->Html->link(__('Service Related Services'), array('controller' => 'RelatedServices', 'action' => 'index')); ?> </li>
                 

@@ -6,6 +6,7 @@
 		echo $this->Form->input('sub_service_id');
 		echo $this->Form->input('service_name');
 		echo $this->Form->input('service_description');
+		echo $this->Form->input('releted_service_description');
 		echo $this->Form->hidden('is_blocked');
 		echo $this->Form->hidden('is_deleted');
 	?>
